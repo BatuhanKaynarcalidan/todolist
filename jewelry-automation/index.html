@@ -281,6 +281,15 @@
       text-transform: uppercase;
     }
     .img-card-foot a:hover { text-decoration: underline; }
+    .btn-retry {
+      display: inline-flex; align-items: center; gap: 4px;
+      padding: 6px 12px; border: 1px solid var(--border);
+      background: white; color: var(--text);
+      font-size: 11px; letter-spacing: .1em; text-transform: uppercase;
+      cursor: pointer; font-family: inherit; transition: all .2s;
+    }
+    .btn-retry:hover { border-color: var(--gold); color: var(--gold-dark); background: var(--sand); }
+    .btn-retry:disabled { opacity: .45; cursor: not-allowed; }
 
     /* ── Spinner ── */
     .spinner {
@@ -988,21 +997,9 @@ async function runGeminiGeneration() {
       );
       const blob = base64ToBlob(imgB64, 'image/png');
       const blobUrl = URL.createObjectURL(blob);
-      document.getElementById(cardId).innerHTML = `
-        <img src="${blobUrl}" alt="${p.subtitle}" />
-        <div class="img-card-foot">
-          <span>${p.subtitle}</span>
-          <a href="${blobUrl}" download="imagen-poz-${i+1}.png" target="_blank">İndir ↓</a>
-        </div>
-      `;
+      document.getElementById(cardId).innerHTML = imgCardHTML(p.subtitle, blobUrl, `imagen-poz-${i+1}.png`, p.id, i, 'gemini');
     } catch (err) {
-      document.getElementById(cardId).innerHTML = `
-        <div style="aspect-ratio:1;background:#FEF2F2;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:8px;padding:20px;text-align:center;">
-          <span style="font-size:28px;">⚠️</span>
-          <span style="font-size:12px;color:#B91C1C;">${escHtml(err.message)}</span>
-        </div>
-        <div class="img-card-foot"><span>${p.subtitle}</span></div>
-      `;
+      document.getElementById(cardId).innerHTML = imgErrorHTML(p.subtitle, err.message, p.id, i, 'gemini');
     }
   }
 
@@ -1139,21 +1136,9 @@ async function runDalleGeneration() {
     try {
       const prompt = i > 0 ? p.prompt + '\n' + CONSISTENCY : p.prompt;
       const blobUrl = await generateWithOpenAI(apiKey, prompt);
-      document.getElementById(cardId).innerHTML = `
-        <img src="${blobUrl}" alt="${p.subtitle}" />
-        <div class="img-card-foot">
-          <span>${p.subtitle}</span>
-          <a href="${blobUrl}" download="openai-poz-${i+1}.png" target="_blank">İndir ↓</a>
-        </div>
-      `;
+      document.getElementById(cardId).innerHTML = imgCardHTML(p.subtitle, blobUrl, `openai-poz-${i+1}.png`, p.id, i, 'dalle');
     } catch (err) {
-      document.getElementById(cardId).innerHTML = `
-        <div style="aspect-ratio:1;background:#FEF2F2;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:8px;padding:20px;text-align:center;">
-          <span style="font-size:28px;">⚠️</span>
-          <span style="font-size:12px;color:#B91C1C;">${escHtml(err.message)}</span>
-        </div>
-        <div class="img-card-foot"><span>${p.subtitle}</span></div>
-      `;
+      document.getElementById(cardId).innerHTML = imgErrorHTML(p.subtitle, err.message, p.id, i, 'dalle');
     }
   }
 
@@ -1246,6 +1231,73 @@ function resetSession() {
   hideResults();
   document.getElementById('progress-wrap').classList.add('hidden');
   setProgress(0, '');
+}
+
+/* ─────────────────────────────────────────
+   TEKRAR DENE
+───────────────────────────────────────── */
+async function retryImage(poseId, index, mode) {
+  const pose = DB[state.type].find(p => p.id === poseId);
+  if (!pose) return;
+
+  const cardId = `img-${poseId}`;
+  const card = document.getElementById(cardId);
+
+  // Yükleniyor durumu
+  card.innerHTML = `
+    <div style="aspect-ratio:1;background:var(--sand);display:flex;align-items:center;justify-content:center;flex-direction:column;gap:12px;">
+      <span class="spinner"></span>
+      <span style="font-size:11px;color:var(--muted);">Yeniden üretiliyor...</span>
+    </div>
+    <div class="img-card-foot"><span>${pose.subtitle}</span></div>
+  `;
+
+  try {
+    const prompt = index > 0 ? pose.prompt + '\n' + CONSISTENCY : pose.prompt;
+    let blobUrl;
+
+    if (mode === 'dalle') {
+      const apiKey = document.getElementById('api-key').value.trim();
+      if (!apiKey) throw new Error('OpenAI API key bulunamadı. Lütfen tekrar girin.');
+      blobUrl = await generateWithOpenAI(apiKey, prompt);
+      card.innerHTML = imgCardHTML(pose.subtitle, blobUrl, `openai-poz-${index+1}.png`, poseId, index, 'dalle');
+    } else {
+      const apiKey = document.getElementById('gemini-key').value.trim();
+      if (!apiKey) throw new Error('Gemini API key bulunamadı. Lütfen tekrar girin.');
+      const imgB64 = await generateWithGemini(apiKey, prompt, () => {});
+      const blob = base64ToBlob(imgB64, 'image/png');
+      blobUrl = URL.createObjectURL(blob);
+      card.innerHTML = imgCardHTML(pose.subtitle, blobUrl, `imagen-poz-${index+1}.png`, poseId, index, 'gemini');
+    }
+  } catch (err) {
+    card.innerHTML = imgErrorHTML(pose.subtitle, err.message, poseId, index, mode);
+  }
+}
+
+function imgCardHTML(subtitle, blobUrl, filename, poseId, index, mode) {
+  return `
+    <img src="${blobUrl}" alt="${subtitle}" />
+    <div class="img-card-foot">
+      <span>${subtitle}</span>
+      <div style="display:flex;gap:8px;align-items:center;">
+        <button class="btn-retry" onclick="retryImage('${poseId}',${index},'${mode}')">↺ Tekrar Dene</button>
+        <a href="${blobUrl}" download="${filename}" target="_blank">İndir ↓</a>
+      </div>
+    </div>
+  `;
+}
+
+function imgErrorHTML(subtitle, errMsg, poseId, index, mode) {
+  return `
+    <div style="aspect-ratio:1;background:#FEF2F2;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:8px;padding:20px;text-align:center;">
+      <span style="font-size:28px;">⚠️</span>
+      <span style="font-size:12px;color:#B91C1C;">${escHtml(errMsg)}</span>
+    </div>
+    <div class="img-card-foot">
+      <span>${subtitle}</span>
+      <button class="btn-retry" onclick="retryImage('${poseId}',${index},'${mode}')">↺ Tekrar Dene</button>
+    </div>
+  `;
 }
 
 function escHtml(s) {
