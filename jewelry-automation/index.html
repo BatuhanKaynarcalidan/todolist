@@ -310,6 +310,96 @@
     }
     .hidden { display: none !important; }
     #results-section.visible { display: block; }
+
+    /* ── Section Divider ── */
+    .section-divider {
+      margin: 60px 0 40px;
+      border: none;
+      border-top: 2px solid var(--gold-light);
+      position: relative;
+    }
+    .section-divider-label {
+      text-align: center;
+      margin: -24px 0 32px;
+    }
+    .section-divider-label span {
+      background: var(--cream);
+      padding: 0 20px;
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: .3em;
+      color: var(--gold-dark);
+    }
+
+    /* ── Listing Output ── */
+    .listing-output { display: none; margin-top: 28px; }
+    .listing-output.visible { display: block; }
+    .listing-field { margin-bottom: 20px; }
+    .listing-field label {
+      display: block; font-size: 11px; text-transform: uppercase;
+      letter-spacing: .2em; color: var(--muted); margin-bottom: 7px;
+    }
+    .listing-field .output-box {
+      width: 100%; padding: 14px 16px;
+      border: 1px solid var(--border);
+      font-size: 13px; line-height: 1.7; font-family: inherit;
+      background: var(--cream); color: var(--text);
+      resize: vertical; min-height: 60px;
+    }
+    .listing-field .output-box.desc { min-height: 220px; }
+    .listing-copy-row {
+      display: flex; align-items: center; gap: 10px; margin-top: 6px;
+    }
+    .char-count { font-size: 11px; color: var(--muted); }
+    .char-count.warn { color: #E65; }
+
+    /* ── Tags grid ── */
+    .tags-display {
+      display: flex; flex-wrap: wrap; gap: 8px; margin-top: 6px;
+    }
+    .tag-chip {
+      padding: 4px 10px; border: 1px solid var(--gold-light);
+      background: var(--sand); font-size: 12px; color: var(--gold-dark);
+      cursor: pointer; transition: background .2s;
+      font-family: inherit;
+    }
+    .tag-chip:hover { background: var(--gold-light); }
+
+    /* ── Pricing ── */
+    .price-grid {
+      display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 16px;
+      margin-bottom: 20px;
+    }
+    .price-result {
+      background: var(--sand); border: 1px solid var(--border);
+      padding: 20px; text-align: center; margin-top: 20px; display: none;
+    }
+    .price-result.visible { display: block; }
+    .price-result h3 { font-size: 13px; text-transform: uppercase; letter-spacing: .15em; color: var(--muted); margin-bottom: 16px; }
+    .price-tiers { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-bottom: 20px; }
+    .price-tier {
+      border: 2px solid var(--border); padding: 16px 10px; text-align: center; background: #fff;
+      cursor: pointer; transition: border-color .2s;
+    }
+    .price-tier:hover { border-color: var(--gold); }
+    .price-tier.recommended { border-color: var(--gold-dark); background: var(--sand); }
+    .price-tier .tier-label { font-size: 10px; text-transform: uppercase; letter-spacing: .2em; color: var(--muted); margin-bottom: 6px; }
+    .price-tier .tier-price { font-size: 26px; color: var(--dark); margin-bottom: 4px; }
+    .price-tier .tier-badge {
+      font-size: 9px; text-transform: uppercase; letter-spacing: .15em;
+      background: var(--gold-dark); color: #fff; padding: 2px 6px; display: inline-block;
+    }
+    .price-breakdown {
+      font-size: 12px; text-align: left; line-height: 1.9; color: var(--muted);
+      border-top: 1px solid var(--border); padding-top: 14px; margin-top: 4px;
+    }
+    .price-breakdown .row { display: flex; justify-content: space-between; }
+    .price-breakdown .row.total { color: var(--dark); font-weight: 600; border-top: 1px solid var(--border); margin-top: 4px; padding-top: 4px; }
+    .price-breakdown .row.profit { color: #15803D; }
+
+    @media (max-width: 600px) {
+      .price-tiers { grid-template-columns: 1fr; }
+    }
   </style>
 </head>
 <body>
@@ -481,6 +571,166 @@
       <button class="btn btn-outline" onclick="resetSession()">↺ Yeni Oturum</button>
     </div>
     <div class="results-grid" id="results-grid"></div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════════════════════
+       BÖLÜM 2 — ETsY LİSTİNG OTOMASYONU
+  ══════════════════════════════════════════════════════════════ -->
+  <hr class="section-divider" />
+  <div class="section-divider-label"><span>✦ Etsy Listing Otomasyonu ✦</span></div>
+
+  <!-- LISTING STEP 1 – API & Görsel -->
+  <div class="step">
+    <div class="step-head">
+      <div class="step-num" style="background:var(--gold-dark);color:#fff;">L1</div>
+      <h2>Listing İçerik Üretici — Başlık · Açıklama · Tag</h2>
+    </div>
+    <div class="banner banner-info">
+      💡 Referans görsel yükleyin, ürün türü seçin ve AI'nın Etsy stilinde başlık, açıklama ve 13 tag üretmesini izleyin.<br>
+      <small>Yukarıdaki Step 1–2'de seçtiğiniz ürün türü ve görsel otomatik kullanılır.</small>
+    </div>
+
+    <!-- API key seçimi -->
+    <div style="margin-top:18px;">
+      <label style="font-size:11px;text-transform:uppercase;letter-spacing:.2em;color:var(--muted);display:block;margin-bottom:10px;">AI Motoru Seçin</label>
+      <div style="display:flex;gap:12px;flex-wrap:wrap;">
+        <div class="mode-card active" data-lmode="gemini" onclick="selectListingMode('gemini')" style="flex:1;min-width:200px;">
+          <h3>✨ Gemini (Ücretsiz)</h3>
+          <p>Google AI Studio API key — ücretsiz kota ile çalışır.</p>
+        </div>
+        <div class="mode-card" data-lmode="openai" onclick="selectListingMode('openai')" style="flex:1;min-width:200px;">
+          <h3>⚡ OpenAI GPT-4o</h3>
+          <p>OpenAI API key — GPT-4o vision ile görsel analiz.</p>
+        </div>
+      </div>
+
+      <div id="listing-gemini-key-row" style="margin-top:14px;" class="field">
+        <label>Google AI Studio API Key</label>
+        <input type="password" id="listing-gemini-key" placeholder="AIza..." autocomplete="off"
+          oninput="syncKey('gemini')" />
+      </div>
+      <div id="listing-openai-key-row" style="margin-top:14px;" class="field hidden">
+        <label>OpenAI API Key</label>
+        <input type="password" id="listing-openai-key" placeholder="sk-..." autocomplete="off"
+          oninput="syncKey('openai')" />
+      </div>
+    </div>
+
+    <!-- Dil & Ton -->
+    <div style="margin-top:18px;display:grid;grid-template-columns:1fr 1fr;gap:14px;">
+      <div class="field">
+        <label>Listing Dili</label>
+        <select id="listing-lang" style="width:100%;padding:11px 14px;border:1px solid var(--border);font-size:14px;font-family:inherit;outline:none;background:#fff;">
+          <option value="en">🇬🇧 İngilizce (Etsy için önerilen)</option>
+          <option value="tr">🇹🇷 Türkçe</option>
+        </select>
+      </div>
+      <div class="field">
+        <label>Ton / Stil</label>
+        <select id="listing-tone" style="width:100%;padding:11px 14px;border:1px solid var(--border);font-size:14px;font-family:inherit;outline:none;background:#fff;">
+          <option value="luxury">✨ Lüks / Premium</option>
+          <option value="warm">💛 Sıcak / Duygusal</option>
+          <option value="minimal">🖤 Minimal / Sade</option>
+        </select>
+      </div>
+    </div>
+
+    <!-- Ekstra notlar -->
+    <div class="field" style="margin-top:14px;">
+      <label>Ürün Hakkında Ekstra Notlar (isteğe bağlı)</label>
+      <textarea id="listing-notes" rows="2"
+        style="width:100%;padding:11px 14px;border:1px solid var(--border);font-size:13px;font-family:inherit;resize:vertical;outline:none;"
+        placeholder="Örn: Altın kaplama, zincir uzunluğu 45cm, küçük ay kolyesi, hediye kutulu..."></textarea>
+    </div>
+
+    <div class="gen-section">
+      <button class="btn btn-primary" id="listing-btn" onclick="generateListing()">
+        <span>✍️</span> Listing İçerik Üret
+      </button>
+    </div>
+    <div id="listing-status" style="margin-top:12px;"></div>
+
+    <!-- SONUÇLAR -->
+    <div class="listing-output" id="listing-output">
+
+      <!-- Başlık -->
+      <div class="listing-field">
+        <label>Etsy Başlığı <span class="char-count" id="title-chars">(0/140)</span></label>
+        <textarea class="output-box" id="listing-title" rows="2"
+          oninput="updateCharCount('listing-title','title-chars',140)"></textarea>
+        <div class="listing-copy-row">
+          <button class="btn-copy" onclick="copyField('listing-title','btn-copy-title')" id="btn-copy-title">📋 Kopyala</button>
+        </div>
+      </div>
+
+      <!-- Açıklama -->
+      <div class="listing-field">
+        <label>Açıklama</label>
+        <textarea class="output-box desc" id="listing-desc"></textarea>
+        <div class="listing-copy-row">
+          <button class="btn-copy" onclick="copyField('listing-desc','btn-copy-desc')" id="btn-copy-desc">📋 Kopyala</button>
+        </div>
+      </div>
+
+      <!-- Taglar -->
+      <div class="listing-field">
+        <label>Etsy Tagleri <span class="char-count" id="tag-count">(0/13)</span></label>
+        <div class="tags-display" id="tags-display"></div>
+        <div class="listing-copy-row" style="margin-top:10px;">
+          <button class="btn-copy" onclick="copyTags('btn-copy-tags')" id="btn-copy-tags">📋 Tüm Tagleri Kopyala</button>
+          <span style="font-size:11px;color:var(--muted);">Virgülle ayrılmış formatta</span>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- LISTING STEP 2 – Fiyat Hesaplama -->
+  <div class="step">
+    <div class="step-head">
+      <div class="step-num" style="background:var(--gold-dark);color:#fff;">L2</div>
+      <h2>Fiyat Hesaplama — Etsy Komisyon &amp; Kupon Dahil</h2>
+    </div>
+    <div class="banner banner-info">
+      💰 Üretim maliyeti, kargo ve indirim kuponunu girin — Etsy tüm komisyonlar düşülmüş net kazancınızı görelim ve size hedef fiyat önerelim.
+    </div>
+
+    <div class="price-grid" style="margin-top:20px;">
+      <div class="field">
+        <label>Üretim Maliyeti ($)</label>
+        <input type="number" id="cost-production" placeholder="0.00" min="0" step="0.01"
+          style="width:100%;padding:11px 14px;border:1px solid var(--border);font-size:14px;outline:none;"
+          oninput="calcPrice()" />
+      </div>
+      <div class="field">
+        <label>Kargo Maliyeti ($)</label>
+        <input type="number" id="cost-shipping" placeholder="0.00" min="0" step="0.01"
+          style="width:100%;padding:11px 14px;border:1px solid var(--border);font-size:14px;outline:none;"
+          oninput="calcPrice()" />
+      </div>
+      <div class="field">
+        <label>Etsy İndirim Kuponu (%)</label>
+        <input type="number" id="cost-coupon" placeholder="0" min="0" max="90" step="1"
+          style="width:100%;padding:11px 14px;border:1px solid var(--border);font-size:14px;outline:none;"
+          oninput="calcPrice()" />
+      </div>
+      <div class="field">
+        <label>Hedef Kar Marjı (%)</label>
+        <input type="number" id="cost-margin" placeholder="40" min="1" max="500" step="1" value="40"
+          style="width:100%;padding:11px 14px;border:1px solid var(--border);font-size:14px;outline:none;"
+          oninput="calcPrice()" />
+      </div>
+    </div>
+
+    <div class="banner banner-warn" style="font-size:12px;">
+      <strong>Etsy komisyonları:</strong> %6.5 İşlem ücreti · %3 + $0.25 Ödeme işlemi · $0.20 Listeleme ücreti
+    </div>
+
+    <div class="price-result" id="price-result">
+      <h3>Önerilen Fiyatlar</h3>
+      <div class="price-tiers" id="price-tiers"></div>
+      <div class="price-breakdown" id="price-breakdown"></div>
+    </div>
   </div>
 
 </main>
@@ -3075,6 +3325,350 @@ function base64ToBlob(base64, mimeType) {
 ───────────────────────────────────────── */
 renderPoses();
 updateActionUI();
+
+/* ═══════════════════════════════════════════════════
+   ETsY LİSTİNG OTOMASYONU
+═══════════════════════════════════════════════════ */
+
+let listingState = { mode: 'gemini', tags: [] };
+
+/* ── Mod seçimi ── */
+function selectListingMode(m) {
+  listingState.mode = m;
+  document.querySelectorAll('[data-lmode]').forEach(c =>
+    c.classList.toggle('active', c.dataset.lmode === m)
+  );
+  document.getElementById('listing-gemini-key-row').classList.toggle('hidden', m !== 'gemini');
+  document.getElementById('listing-openai-key-row').classList.toggle('hidden', m !== 'openai');
+}
+
+/* Key senkronizasyonu (üstteki key alanlarıyla) */
+function syncKey(provider) {
+  if (provider === 'gemini') {
+    const v = document.getElementById('listing-gemini-key').value;
+    const upper = document.getElementById('gemini-key');
+    if (upper && !upper.value) upper.value = v;
+  } else {
+    const v = document.getElementById('listing-openai-key').value;
+    const upper = document.getElementById('api-key');
+    if (upper && !upper.value) upper.value = v;
+  }
+}
+
+function getListingApiKey() {
+  if (listingState.mode === 'gemini') {
+    return document.getElementById('listing-gemini-key').value.trim() ||
+           document.getElementById('gemini-key').value.trim();
+  }
+  return document.getElementById('listing-openai-key').value.trim() ||
+         document.getElementById('api-key').value.trim();
+}
+
+/* ── Listing üretme ── */
+async function generateListing() {
+  if (!state.refBase64) {
+    showListingStatus('Lütfen önce yukarıdaki Step 2\'de referans görsel yükleyin.', 'warn');
+    return;
+  }
+  const apiKey = getListingApiKey();
+  if (!apiKey) {
+    showListingStatus('Lütfen API key girin.', 'warn');
+    return;
+  }
+
+  const btn = document.getElementById('listing-btn');
+  btn.disabled = true;
+  showListingStatus('⏳ İçerik üretiliyor...', 'info');
+
+  const lang = document.getElementById('listing-lang').value;
+  const tone = document.getElementById('listing-tone').value;
+  const notes = document.getElementById('listing-notes').value.trim();
+  const type = state.type;
+
+  const prompt = buildListingPrompt(type, lang, tone, notes);
+
+  try {
+    let result;
+    if (listingState.mode === 'gemini') {
+      result = await callGeminiListing(apiKey, prompt);
+    } else {
+      result = await callOpenAIListing(apiKey, prompt);
+    }
+    applyListingResult(result);
+    showListingStatus('✅ İçerik başarıyla üretildi. Düzenleyip kopyalayabilirsiniz.', 'ok');
+  } catch (err) {
+    showListingStatus('❌ Hata: ' + err.message, 'error');
+  } finally {
+    btn.disabled = false;
+  }
+}
+
+function buildListingPrompt(type, lang, tone, notes) {
+  const typeNames = {
+    kolye: 'necklace', bileklik: 'bracelet', kupe: 'earring',
+    halhal: 'anklet', koldugmesi: 'cufflink', yakaiğnesi: 'brooch', yuzuk: 'ring'
+  };
+  const toneGuides = {
+    luxury: 'Use premium, sophisticated, editorial language. Evoke exclusivity and craftsmanship.',
+    warm: 'Use warm, emotional, personal language. Make the reader feel connected and gifting-oriented.',
+    minimal: 'Use clean, concise, modern language. No fluff, just clarity and elegance.'
+  };
+  const langGuide = lang === 'tr'
+    ? 'Write EVERYTHING in Turkish (başlık, açıklama ve taglar).'
+    : 'Write EVERYTHING in English.';
+
+  const extraNotes = notes ? `\n\nSeller notes about this product: ${notes}` : '';
+
+  return `You are an expert Etsy SEO copywriter specializing in handmade jewelry listings.
+Analyze the uploaded reference jewelry image carefully and create a complete Etsy listing.
+
+JEWELRY TYPE: ${typeNames[type] || type}
+LANGUAGE: ${langGuide}
+TONE: ${toneGuides[tone]}${extraNotes}
+
+STYLE REFERENCE — Your listings must match this proven format:
+
+TITLE FORMAT (max 140 chars):
+"[Product Name] [Metal/Style] • [Feature 1] • [Feature 2] • [Gift Occasion]"
+Example: "Star Necklace Gold • Summer Dainty Star Pendant • Tiny Star Charm Necklace • Minimalist Celestial Jewelry • Birthday Gift for Her"
+
+DESCRIPTION FORMAT (use emojis and sections):
+- Opening line: ✨ [Product Name] | [key feature] | [occasion]
+- One emotional hook paragraph (2-3 sentences)
+- 💛 WHY YOU'LL LOVE IT section with 5-6 bullet points
+- 🎁 PERFECT FOR section with gift occasions
+- 📦 SHIPPING section (ships in 3-5 business days, gift wrapping included)
+
+TAGS: Exactly 13 tags, lowercase, underscores for spaces, max 20 chars each.
+Mix: product descriptors + gift keywords + style keywords + material + occasion.
+
+OUTPUT FORMAT (respond ONLY with valid JSON, no markdown fences):
+{
+  "title": "...",
+  "description": "...",
+  "tags": ["tag1","tag2","tag3","tag4","tag5","tag6","tag7","tag8","tag9","tag10","tag11","tag12","tag13"]
+}`;
+}
+
+async function callGeminiListing(apiKey, prompt) {
+  const mimeType = state.refFile ? state.refFile.type : 'image/jpeg';
+  const resp = await fetch(
+    `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey}`,
+    {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        contents: [{ parts: [
+          { inline_data: { mime_type: mimeType, data: state.refBase64 } },
+          { text: prompt }
+        ]}],
+        generationConfig: { responseMimeType: 'application/json' }
+      })
+    }
+  );
+  if (!resp.ok) { const e = await resp.json(); throw new Error(e.error?.message || `HTTP ${resp.status}`); }
+  const data = await resp.json();
+  const text = data.candidates?.[0]?.content?.parts?.[0]?.text || '';
+  return parseListingJSON(text);
+}
+
+async function callOpenAIListing(apiKey, prompt) {
+  const mimeType = state.refFile ? state.refFile.type : 'image/jpeg';
+  const resp = await fetch('https://api.openai.com/v1/chat/completions', {
+    method: 'POST',
+    headers: { 'Authorization': `Bearer ${apiKey}`, 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      model: 'gpt-4o',
+      response_format: { type: 'json_object' },
+      messages: [{
+        role: 'user',
+        content: [
+          { type: 'image_url', image_url: { url: `data:${mimeType};base64,${state.refBase64}` } },
+          { type: 'text', text: prompt }
+        ]
+      }],
+      max_tokens: 2000
+    })
+  });
+  if (!resp.ok) { const e = await resp.json(); throw new Error(e.error?.message || `HTTP ${resp.status}`); }
+  const data = await resp.json();
+  const text = data.choices?.[0]?.message?.content || '';
+  return parseListingJSON(text);
+}
+
+function parseListingJSON(text) {
+  try {
+    // remove potential markdown fences
+    const clean = text.replace(/```json\n?/gi,'').replace(/```\n?/g,'').trim();
+    const obj = JSON.parse(clean);
+    if (!obj.title || !obj.description || !Array.isArray(obj.tags)) throw new Error('Eksik alanlar');
+    return obj;
+  } catch {
+    throw new Error('AI geçerli JSON döndürmedi. Tekrar deneyin.');
+  }
+}
+
+function applyListingResult(result) {
+  document.getElementById('listing-title').value = result.title;
+  document.getElementById('listing-desc').value = result.description;
+  listingState.tags = result.tags.slice(0, 13);
+
+  updateCharCount('listing-title', 'title-chars', 140);
+  renderTags();
+
+  document.getElementById('listing-output').classList.add('visible');
+  document.getElementById('listing-output').scrollIntoView({ behavior: 'smooth', block: 'start' });
+}
+
+function renderTags() {
+  const display = document.getElementById('tags-display');
+  display.innerHTML = listingState.tags.map((t, i) =>
+    `<button class="tag-chip" onclick="copyTag('${escHtml(t)}')" title="Kopyala">${escHtml(t)}</button>`
+  ).join('');
+  const count = listingState.tags.length;
+  const el = document.getElementById('tag-count');
+  el.textContent = `(${count}/13)`;
+  el.className = 'char-count' + (count > 13 ? ' warn' : '');
+}
+
+function copyTag(t) {
+  navigator.clipboard.writeText(t).catch(() => {});
+}
+
+function copyTags(btnId) {
+  const text = listingState.tags.join(', ');
+  navigator.clipboard.writeText(text).then(() => {
+    const btn = document.getElementById(btnId);
+    const orig = btn.innerHTML;
+    btn.innerHTML = '✓ Kopyalandı';
+    btn.classList.add('copied');
+    setTimeout(() => { btn.innerHTML = orig; btn.classList.remove('copied'); }, 2000);
+  });
+}
+
+function updateCharCount(fieldId, countId, max) {
+  const len = document.getElementById(fieldId).value.length;
+  const el = document.getElementById(countId);
+  el.textContent = `(${len}/${max})`;
+  el.className = 'char-count' + (len > max ? ' warn' : '');
+}
+
+function copyField(fieldId, btnId) {
+  const val = document.getElementById(fieldId).value;
+  navigator.clipboard.writeText(val).then(() => {
+    const btn = document.getElementById(btnId);
+    const orig = btn.innerHTML;
+    btn.innerHTML = '✓ Kopyalandı';
+    btn.classList.add('copied');
+    setTimeout(() => { btn.innerHTML = orig; btn.classList.remove('copied'); }, 2000);
+  });
+}
+
+function showListingStatus(msg, type='info') {
+  document.getElementById('listing-status').innerHTML =
+    `<div class="banner banner-${type}">${msg}</div>`;
+}
+
+/* ═══════════════════════════════════════════════════
+   FİYAT HESAPLAMA
+═══════════════════════════════════════════════════ */
+
+function calcPrice() {
+  const production = parseFloat(document.getElementById('cost-production').value) || 0;
+  const shipping   = parseFloat(document.getElementById('cost-shipping').value)   || 0;
+  const coupon     = parseFloat(document.getElementById('cost-coupon').value)     || 0;
+  const marginPct  = parseFloat(document.getElementById('cost-margin').value)     || 40;
+
+  if (production === 0 && shipping === 0) {
+    document.getElementById('price-result').classList.remove('visible');
+    return;
+  }
+
+  // Etsy fixed fees
+  const ETSY_TRANSACTION = 0.065;  // 6.5% of sale price
+  const ETSY_PAYMENT_PCT = 0.03;   // 3%
+  const ETSY_PAYMENT_FIXED = 0.25; // $0.25
+  const ETSY_LISTING = 0.20;       // $0.20
+
+  const couponFactor = 1 - coupon / 100; // e.g. 10% off → 0.90
+
+  // For a listing price P:
+  // buyer_pays = P * couponFactor (simplified: coupon applied to item)
+  // etsy_transaction = P * ETSY_TRANSACTION (charged on pre-discount price typically, but let's use discounted)
+  // Actually Etsy charges transaction fee on the discounted price
+  // net_revenue = P*couponFactor - P*couponFactor*ETSY_TRANSACTION - (P*couponFactor*ETSY_PAYMENT_PCT + ETSY_PAYMENT_FIXED) - ETSY_LISTING - production - shipping
+
+  // Simplify: effective = P * couponFactor
+  // fees_variable = effective * (ETSY_TRANSACTION + ETSY_PAYMENT_PCT) = effective * 0.095
+  // fees_fixed = ETSY_PAYMENT_FIXED + ETSY_LISTING = 0.45
+  // net = effective * (1 - 0.095) - 0.45 - production - shipping
+  // net = P * couponFactor * 0.905 - 0.45 - production - shipping
+
+  // Break-even: net = 0 → P_be = (0.45 + production + shipping) / (couponFactor * 0.905)
+  const totalFixed = 0.45 + production + shipping;
+  const netFactor = couponFactor * 0.905;
+
+  const breakEven = totalFixed / netFactor;
+
+  // For target margin: net / (P*couponFactor) = marginPct/100
+  // P*couponFactor*0.905 - 0.45 - production - shipping = (marginPct/100) * P*couponFactor
+  // P*couponFactor*(0.905 - marginPct/100) = totalFixed
+  // P = totalFixed / (couponFactor * (0.905 - marginPct/100))
+  const marginFactor = 0.905 - marginPct / 100;
+  let recommended = marginFactor > 0 ? totalFixed / (couponFactor * marginFactor) : breakEven * 1.6;
+
+  // Three price points
+  const conservative = Math.ceil(breakEven * 1.3 * 20) / 20; // 30% above breakeven
+  const rec = Math.ceil(recommended * 20) / 20;
+  const premium = Math.ceil(recommended * 1.35 * 20) / 20;
+
+  // Calculate net profit for recommended
+  function netProfit(p) {
+    const eff = p * couponFactor;
+    return eff - eff * 0.095 - 0.45 - production - shipping;
+  }
+
+  const tiers = [
+    { label: 'Ekonomik', price: conservative, badge: null },
+    { label: 'Önerilen', price: rec, badge: '✦ İdeal', cls: 'recommended' },
+    { label: 'Premium', price: premium, badge: null },
+  ];
+
+  const tiersHTML = tiers.map(t => `
+    <div class="price-tier ${t.cls || ''}">
+      <div class="tier-label">${t.label}</div>
+      <div class="tier-price">$${t.price.toFixed(2)}</div>
+      ${t.badge ? `<div class="tier-badge">${t.badge}</div>` : ''}
+      <div style="font-size:11px;color:var(--muted);margin-top:6px;">
+        Net Kar: <strong style="color:#15803D;">$${netProfit(t.price).toFixed(2)}</strong>
+      </div>
+    </div>
+  `).join('');
+
+  const eff = rec * couponFactor;
+  const etsy_t = eff * ETSY_TRANSACTION;
+  const etsy_p = eff * ETSY_PAYMENT_PCT + ETSY_PAYMENT_FIXED;
+  const net = netProfit(rec);
+  const marginActual = ((net / eff) * 100).toFixed(1);
+
+  const breakdownHTML = `
+    <div class="price-breakdown">
+      <div style="font-size:11px;color:var(--muted);margin-bottom:8px;">Önerilen Fiyat ($${rec.toFixed(2)}) için maliyet dağılımı:</div>
+      <div class="row"><span>Alıcının ödediği${coupon > 0 ? ` (${coupon}% kupon sonrası)` : ''}</span><span>$${eff.toFixed(2)}</span></div>
+      <div class="row"><span>− Üretim maliyeti</span><span style="color:#B91C1C;">−$${production.toFixed(2)}</span></div>
+      <div class="row"><span>− Kargo maliyeti</span><span style="color:#B91C1C;">−$${shipping.toFixed(2)}</span></div>
+      <div class="row"><span>− Etsy işlem ücreti (%6.5)</span><span style="color:#B91C1C;">−$${etsy_t.toFixed(2)}</span></div>
+      <div class="row"><span>− Ödeme işlemi (%3 + $0.25)</span><span style="color:#B91C1C;">−$${etsy_p.toFixed(2)}</span></div>
+      <div class="row"><span>− Listeleme ücreti</span><span style="color:#B91C1C;">−$${ETSY_LISTING.toFixed(2)}</span></div>
+      <div class="row total profit"><span>Net Kazanç</span><span>$${net.toFixed(2)} (%${marginActual})</span></div>
+      ${coupon > 0 ? `<div style="margin-top:8px;font-size:11px;color:var(--muted);">⚠️ ${coupon}% kupon etkinken listeleme fiyatı $${rec.toFixed(2)} olmalı ki net kazanç korunabilsin.</div>` : ''}
+    </div>
+  `;
+
+  document.getElementById('price-tiers').innerHTML = tiersHTML;
+  document.getElementById('price-breakdown').innerHTML = breakdownHTML;
+  document.getElementById('price-result').classList.add('visible');
+}
 </script>
 </body>
 </html>
