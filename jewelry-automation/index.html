@@ -1009,43 +1009,85 @@ async function runGeminiGeneration() {
   showStatus('✅ Tüm görseller üretildi. İndirmek için "İndir" bağlantısına tıklayın.', 'ok');
 }
 
+async function discoverGeminiImageModels(apiKey) {
+  const staticModels = [
+    'gemini-2.0-flash-preview-image-generation',
+    'gemini-2.0-flash-exp-image-generation',
+    'gemini-2.5-flash-preview-image-generation',
+    'gemini-2.5-flash-exp-image-generation',
+    'gemini-2.0-flash-exp',
+    'gemini-2.0-flash',
+    'gemini-1.5-flash'
+  ];
+  try {
+    const resp = await fetch(
+      `https://generativelanguage.googleapis.com/v1beta/models?key=${apiKey}&pageSize=100`
+    );
+    if (!resp.ok) return staticModels;
+    const data = await resp.json();
+    const available = (data.models || [])
+      .filter(m => (m.supportedGenerationMethods || []).includes('generateContent'))
+      .map(m => m.name.replace('models/', ''));
+    const imageFirst = available.filter(n => n.includes('image'));
+    const flashModels = available.filter(n => !n.includes('image') && n.includes('flash'));
+    return [...new Set([...imageFirst, ...flashModels, ...staticModels])];
+  } catch { return staticModels; }
+}
+
+async function tryGeminiImageGen(apiKey, model, mimeType, prompt) {
+  const modalityCombos = [['IMAGE', 'TEXT'], ['IMAGE'], ['TEXT', 'IMAGE']];
+  for (const modalities of modalityCombos) {
+    try {
+      const resp = await fetch(
+        `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${apiKey}`,
+        {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            contents: [{ parts: [
+              { inline_data: { mime_type: mimeType, data: state.refBase64 } },
+              { text: prompt }
+            ]}],
+            generationConfig: { responseModalities: modalities }
+          })
+        }
+      );
+      if (!resp.ok) {
+        const e = await resp.json();
+        const msg = e.error?.message || '';
+        if (msg.includes('not found') || msg.includes('deprecated') || resp.status === 404) return null;
+        continue;
+      }
+      const data = await resp.json();
+      const imgPart = (data.candidates?.[0]?.content?.parts || [])
+        .find(p => p.inline_data?.mime_type?.startsWith('image/'));
+      if (imgPart) return imgPart.inline_data.data;
+    } catch { /* try next combo */ }
+  }
+  return null;
+}
+
 async function generateWithGemini(apiKey, prompt, onStatus) {
   const mimeType = state.refFile ? state.refFile.type : 'image/jpeg';
 
-  // 1. Gemini native image gen modellerini dene (destekliyorlarsa)
   if (_geminiNativeWorks !== false) {
-    const nativeModels = [
-      'gemini-2.0-flash-preview-image-generation',
-      'gemini-2.0-flash-exp-image-generation',
-      'gemini-2.5-flash-preview-image-generation'
-    ];
-    for (const model of nativeModels) {
+    onStatus?.('Kullanılabilir modeller aranıyor...');
+    const models = await discoverGeminiImageModels(apiKey);
+
+    for (const model of models) {
+      onStatus?.(`Deneniyor: ${model}...`);
       try {
-        const resp = await fetch(
-          `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${apiKey}`,
-          {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({
-              contents: [{ parts: [
-                { inline_data: { mime_type: mimeType, data: state.refBase64 } },
-                { text: prompt }
-              ]}],
-              generationConfig: { responseModalities: ['IMAGE', 'TEXT'] }
-            })
-          }
-        );
-        if (!resp.ok) { await resp.json(); continue; }
-        const data = await resp.json();
-        const imgPart = (data.candidates?.[0]?.content?.parts || [])
-          .find(p => p.inline_data?.mime_type?.startsWith('image/'));
-        if (imgPart) { _geminiNativeWorks = true; return imgPart.inline_data.data; }
-      } catch { /* bir sonrakini dene */ }
+        const result = await tryGeminiImageGen(apiKey, model, mimeType, prompt);
+        if (result) { _geminiNativeWorks = true; return result; }
+      } catch (err) {
+        const msg = err.message || '';
+        if (!msg.includes('not found') && !msg.includes('modalities') && !msg.includes('deprecated')) throw err;
+      }
     }
-    _geminiNativeWorks = false; // native çalışmıyor, cache et
+    _geminiNativeWorks = false;
   }
 
-  // 2. Fallback: Gemini ile analiz et → Imagen 3 ile üret
+  // Fallback: Gemini vision analiz → Imagen 3
   onStatus?.('Referans görsel analiz ediliyor...');
   const desc = await analyzeWithGemini(apiKey, mimeType);
 
