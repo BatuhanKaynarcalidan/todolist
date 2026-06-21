@@ -113,7 +113,7 @@
     }
 
     /* ── Mode cards ── */
-    .mode-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+    .mode-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 16px; }
     .mode-card {
       border: 2px solid var(--border);
       padding: 24px;
@@ -293,8 +293,11 @@
     @keyframes spin { to { transform: rotate(360deg); } }
 
     /* ── Responsive ── */
+    @media (max-width: 700px) {
+      .mode-grid { grid-template-columns: 1fr; }
+    }
     @media (max-width: 580px) {
-      .type-grid, .mode-grid { grid-template-columns: 1fr; }
+      .type-grid { grid-template-columns: 1fr; }
     }
     .hidden { display: none !important; }
     #results-section.visible { display: block; }
@@ -354,18 +357,36 @@
     <div class="mode-grid">
       <div class="mode-card active" data-mode="copy" onclick="selectMode('copy')">
         <h3>📋 Kopyala Modu</h3>
-        <p>Her prompt için tek tıkla kopyala butonu. Nano Banana 2 veya ChatGPT'ye kendiniz yapıştırırsınız.
+        <p>Her prompt için tek tıkla kopyala. Nano Banana 2 veya ChatGPT'ye kendiniz yapıştırırsınız.
         Tutarlılık suffix'i otomatik yönetilir.</p>
       </div>
-      <div class="mode-card" data-mode="api" onclick="selectMode('api')">
-        <h3>⚡ API Modu — DALL·E Otomasyonu</h3>
+      <div class="mode-card" data-mode="gemini" onclick="selectMode('gemini')">
+        <h3>✨ Gemini — Imagen Otomasyonu</h3>
+        <p>Google AI Studio API key girin. Referans görsel + prompt Gemini'ye gönderilir,
+        Imagen 3 ile görseller otomatik üretilir. <strong>Ücretsiz kota var!</strong></p>
+      </div>
+      <div class="mode-card" data-mode="dalle" onclick="selectMode('dalle')">
+        <h3>⚡ DALL·E 3 Otomasyonu</h3>
         <p>OpenAI API key girin. Referans görsel GPT-4o ile analiz edilir, ardından DALL·E 3 ile
         tüm görseller otomatik üretilir.</p>
       </div>
     </div>
 
-    <!-- API key alanı (sadece API modda görünür) -->
-    <div id="api-section" class="hidden">
+    <!-- Gemini key (sadece gemini modda) -->
+    <div id="gemini-section" class="hidden">
+      <div style="height:18px;"></div>
+      <div class="field">
+        <label>Google AI Studio API Key</label>
+        <input type="password" id="gemini-key" placeholder="AIza..." autocomplete="off" />
+      </div>
+      <div class="banner banner-info" style="margin-top:12px;">
+        🔑 Key almak için: <strong>aistudio.google.com</strong> → "Get API key" → ücretsiz.
+        API key tarayıcıda tutulur, sunucuya gönderilmez.
+      </div>
+    </div>
+
+    <!-- DALL-E key (sadece dalle modda) -->
+    <div id="dalle-section" class="hidden">
       <div style="height:18px;"></div>
       <div class="field">
         <label>OpenAI API Key</label>
@@ -751,7 +772,8 @@ function selectType(t) {
 function selectMode(m) {
   state.mode = m;
   document.querySelectorAll('.mode-card').forEach(c => c.classList.toggle('active', c.dataset.mode === m));
-  document.getElementById('api-section').classList.toggle('hidden', m !== 'api');
+  document.getElementById('gemini-section').classList.toggle('hidden', m !== 'gemini');
+  document.getElementById('dalle-section').classList.toggle('hidden', m !== 'dalle');
   updateActionUI();
 }
 
@@ -833,10 +855,13 @@ function updateCount() {
    UI GÜNCELLEME
 ───────────────────────────────────────── */
 function updateActionUI() {
-  const isCopy = state.mode === 'copy';
-  document.getElementById('action-title').textContent = isCopy ? 'Promptları Hazırla' : 'Görselleri Üret (DALL·E 3)';
-  document.getElementById('btn-icon').textContent = isCopy ? '📋' : '⚡';
-  document.getElementById('btn-label').textContent = isCopy ? 'Promptları Hazırla' : 'API ile Üret';
+  const m = state.mode;
+  const titles = { copy: 'Promptları Hazırla', gemini: 'Gemini ile Üret', dalle: 'DALL·E 3 ile Üret' };
+  const icons  = { copy: '📋', gemini: '✨', dalle: '⚡' };
+  const labels = { copy: 'Promptları Hazırla', gemini: 'Gemini / Imagen ile Üret', dalle: 'DALL·E 3 ile Üret' };
+  document.getElementById('action-title').textContent = titles[m] || titles.copy;
+  document.getElementById('btn-icon').textContent = icons[m] || '📋';
+  document.getElementById('btn-label').textContent = labels[m] || labels.copy;
 }
 
 function hideResults() {
@@ -859,8 +884,10 @@ function mainAction() {
 
   if (state.mode === 'copy') {
     buildCopyCards();
+  } else if (state.mode === 'gemini') {
+    runGeminiGeneration();
   } else {
-    runApiGeneration();
+    runDalleGeneration();
   }
 }
 
@@ -914,9 +941,103 @@ function copyPrompt(id, index) {
 }
 
 /* ─────────────────────────────────────────
-   API MODU — DALL·E 3 OTOMATİK ÜRETİM
+   GEMİNİ MODU — IMAGEN OTOMATİK ÜRETİM
 ───────────────────────────────────────── */
-async function runApiGeneration() {
+async function runGeminiGeneration() {
+  const apiKey = document.getElementById('gemini-key').value.trim();
+  if (!apiKey) { showStatus('Lütfen Google AI Studio API key girin.', 'warn'); return; }
+  if (!state.refBase64) { showStatus('Lütfen önce referans görsel yükleyin.', 'warn'); return; }
+
+  const poses = DB[state.type].filter(p => state.selected.has(p.id) && !p.isVideo);
+  if (poses.length === 0) {
+    showStatus('Video promptları API ile üretilemiyor. En az bir fotoğraf pozu seçin.', 'warn');
+    return;
+  }
+
+  const btn = document.getElementById('main-btn');
+  btn.disabled = true;
+  document.getElementById('progress-wrap').classList.remove('hidden');
+
+  const grid = document.getElementById('results-grid');
+  grid.innerHTML = '';
+  document.getElementById('results-title').textContent = 'Gemini ile Üretiliyor...';
+  document.getElementById('results-section').classList.add('visible');
+
+  for (let i = 0; i < poses.length; i++) {
+    const p = poses[i];
+    setProgress(Math.round((i / poses.length) * 95), `Üretiliyor: ${p.subtitle} (${i + 1}/${poses.length})`);
+
+    const cardId = `img-${p.id}`;
+    grid.insertAdjacentHTML('beforeend', `
+      <div class="img-card" id="${cardId}">
+        <div style="aspect-ratio:1;background:var(--sand);display:flex;align-items:center;justify-content:center;">
+          <span class="spinner"></span>
+        </div>
+        <div class="img-card-foot"><span>${p.subtitle}</span><span style="color:var(--muted);font-size:11px;">Üretiliyor...</span></div>
+      </div>
+    `);
+
+    try {
+      const prompt = i > 0 ? p.prompt + '\n' + CONSISTENCY : p.prompt;
+      const imgBase64 = await generateWithGemini(apiKey, prompt);
+      const src = `data:image/png;base64,${imgBase64}`;
+      document.getElementById(cardId).innerHTML = `
+        <img src="${src}" alt="${p.subtitle}" />
+        <div class="img-card-foot">
+          <span>${p.subtitle}</span>
+          <a href="${src}" download="gemini-poz-${i+1}.png">İndir ↓</a>
+        </div>
+      `;
+    } catch (err) {
+      document.getElementById(cardId).innerHTML = `
+        <div style="aspect-ratio:1;background:#FEF2F2;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:8px;padding:20px;text-align:center;">
+          <span style="font-size:28px;">⚠️</span>
+          <span style="font-size:12px;color:#B91C1C;">${escHtml(err.message)}</span>
+        </div>
+        <div class="img-card-foot"><span>${p.subtitle}</span></div>
+      `;
+    }
+  }
+
+  setProgress(100, 'Tamamlandı!');
+  btn.disabled = false;
+  document.getElementById('results-title').textContent = `${poses.length} Görsel Üretildi (Gemini)`;
+  showStatus('✅ Tüm görseller üretildi. İndirmek için "İndir" bağlantısına tıklayın.', 'ok');
+}
+
+async function generateWithGemini(apiKey, prompt) {
+  const mimeType = state.refFile ? state.refFile.type : 'image/jpeg';
+  const resp = await fetch(
+    `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash-exp:generateContent?key=${apiKey}`,
+    {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        contents: [{
+          parts: [
+            { inline_data: { mime_type: mimeType, data: state.refBase64 } },
+            { text: prompt }
+          ]
+        }],
+        generationConfig: { responseModalities: ['IMAGE', 'TEXT'] }
+      })
+    }
+  );
+  if (!resp.ok) {
+    const e = await resp.json();
+    throw new Error(e.error?.message || `HTTP ${resp.status}`);
+  }
+  const data = await resp.json();
+  const parts = data.candidates?.[0]?.content?.parts || [];
+  const imgPart = parts.find(p => p.inline_data?.mime_type?.startsWith('image/'));
+  if (!imgPart) throw new Error('Gemini görsel döndürmedi. Prompt politika filtrelerine takılmış olabilir.');
+  return imgPart.inline_data.data;
+}
+
+/* ─────────────────────────────────────────
+   DALL·E 3 MODU — OTOMATİK ÜRETİM
+───────────────────────────────────────── */
+async function runDalleGeneration() {
   const apiKey = document.getElementById('api-key').value.trim();
   if (!apiKey) { showStatus('Lütfen OpenAI API key girin.', 'warn'); return; }
   if (!state.refBase64) { showStatus('Lütfen önce referans görsel yükleyin.', 'warn'); return; }
