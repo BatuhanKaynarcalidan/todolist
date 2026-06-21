@@ -501,7 +501,7 @@
       <div style="height:18px;"></div>
       <div class="field">
         <label>Google AI Studio API Key</label>
-        <input type="password" id="gemini-key" placeholder="AIza..." autocomplete="off" />
+        <input type="password" id="gemini-key" placeholder="AIza..." autocomplete="off" oninput="saveKey('gemini',this.value)" />
       </div>
       <div class="banner banner-info" style="margin-top:12px;">
         🔑 Key almak için: <strong>aistudio.google.com</strong> → "Get API key" → ücretsiz.
@@ -514,7 +514,7 @@
       <div style="height:18px;"></div>
       <div class="field">
         <label>OpenAI API Key</label>
-        <input type="password" id="api-key" placeholder="sk-..." autocomplete="off" />
+        <input type="password" id="api-key" placeholder="sk-..." autocomplete="off" oninput="saveKey('openai',this.value)" />
       </div>
       <div class="banner banner-warn" style="margin-top:12px;">
         ⚠️ API key tarayıcıda tutulur, sunucuya gönderilmez. Gizli tutun.
@@ -610,7 +610,7 @@
 
       <div id="listing-claude-key-row" style="margin-top:14px;" class="field">
         <label>Anthropic API Key</label>
-        <input type="password" id="listing-claude-key" placeholder="sk-ant-..." autocomplete="off" />
+        <input type="password" id="listing-claude-key" placeholder="sk-ant-..." autocomplete="off" oninput="saveKey('claude',this.value)" />
         <div class="banner banner-info" style="margin-top:8px;font-size:12px;">
           🔑 Key almak için: <strong>console.anthropic.com</strong> → API Keys → Create Key
         </div>
@@ -618,12 +618,12 @@
       <div id="listing-gemini-key-row" style="margin-top:14px;" class="field hidden">
         <label>Google AI Studio API Key</label>
         <input type="password" id="listing-gemini-key" placeholder="AIza..." autocomplete="off"
-          oninput="syncKey('gemini')" />
+          oninput="saveKey('gemini',this.value);syncKey('gemini')" />
       </div>
       <div id="listing-openai-key-row" style="margin-top:14px;" class="field hidden">
         <label>OpenAI API Key</label>
         <input type="password" id="listing-openai-key" placeholder="sk-..." autocomplete="off"
-          oninput="syncKey('openai')" />
+          oninput="saveKey('openai',this.value);syncKey('openai')" />
       </div>
     </div>
 
@@ -3336,6 +3336,28 @@ function base64ToBlob(base64, mimeType) {
 ───────────────────────────────────────── */
 renderPoses();
 updateActionUI();
+loadSavedKeys();
+
+/* ── Key kaydet / yükle (localStorage) ── */
+function saveKey(provider, value) {
+  if (value) localStorage.setItem('etsy_key_' + provider, value);
+  else localStorage.removeItem('etsy_key_' + provider);
+}
+
+function loadSavedKeys() {
+  const map = {
+    gemini: ['gemini-key', 'listing-gemini-key'],
+    openai: ['api-key', 'listing-openai-key'],
+    claude: ['listing-claude-key']
+  };
+  Object.entries(map).forEach(([provider, ids]) => {
+    const saved = localStorage.getItem('etsy_key_' + provider);
+    if (saved) ids.forEach(id => {
+      const el = document.getElementById(id);
+      if (el) el.value = saved;
+    });
+  });
+}
 
 /* ═══════════════════════════════════════════════════
    ETsY LİSTİNG OTOMASYONU
