@@ -801,6 +801,88 @@
 
   .reset-btn:hover { color: var(--cream); border-color: var(--gold-dark); }
 
+  /* ─── CSV UPLOAD ─── */
+  .csv-upload-section {
+    background: var(--bg2);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 20px 24px;
+    margin-bottom: 28px;
+  }
+
+  .csv-drop-zone {
+    border: 1.5px dashed var(--border);
+    border-radius: 8px;
+    padding: 28px;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.2s;
+    position: relative;
+  }
+
+  .csv-drop-zone:hover, .csv-drop-zone.drag-over {
+    border-color: var(--gold-dark);
+    background: rgba(212,175,55,0.04);
+  }
+
+  .csv-drop-zone input[type="file"] {
+    position: absolute;
+    inset: 0;
+    opacity: 0;
+    cursor: pointer;
+    width: 100%;
+    height: 100%;
+  }
+
+  .csv-drop-icon {
+    font-size: 28px;
+    margin-bottom: 8px;
+  }
+
+  .csv-drop-text {
+    font-family: 'Arial', sans-serif;
+    font-size: 13px;
+    color: var(--text-muted);
+    line-height: 1.5;
+  }
+
+  .csv-drop-text strong { color: var(--gold); }
+
+  .csv-status {
+    margin-top: 14px;
+    font-family: 'Arial', sans-serif;
+    font-size: 12px;
+  }
+
+  .csv-status.ok { color: #2ecc71; }
+  .csv-status.err { color: #e74c3c; }
+
+  .csv-last-upload {
+    font-family: 'Arial', sans-serif;
+    font-size: 11px;
+    color: var(--text-muted);
+    margin-top: 6px;
+  }
+
+  .csv-last-upload span { color: var(--gold); }
+
+  .btn-clear-csv {
+    background: none;
+    border: 1px solid #c0392b;
+    color: #e74c3c;
+    font-family: 'Arial', sans-serif;
+    font-size: 11px;
+    padding: 4px 12px;
+    border-radius: 4px;
+    cursor: pointer;
+    margin-top: 8px;
+  }
+
+  .btn-clear-csv:hover { background: rgba(192,57,43,0.1); }
+
+  /* CSV orders table */
+  .csv-orders-section { margin-top: 0; }
+
   /* Week schedule */
   .week-grid {
     display: grid;
@@ -878,58 +960,29 @@
       </div>
     </div>
 
-    <!-- Metrics -->
-    <div class="section-title">Temel Metrikler</div>
-    <div class="metrics-grid">
-      <div class="metric-card alert">
-        <div class="metric-label">ROAS</div>
-        <div class="metric-value">0.48</div>
-        <div class="metric-sub">$229 harcama · $109 gelir</div>
-        <div class="metric-badge badge-red">Zarar ediyor</div>
+    <!-- CSV Upload -->
+    <div class="csv-upload-section">
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;">
+        <div class="section-title" style="margin:0;">Etsy CSV Yükle</div>
+        <div id="csvLastUpload" class="csv-last-upload"></div>
       </div>
-      <div class="metric-card warning">
-        <div class="metric-label">Aylık Net Kar</div>
-        <div class="metric-value">~$56</div>
-        <div class="metric-sub">Hedef: ~$261/ay</div>
-        <div class="metric-badge badge-orange">İyileştir</div>
+      <div class="csv-drop-zone" id="csvDropZone">
+        <input type="file" accept=".csv" id="csvFileInput" onchange="handleCsvFile(this.files[0])">
+        <div class="csv-drop-icon">📂</div>
+        <div class="csv-drop-text">
+          <strong>CSV dosyasını sürükle veya tıkla</strong><br>
+          Etsy → Shop Manager → Orders → Export CSV
+        </div>
       </div>
-      <div class="metric-card alert">
-        <div class="metric-label">Terk Edilen Sepet</div>
-        <div class="metric-value">$2,929</div>
-        <div class="metric-sub">58 sepet · Gelirin 4.3×'i</div>
-        <div class="metric-badge badge-red">EN BÜYÜK FIRSAT</div>
-      </div>
-      <div class="metric-card warning">
-        <div class="metric-label">Yorum</div>
-        <div class="metric-value">1 / 24</div>
-        <div class="metric-sub">%4.2 yorum oranı</div>
-        <div class="metric-badge badge-orange">Kritik eksik</div>
-      </div>
-      <div class="metric-card good">
-        <div class="metric-label">Toplam Sipariş</div>
-        <div class="metric-value">24</div>
-        <div class="metric-sub">Mayıs 14 · Haziran 10</div>
-        <div class="metric-badge badge-green">Büyüyor ↑</div>
-      </div>
-      <div class="metric-card">
-        <div class="metric-label">Günlük Satış</div>
-        <div class="metric-value">$19.96</div>
-        <div class="metric-sub">Mayıs: $12.47 → Haziran: $19.96</div>
-        <div class="metric-badge badge-gold">+60% artış</div>
-      </div>
-      <div class="metric-card">
-        <div class="metric-label">Dönüşüm Oranı</div>
-        <div class="metric-value">%1.5</div>
-        <div class="metric-sub">1,563 ziyaret · 24 sipariş</div>
-        <div class="metric-badge badge-gold">Normal</div>
-      </div>
-      <div class="metric-card warning">
-        <div class="metric-label">İndirim Kaybı</div>
-        <div class="metric-value">$268</div>
-        <div class="metric-sub">Liste değerinin %25'i</div>
-        <div class="metric-badge badge-orange">Azalt</div>
+      <div id="csvStatus" class="csv-status"></div>
+      <div id="csvClearBtn" style="display:none">
+        <button class="btn-clear-csv" onclick="clearCsvData()">Yüklenen veriyi temizle</button>
       </div>
     </div>
+
+    <!-- Metrics -->
+    <div class="section-title">Temel Metrikler</div>
+    <div class="metrics-grid" id="metricsGrid"></div>
 
     <!-- Today's tasks -->
     <div class="section-title">Bugün Yapılacaklar</div>
@@ -1069,8 +1122,18 @@
   ══════════════════════════════════════════════ -->
   <div id="tab-data" class="tab-panel">
 
+    <!-- CSV Live Data -->
+    <div id="csvLiveSection" style="display:none" class="data-section csv-orders-section">
+      <div class="data-title" id="csvLiveTitle">CSV'den Yüklenen Siparişler</div>
+      <div id="csvLiveStats" class="data-stats"></div>
+      <div class="data-table-wrap" style="margin-top:12px;">
+        <table id="csvLiveTable"></table>
+      </div>
+      <div id="csvCountryTable" style="margin-top:16px;"></div>
+    </div>
+
     <div class="data-section">
-      <div class="data-title">Satış Verileri (Mayıs + Haziran 2026)</div>
+      <div class="data-title">Sabit Referans — Satış Verileri (Mayıs + Haziran 2026)</div>
       <div class="data-stats">
         <div class="stat-pill"><div class="stat-pill-label">Toplam Sipariş</div><div class="stat-pill-val">24</div></div>
         <div class="stat-pill"><div class="stat-pill-label">Tahsil Edilen</div><div class="stat-pill-val">$785</div></div>
@@ -1201,6 +1264,317 @@
 </main>
 
 <script>
+// ═══════════════════════════════════════════════
+//  CSV LOGIC
+// ═══════════════════════════════════════════════
+
+// Drag-over styling
+document.addEventListener('DOMContentLoaded', () => {
+  const dz = document.getElementById('csvDropZone');
+  if (!dz) return;
+  dz.addEventListener('dragover', e => { e.preventDefault(); dz.classList.add('drag-over'); });
+  dz.addEventListener('dragleave', () => dz.classList.remove('drag-over'));
+  dz.addEventListener('drop', e => {
+    e.preventDefault();
+    dz.classList.remove('drag-over');
+    const f = e.dataTransfer.files[0];
+    if (f) handleCsvFile(f);
+  });
+});
+
+function handleCsvFile(file) {
+  if (!file || !file.name.endsWith('.csv')) {
+    showCsvStatus('Lütfen bir .csv dosyası yükleyin.', 'err');
+    return;
+  }
+  const reader = new FileReader();
+  reader.onload = e => {
+    try {
+      const text = e.target.result;
+      const parsed = parseEtsyCsv(text);
+      if (!parsed || parsed.rows.length === 0) {
+        showCsvStatus('CSV okunamadı veya hiç sipariş satırı bulunamadı.', 'err');
+        return;
+      }
+      const uploadDate = new Date().toLocaleString('tr-TR');
+      const stored = { rows: parsed.rows, headers: parsed.headers, uploadDate, fileName: file.name };
+      save('csvData', stored);
+      showCsvStatus(`✓ ${parsed.rows.length} sipariş yüklendi.`, 'ok');
+      renderCsvData(stored);
+      renderMetrics();
+    } catch(err) {
+      showCsvStatus('Hata: ' + err.message, 'err');
+    }
+  };
+  reader.readAsText(file, 'UTF-8');
+}
+
+function parseEtsyCsv(text) {
+  // Normalize line endings
+  const lines = text.replace(/\r\n/g, '\n').replace(/\r/g, '\n').split('\n').filter(l => l.trim());
+  if (lines.length < 2) return null;
+
+  function splitCsvLine(line) {
+    const result = [];
+    let cur = '', inQ = false;
+    for (let i = 0; i < line.length; i++) {
+      const ch = line[i];
+      if (ch === '"') { inQ = !inQ; }
+      else if (ch === ',' && !inQ) { result.push(cur.trim()); cur = ''; }
+      else { cur += ch; }
+    }
+    result.push(cur.trim());
+    return result;
+  }
+
+  const headers = splitCsvLine(lines[0]).map(h => h.replace(/^"|"$/g, '').trim());
+  const rows = [];
+  for (let i = 1; i < lines.length; i++) {
+    const vals = splitCsvLine(lines[i]);
+    if (vals.length < 2) continue;
+    const row = {};
+    headers.forEach((h, idx) => { row[h] = (vals[idx] || '').replace(/^"|"$/g, '').trim(); });
+    rows.push(row);
+  }
+  return { headers, rows };
+}
+
+// Field name aliases for Etsy CSV variations
+function csvField(row, ...keys) {
+  for (const k of keys) {
+    for (const rk of Object.keys(row)) {
+      if (rk.toLowerCase().replace(/\s+/g,'') === k.toLowerCase().replace(/\s+/g,'')) return row[rk] || '';
+    }
+  }
+  return '';
+}
+
+function parseAmount(s) {
+  if (!s) return 0;
+  return parseFloat(s.replace(/[^0-9.-]/g, '')) || 0;
+}
+
+function renderCsvData(stored) {
+  if (!stored || !stored.rows.length) return;
+
+  // Show last upload date in dashboard header
+  const lastEl = document.getElementById('csvLastUpload');
+  if (lastEl) lastEl.innerHTML = `Son yükleme: <span>${stored.uploadDate}</span> · <em style="color:var(--text-muted)">${stored.fileName}</em>`;
+
+  document.getElementById('csvClearBtn').style.display = 'block';
+
+  const rows = stored.rows;
+
+  // Compute metrics from CSV
+  const totalOrders = rows.length;
+  let totalRevenue = 0, totalList = 0, discountCount = 0;
+  const countries = {};
+
+  rows.forEach(row => {
+    const orderTotal = parseAmount(csvField(row, 'OrderTotal','Order Total','Subtotal','Total'));
+    const listTotal  = parseAmount(csvField(row, 'SubTotal','Subtotal','ItemTotal','Item Total', 'Original Price','Listprice'));
+    const discount   = parseAmount(csvField(row, 'Discount','DiscountAmount','Discount Amount','CouponDiscount','Coupon Discount'));
+    const country    = csvField(row, 'ShipCountry','Ship Country','ShippingCountry','Shipping Country','Country','BuyerCountry','Buyer Country');
+
+    totalRevenue += orderTotal || (listTotal - discount);
+    totalList    += listTotal || orderTotal;
+    if (discount > 0) discountCount++;
+    if (country) countries[country] = (countries[country] || 0) + 1;
+  });
+
+  const discountLoss = totalList - totalRevenue;
+  const discountPct  = totalList > 0 ? Math.round((discountLoss / totalList) * 100) : 0;
+
+  // Days span
+  let firstDate = null, lastDate = null;
+  rows.forEach(row => {
+    const ds = csvField(row,'SaleDate','Sale Date','OrderDate','Order Date','Date');
+    if (!ds) return;
+    const d = new Date(ds);
+    if (isNaN(d)) return;
+    if (!firstDate || d < firstDate) firstDate = d;
+    if (!lastDate  || d > lastDate)  lastDate  = d;
+  });
+  const daySpan = (firstDate && lastDate) ? Math.max(1, Math.round((lastDate - firstDate) / 86400000) + 1) : 30;
+  const dailyAvg = (totalRevenue / daySpan).toFixed(2);
+
+  // Store computed for metrics cards
+  save('csvMetrics', { totalOrders, totalRevenue: totalRevenue.toFixed(2), totalList: totalList.toFixed(2),
+    discountLoss: discountLoss.toFixed(2), discountPct, dailyAvg, countries,
+    dateRange: firstDate ? `${fmtDate(firstDate)} – ${fmtDate(lastDate)}` : '' });
+
+  // Live section
+  document.getElementById('csvLiveSection').style.display = 'block';
+  document.getElementById('csvLiveTitle').textContent = `CSV'den Yüklenen Siparişler — ${stored.fileName} (${stored.uploadDate})`;
+
+  // Stats pills
+  document.getElementById('csvLiveStats').innerHTML = `
+    <div class="stat-pill"><div class="stat-pill-label">Toplam Sipariş</div><div class="stat-pill-val">${totalOrders}</div></div>
+    <div class="stat-pill"><div class="stat-pill-label">Tahsil Edilen</div><div class="stat-pill-val">$${(+totalRevenue.toFixed(2)).toLocaleString('en')}</div></div>
+    <div class="stat-pill"><div class="stat-pill-label">Liste Değeri</div><div class="stat-pill-val">$${(+totalList.toFixed(2)).toLocaleString('en')}</div></div>
+    <div class="stat-pill"><div class="stat-pill-label">İndirim Kaybı</div><div class="stat-pill-val" style="color:#f39c12">$${(+discountLoss.toFixed(2)).toLocaleString('en')} (%${discountPct})</div></div>
+    <div class="stat-pill"><div class="stat-pill-label">Günlük Ort.</div><div class="stat-pill-val">$${dailyAvg}</div></div>
+    ${stored.rows[0] ? `<div class="stat-pill"><div class="stat-pill-label">Dönem</div><div class="stat-pill-val" style="font-size:13px">${(firstDate && lastDate) ? fmtDate(firstDate)+' – '+fmtDate(lastDate) : '—'}</div></div>` : ''}
+  `;
+
+  // Orders table (last 20)
+  const displayHeaders = ['Sale Date','Order ID','Listing Title','Ship Country','Item Total','Discount Amount','Order Total'].filter(h =>
+    stored.headers.some(rh => rh.toLowerCase().replace(/\s+/g,'') === h.toLowerCase().replace(/\s+/g,''))
+  );
+  const usedHeaders = displayHeaders.length > 0 ? displayHeaders : stored.headers.slice(0, 7);
+  const tableRows = rows.slice(-20).reverse();
+
+  document.getElementById('csvLiveTable').innerHTML =
+    `<tr>${usedHeaders.map(h=>`<th>${h}</th>`).join('')}</tr>` +
+    tableRows.map(row =>
+      `<tr>${usedHeaders.map(h => {
+        const val = csvField(row, h);
+        const isAmount = /total|price|discount|amount/i.test(h);
+        return `<td ${isAmount && val ? 'class="highlight"' : ''}>${escHtml(val)}</td>`;
+      }).join('')}</tr>`
+    ).join('');
+
+  // Country breakdown
+  const sortedCountries = Object.entries(countries).sort((a,b) => b[1]-a[1]);
+  const flags = {'United States':'🇺🇸','Germany':'🇩🇪','United Kingdom':'🇬🇧','Canada':'🇨🇦','Australia':'🇦🇺','France':'🇫🇷','Netherlands':'🇳🇱','Austria':'🇦🇹'};
+  document.getElementById('csvCountryTable').innerHTML = sortedCountries.length ? `
+    <div class="data-title" style="margin-bottom:12px">Ülke Dağılımı (CSV)</div>
+    <div class="data-table-wrap"><table>
+      <tr><th>Ülke</th><th>Sipariş</th></tr>
+      ${sortedCountries.map(([c,n]) => `<tr><td>${flags[c]||'🌐'} ${escHtml(c)}</td><td class="highlight">${n}</td></tr>`).join('')}
+    </table></div>` : '';
+}
+
+function fmtDate(d) {
+  if (!d) return '';
+  return `${d.getDate()} ${MONTHS_TR[d.getMonth()]} ${d.getFullYear()}`;
+}
+
+function showCsvStatus(msg, type) {
+  const el = document.getElementById('csvStatus');
+  el.textContent = msg;
+  el.className = 'csv-status ' + (type || '');
+}
+
+function clearCsvData() {
+  localStorage.removeItem('csvData');
+  localStorage.removeItem('csvMetrics');
+  document.getElementById('csvStatus').textContent = 'Veri temizlendi.';
+  document.getElementById('csvStatus').className = 'csv-status';
+  document.getElementById('csvClearBtn').style.display = 'none';
+  document.getElementById('csvLastUpload').innerHTML = '';
+  document.getElementById('csvLiveSection').style.display = 'none';
+  renderMetrics();
+}
+
+function renderMetrics() {
+  const csv = load('csvMetrics', null);
+  const grid = document.getElementById('metricsGrid');
+  if (!grid) return;
+
+  if (csv) {
+    // Dynamic from CSV
+    const discClass = csv.discountPct > 25 ? 'alert' : 'warning';
+    const discBadge = csv.discountPct > 25 ? 'badge-red' : 'badge-orange';
+    grid.innerHTML = `
+      <div class="metric-card good">
+        <div class="metric-label">Toplam Sipariş</div>
+        <div class="metric-value">${csv.totalOrders}</div>
+        <div class="metric-sub">${csv.dateRange}</div>
+        <div class="metric-badge badge-green">CSV'den canlı</div>
+      </div>
+      <div class="metric-card good">
+        <div class="metric-label">Tahsil Edilen</div>
+        <div class="metric-value">$${(+csv.totalRevenue).toLocaleString('en')}</div>
+        <div class="metric-sub">Liste: $${(+csv.totalList).toLocaleString('en')}</div>
+        <div class="metric-badge badge-green">Gerçek gelir</div>
+      </div>
+      <div class="metric-card ${discClass}">
+        <div class="metric-label">İndirim Kaybı</div>
+        <div class="metric-value">$${(+csv.discountLoss).toLocaleString('en')}</div>
+        <div class="metric-sub">Listenin %${csv.discountPct}'i</div>
+        <div class="metric-badge ${discBadge}">${csv.discountPct > 20 ? 'Azalt' : 'İyi gidiyor'}</div>
+      </div>
+      <div class="metric-card">
+        <div class="metric-label">Günlük Ortalama</div>
+        <div class="metric-value">$${csv.dailyAvg}</div>
+        <div class="metric-sub">Dönem ortalaması</div>
+        <div class="metric-badge badge-gold">CSV hesaplı</div>
+      </div>
+      <div class="metric-card alert">
+        <div class="metric-label">ROAS</div>
+        <div class="metric-value">0.48</div>
+        <div class="metric-sub">$229 harcama · $109 gelir</div>
+        <div class="metric-badge badge-red">Manuel güncelle</div>
+      </div>
+      <div class="metric-card alert">
+        <div class="metric-label">Terk Edilen Sepet</div>
+        <div class="metric-value">$2,929</div>
+        <div class="metric-sub">58 sepet · Gelirin 4.3×'i</div>
+        <div class="metric-badge badge-red">EN BÜYÜK FIRSAT</div>
+      </div>
+      <div class="metric-card warning">
+        <div class="metric-label">Yorum</div>
+        <div class="metric-value">1 / ${csv.totalOrders}</div>
+        <div class="metric-sub">%${csv.totalOrders > 0 ? (1/csv.totalOrders*100).toFixed(1) : 0} yorum oranı</div>
+        <div class="metric-badge badge-orange">Kritik eksik</div>
+      </div>
+    `;
+  } else {
+    // Static defaults
+    grid.innerHTML = `
+      <div class="metric-card alert">
+        <div class="metric-label">ROAS</div>
+        <div class="metric-value">0.48</div>
+        <div class="metric-sub">$229 harcama · $109 gelir</div>
+        <div class="metric-badge badge-red">Zarar ediyor</div>
+      </div>
+      <div class="metric-card warning">
+        <div class="metric-label">Aylık Net Kar</div>
+        <div class="metric-value">~$56</div>
+        <div class="metric-sub">Hedef: ~$261/ay</div>
+        <div class="metric-badge badge-orange">İyileştir</div>
+      </div>
+      <div class="metric-card alert">
+        <div class="metric-label">Terk Edilen Sepet</div>
+        <div class="metric-value">$2,929</div>
+        <div class="metric-sub">58 sepet · Gelirin 4.3×'i</div>
+        <div class="metric-badge badge-red">EN BÜYÜK FIRSAT</div>
+      </div>
+      <div class="metric-card warning">
+        <div class="metric-label">Yorum</div>
+        <div class="metric-value">1 / 24</div>
+        <div class="metric-sub">%4.2 yorum oranı</div>
+        <div class="metric-badge badge-orange">Kritik eksik</div>
+      </div>
+      <div class="metric-card good">
+        <div class="metric-label">Toplam Sipariş</div>
+        <div class="metric-value">24</div>
+        <div class="metric-sub">Mayıs 14 · Haziran 10</div>
+        <div class="metric-badge badge-green">Büyüyor ↑</div>
+      </div>
+      <div class="metric-card">
+        <div class="metric-label">Günlük Satış</div>
+        <div class="metric-value">$19.96</div>
+        <div class="metric-sub">Mayıs: $12.47 → Haziran: $19.96</div>
+        <div class="metric-badge badge-gold">+60% artış</div>
+      </div>
+      <div class="metric-card">
+        <div class="metric-label">Dönüşüm Oranı</div>
+        <div class="metric-value">%1.5</div>
+        <div class="metric-sub">1,563 ziyaret · 24 sipariş</div>
+        <div class="metric-badge badge-gold">Normal</div>
+      </div>
+      <div class="metric-card warning">
+        <div class="metric-label">İndirim Kaybı</div>
+        <div class="metric-value">$268</div>
+        <div class="metric-sub">Liste değerinin %25'i</div>
+        <div class="metric-badge badge-orange">Azalt</div>
+      </div>
+    `;
+  }
+}
+
 // ═══════════════════════════════════════════════
 //  STATE & STORAGE
 // ═══════════════════════════════════════════════
@@ -1547,9 +1921,20 @@ function escHtml(s) {
 // ═══════════════════════════════════════════════
 //  INIT
 // ═══════════════════════════════════════════════
+renderMetrics();
 renderAllTodos();
 renderDashboard();
 renderRoadmap();
+
+// Restore CSV data on load
+(function() {
+  const stored = load('csvData', null);
+  if (stored && stored.rows && stored.rows.length) {
+    renderCsvData(stored);
+    showCsvStatus(`✓ ${stored.rows.length} sipariş yüklü (önceki oturum).`, 'ok');
+    document.getElementById('csvClearBtn').style.display = 'block';
+  }
+})();
 </script>
 </body>
 </html>
