@@ -3434,14 +3434,17 @@ function buildListingPrompt(type, lang, tone, notes) {
     ? 'Write EVERYTHING in Turkish (başlık, açıklama ve taglar Türkçe olacak).'
     : 'Write EVERYTHING in English.';
 
-  const extraNotes = notes ? `\n\nSeller product notes: ${notes}` : '';
+  // Sanitize notes: remove backticks and ${ sequences that would break template literal
+  const safeNotes = notes
+    ? notes.replace(/`/g, "'").replace(/\$\{/g, '${').replace(/\\/g, '')
+    : '';
 
   return `You are a professional Etsy SEO copywriter specialized in handmade gold-plated jewelry.
 Analyze the uploaded reference jewelry image carefully and generate a complete Etsy listing.
 
 JEWELRY TYPE: ${typeNames[type] || type}
 LANGUAGE: ${langGuide}
-TONE: ${toneGuides[tone]}${extraNotes}
+TONE: ${toneGuides[tone]}
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 TITLE RULES (CRITICAL — follow exactly)
@@ -3582,7 +3585,16 @@ CHARACTER COUNT EXAMPLES (learn from these):
 
 NEVER output a tag longer than 20 characters. Always verify by counting.
 
+${safeNotes ? `━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+SELLER NOTES — USE THESE IN THE DESCRIPTION
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+The seller has provided specific product details below.
+Incorporate these naturally into the description (material, dimensions, special features, personalization options, etc.).
+Do NOT ignore these notes — they are critical product information.
+
+${safeNotes}
+
+` : ''}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 OUTPUT FORMAT
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 Respond with ONLY valid JSON. No markdown, no explanation, no text outside the JSON.
