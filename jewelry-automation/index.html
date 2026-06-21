@@ -77,7 +77,7 @@
     .step-head h2 { font-size: 17px; font-weight: 400; letter-spacing: .08em; }
 
     /* ── Type cards ── */
-    .type-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+    .type-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 16px; }
     .type-card {
       border: 2px solid var(--border);
       padding: 32px 24px;
@@ -305,7 +305,10 @@
     @media (max-width: 700px) {
       .mode-grid { grid-template-columns: 1fr; }
     }
-    @media (max-width: 580px) {
+    @media (max-width: 700px) {
+      .type-grid { grid-template-columns: 1fr 1fr; }
+    }
+    @media (max-width: 420px) {
       .type-grid { grid-template-columns: 1fr; }
     }
     .hidden { display: none !important; }
@@ -336,7 +339,12 @@
       <div class="type-card" data-type="bileklik" onclick="selectType('bileklik')">
         <div class="emoji">⌚</div>
         <div class="label">Bileklik</div>
-        <div class="sublabel">Bracelet — 5 Poz</div>
+        <div class="sublabel">Bracelet — 5 Poz + Video</div>
+      </div>
+      <div class="type-card" data-type="kupe" onclick="selectType('kupe')">
+        <div class="emoji">💎</div>
+        <div class="label">Küpe</div>
+        <div class="sublabel">Earring — 6 Poz + Video</div>
       </div>
     </div>
   </div>
@@ -750,6 +758,405 @@ ${LIGHTING_BILEKLIK}
 Bracelet must be an exact replica of the reference.
 No reinterpretation allowed.
 Premium Etsy hero product image.`
+    },
+    {
+      id: 'b-video',
+      title: 'VİDEO',
+      subtitle: 'Bileklik — 10 Saniyelik Lifestyle Video',
+      desc: 'Nano Banana 2 / Runway / Kling için video prompt',
+      isVideo: true,
+      prompt: `Use the uploaded image as the primary visual reference.
+Create a 10-second ultra-realistic lifestyle product video based strictly on this image.
+
+Scene & Subject:
+A real human female wrist wearing the EXACT bracelet from the reference image — matching design, scale, chain style, pendant or charm, and position on wrist.
+Skin and wrist texture must remain natural, with visible pores, subtle imperfections, and realistic highlights — no CGI plastic look.
+
+Motion (VERY IMPORTANT – minimal & natural):
+Extremely subtle natural wrist micro-movement (barely perceptible shift in resting position).
+Bracelet reacts with barely noticeable micro-sway caused by movement (real physics, no exaggerated motion).
+If bracelet has a pendant or charm: gentle natural pendulum movement, 1-2 small swings only.
+NO unnatural spinning, NO floating, NO exaggerated swing, NO deformation.
+
+Lighting:
+Warm natural sunlight, soft and directional from one side.
+Slight realistic light shift as if clouds subtly pass (very minimal).
+Real gold reflections with soft sparkle on bracelet surface, never sharp or artificial.
+
+Camera:
+Static camera (no zoom, no pan, no rotation).
+Cinematic shallow depth of field.
+Ultra sharp focus on bracelet, natural falloff on skin and background.
+
+Style & Mood:
+Lifestyle, minimal, elegant, calm, premium.
+Looks like a real product video shot on a professional camera, not rendered.
+
+Technical:
+Ultra photorealistic. 4K quality.
+1:1 square aspect ratio (Etsy optimized). 10 seconds duration. 24 fps natural motion.
+
+Strict negatives:
+No CGI look. No artificial skin. No exaggerated jewelry movement.
+No mannequin behavior. No camera shake.
+No unrealistic wrist or hand motion. No fantasy lighting.`
+    }
+  ],
+  kupe: [
+    {
+      id: 'e1',
+      title: 'POZ 1',
+      subtitle: 'Kulakta Takılı — Önden / Portre Yakın Çekim',
+      desc: 'Yüz ve kulak bölgesine odaklanan önden portre çekimi',
+      isVideo: false,
+      prompt: `CRITICAL INSTRUCTION — MUST FOLLOW EXACTLY:
+The uploaded reference image is the SINGLE SOURCE OF TRUTH for the earring design.
+You MUST recreate the earring(s) in the reference image as an EXACT 1:1 COPY.
+DO NOT change:
+- earring shape (stud, hoop, drop, dangle, huggie, ear cuff)
+- pendant, charm, symbol, stone, or decorative element
+- name, letters, symbols or typography (if applicable)
+- proportions and overall scale
+- post, hook, wire, or closure type
+- stone color, cut, and setting style
+- chain length and link structure (if applicable)
+- spacing between elements
+- overall construction and geometry
+NO redesign, NO reinterpretation, NO simplification, NO artistic variation.
+Only lighting, camera angle, framing and environment are allowed to change.
+The earring must be IDENTICAL to the uploaded reference image in every design detail.
+If the design changes in any way, the result is INVALID.
+Lighting style:
+warm golden-hour sunlight,
+soft directional natural light,
+cinematic gentle shadows,
+low contrast,
+natural skin tones,
+controlled highlights,
+subtle film grain.
+Editorial lifestyle jewelry photography aesthetic.
+Minimal, warm beige / sand-toned background.
+Clean, premium, luxury Etsy-ready look.
+Ultra realistic.
+1:1 square format.
+
+Ultra realistic editorial jewelry photography, 1:1 square format,
+female model wearing the EXACT earring from the reference image,
+front-facing portrait angle, slight 3/4 turn toward light source,
+camera at face level, medium close-up framing showing ear and jawline,
+hair elegantly swept back to fully reveal the earring.
+14K gold earring with realistic metallic shine and accurate proportions,
+earring resting naturally on earlobe or ear cartilage as designed,
+correct scale — earring not oversized or undersized relative to ear.
+Skin texture natural and visible, no over-smoothing,
+soft shadows under jawline, highlight on cheekbone,
+background minimal warm beige, shallow depth of field.
+Premium Etsy product style, high realism, clean composition,
+subtle film grain, luxury editorial mood.`
+    },
+    {
+      id: 'e2',
+      title: 'POZ 2',
+      subtitle: 'Profil / Yan Açı — Kulak Odaklı',
+      desc: 'Küpe detayına odaklanan profil çekimi',
+      isVideo: false,
+      prompt: `CRITICAL INSTRUCTION — MUST FOLLOW EXACTLY:
+The uploaded reference image is the SINGLE SOURCE OF TRUTH for the earring design.
+You MUST recreate the earring(s) in the reference image as an EXACT 1:1 COPY.
+DO NOT change:
+- earring shape (stud, hoop, drop, dangle, huggie, ear cuff)
+- pendant, charm, symbol, stone, or decorative element
+- name, letters, symbols or typography (if applicable)
+- proportions and overall scale
+- post, hook, wire, or closure type
+- stone color, cut, and setting style
+- chain length and link structure (if applicable)
+- spacing between elements
+- overall construction and geometry
+NO redesign, NO reinterpretation, NO simplification, NO artistic variation.
+Only lighting, camera angle, framing and environment are allowed to change.
+The earring must be IDENTICAL to the uploaded reference image in every design detail.
+If the design changes in any way, the result is INVALID.
+Lighting style:
+warm golden-hour sunlight,
+soft directional natural light,
+cinematic gentle shadows,
+low contrast,
+natural skin tones,
+controlled highlights,
+subtle film grain.
+Editorial lifestyle jewelry photography aesthetic.
+Minimal, warm beige / sand-toned background.
+Clean, premium, luxury Etsy-ready look.
+Ultra realistic.
+1:1 square format.
+
+Ultra realistic lifestyle jewelry photography, 1:1 square format,
+female model photographed from a direct side profile angle,
+head turned 90 degrees to reveal ear fully,
+camera at ear level, close-up framing.
+The EXACT earring from the reference image clearly visible:
+full shape, stone, charm, or chain completely in frame,
+no part of earring cropped or obscured.
+Warm directional light hitting the earring from the front,
+creating soft gold reflections and dimensional depth,
+natural neck and jaw shadow for realism.
+Hair pinned or tucked behind ear,
+no hair overlapping the earring design.
+Clean warm-toned background, editorial luxury feel,
+Etsy-optimized 1:1 square, ultra photorealistic.`
+    },
+    {
+      id: 'e3',
+      title: 'POZ 3',
+      subtitle: 'Kulakta + El Kadrajda — Lifestyle Detay',
+      desc: 'Küpeye dokunan veya saçını atan el ile samimi kompozisyon',
+      isVideo: false,
+      prompt: `CRITICAL INSTRUCTION — MUST FOLLOW EXACTLY:
+The uploaded reference image is the SINGLE SOURCE OF TRUTH for the earring design.
+You MUST recreate the earring(s) in the reference image as an EXACT 1:1 COPY.
+DO NOT change:
+- earring shape (stud, hoop, drop, dangle, huggie, ear cuff)
+- pendant, charm, symbol, stone, or decorative element
+- name, letters, symbols or typography (if applicable)
+- proportions and overall scale
+- post, hook, wire, or closure type
+- stone color, cut, and setting style
+- chain length and link structure (if applicable)
+- spacing between elements
+- overall construction and geometry
+NO redesign, NO reinterpretation, NO simplification, NO artistic variation.
+Only lighting, camera angle, framing and environment are allowed to change.
+The earring must be IDENTICAL to the uploaded reference image in every design detail.
+If the design changes in any way, the result is INVALID.
+Lighting style:
+warm golden-hour sunlight,
+soft directional natural light,
+cinematic gentle shadows,
+low contrast,
+natural skin tones,
+controlled highlights,
+subtle film grain.
+Editorial lifestyle jewelry photography aesthetic.
+Minimal, warm beige / sand-toned background.
+Clean, premium, luxury Etsy-ready look.
+Ultra realistic.
+1:1 square format.
+
+Ultra realistic lifestyle jewelry photography, 1:1 square format,
+female model wearing the EXACT earring from the reference image,
+one hand gently touching or gesturing near the ear,
+natural feminine pose — fingers lightly grazing earring or sweeping hair back.
+Camera angle: slightly close-up, intimate framing,
+warm golden-hour light, soft highlights, cinematic exposure.
+14K gold earring with accurate shine and texture,
+earring fully visible and not obscured by fingers,
+natural skin texture, soft realistic shadows.
+Editorial aesthetic, cozy and warm atmosphere,
+minimal background, shallow depth of field,
+high-end Etsy product photography look.`
+    },
+    {
+      id: 'e4',
+      title: 'POZ 4',
+      subtitle: 'Yakın Çekim Makro — Ürün Detayı',
+      desc: 'Taş kesimi ve ince işçiliği gösteren makro detay çekimi',
+      isVideo: false,
+      prompt: `CRITICAL INSTRUCTION — MUST FOLLOW EXACTLY:
+The uploaded reference image is the SINGLE SOURCE OF TRUTH for the earring design.
+You MUST recreate the earring(s) in the reference image as an EXACT 1:1 COPY.
+DO NOT change:
+- earring shape (stud, hoop, drop, dangle, huggie, ear cuff)
+- pendant, charm, symbol, stone, or decorative element
+- name, letters, symbols or typography (if applicable)
+- proportions and overall scale
+- post, hook, wire, or closure type
+- stone color, cut, and setting style
+- chain length and link structure (if applicable)
+- spacing between elements
+- overall construction and geometry
+NO redesign, NO reinterpretation, NO simplification, NO artistic variation.
+Only lighting, camera angle, framing and environment are allowed to change.
+The earring must be IDENTICAL to the uploaded reference image in every design detail.
+If the design changes in any way, the result is INVALID.
+Lighting style:
+warm golden-hour sunlight,
+soft directional natural light,
+cinematic gentle shadows,
+low contrast,
+natural skin tones,
+controlled highlights,
+subtle film grain.
+Editorial lifestyle jewelry photography aesthetic.
+Minimal, warm beige / sand-toned background.
+Clean, premium, luxury Etsy-ready look.
+Ultra realistic.
+1:1 square format.
+
+Ultra realistic macro-style jewelry photography, 1:1 square format,
+extreme close-up of the EXACT earring from the reference image
+worn on a female earlobe, pendant or charm centered in frame.
+Maximum design detail visible:
+- metal texture and 14K gold grain clearly rendered
+- stone facets, reflections, and transparency if applicable
+- post, hook, or wire connection shown naturally
+- engraving or lettering (if present) sharp and legible
+Lighting and mood: warm directional sunlight, soft glow,
+balanced exposure, subtle cinematic contrast.
+Razor-sharp focus on earring design,
+natural ear skin texture in soft focus background,
+minimal composition, premium Etsy detail shot.`
+    },
+    {
+      id: 'e5',
+      title: 'POZ 5',
+      subtitle: 'Masada Ürün Çekimi — Flat Lay / Hafif Açılı',
+      desc: 'Kutu veya aksesuar ile bej yüzeyde ürün çekimi',
+      isVideo: false,
+      prompt: `CRITICAL INSTRUCTION — MUST FOLLOW EXACTLY:
+The uploaded reference image is the SINGLE SOURCE OF TRUTH for the earring design.
+You MUST recreate the earring(s) in the reference image as an EXACT 1:1 COPY.
+DO NOT change:
+- earring shape (stud, hoop, drop, dangle, huggie, ear cuff)
+- pendant, charm, symbol, stone, or decorative element
+- name, letters, symbols or typography (if applicable)
+- proportions and overall scale
+- post, hook, wire, or closure type
+- stone color, cut, and setting style
+- chain length and link structure (if applicable)
+- spacing between elements
+- overall construction and geometry
+NO redesign, NO reinterpretation, NO simplification, NO artistic variation.
+Only lighting, camera angle, framing and environment are allowed to change.
+The earring must be IDENTICAL to the uploaded reference image in every design detail.
+If the design changes in any way, the result is INVALID.
+Lighting style:
+warm golden-hour sunlight,
+soft directional natural light,
+cinematic gentle shadows,
+low contrast,
+natural skin tones,
+controlled highlights,
+subtle film grain.
+Editorial lifestyle jewelry photography aesthetic.
+Minimal, warm beige / sand-toned background.
+Clean, premium, luxury Etsy-ready look.
+Ultra realistic.
+1:1 square format.
+
+Ultra realistic product jewelry photography, 1:1 square format,
+EXACT earring pair from the reference image placed on a warm beige surface,
+both earrings symmetrically arranged side by side,
+natural flat-lay composition or slight 15-degree angle for depth.
+Optional styling props (keep minimal):
+- small dried flower or eucalyptus sprig beside earrings
+- thin linen or silk fabric as surface texture
+- small ceramic or marble dish holding the pair
+No props should overlap or obscure earring design.
+Warm soft top-down light or 45-degree directional light,
+realistic gold reflections on surface,
+subtle natural shadow beneath each earring.
+Earrings must be an exact replica of the reference.
+No reinterpretation allowed.
+Premium Etsy hero product image, clean and elegant.`
+    },
+    {
+      id: 'e6',
+      title: 'POZ 6',
+      subtitle: 'Çift Kulak — Simetrik Set Görünümü',
+      desc: 'Her iki kulakta da küpe, set satışları için ideal',
+      isVideo: false,
+      prompt: `CRITICAL INSTRUCTION — MUST FOLLOW EXACTLY:
+The uploaded reference image is the SINGLE SOURCE OF TRUTH for the earring design.
+You MUST recreate the earring(s) in the reference image as an EXACT 1:1 COPY.
+DO NOT change:
+- earring shape (stud, hoop, drop, dangle, huggie, ear cuff)
+- pendant, charm, symbol, stone, or decorative element
+- name, letters, symbols or typography (if applicable)
+- proportions and overall scale
+- post, hook, wire, or closure type
+- stone color, cut, and setting style
+- chain length and link structure (if applicable)
+- spacing between elements
+- overall construction and geometry
+NO redesign, NO reinterpretation, NO simplification, NO artistic variation.
+Only lighting, camera angle, framing and environment are allowed to change.
+The earring must be IDENTICAL to the uploaded reference image in every design detail.
+If the design changes in any way, the result is INVALID.
+Lighting style:
+warm golden-hour sunlight,
+soft directional natural light,
+cinematic gentle shadows,
+low contrast,
+natural skin tones,
+controlled highlights,
+subtle film grain.
+Editorial lifestyle jewelry photography aesthetic.
+Minimal, warm beige / sand-toned background.
+Clean, premium, luxury Etsy-ready look.
+Ultra realistic.
+1:1 square format.
+
+Ultra realistic lifestyle jewelry photography, 1:1 square format,
+female model facing camera at 3/4 angle,
+both ears visible with the EXACT earring from the reference image
+worn on each ear symmetrically.
+Hair styled up or in a low bun to reveal both ears fully,
+camera at face-to-neck level, medium close-up.
+Even warm lighting illuminating both sides of face,
+no one side in harsh shadow,
+natural balanced exposure.
+Both earrings identical in design, scale, and finish,
+realistic skin and neck texture visible,
+minimal warm background, editorial premium look.
+Etsy listing optimized, 1:1 square, ultra photorealistic.`
+    },
+    {
+      id: 'e-video',
+      title: 'VİDEO',
+      subtitle: 'Küpe — 10 Saniyelik Lifestyle Video',
+      desc: 'Nano Banana 2 / Runway / Kling için video prompt',
+      isVideo: true,
+      prompt: `Use the uploaded image as the primary visual reference.
+Create a 10-second ultra-realistic lifestyle product video based strictly on this image.
+
+Scene & Subject:
+A real human female ear and side of face wearing the EXACT gold earring
+from the reference image — matching design, scale, metal finish,
+stone color (if applicable), and position on earlobe.
+Skin and ear texture must remain natural, with visible pores,
+subtle imperfections, and realistic highlights — no CGI plastic look.
+
+Motion (VERY IMPORTANT — minimal & natural):
+- Extremely subtle natural head micro-movement (barely perceptible tilt)
+- Earring reacts with barely noticeable micro-sway from motion (real physics)
+- Drop or dangle earrings: gentle natural pendulum movement, 1-2 small swings
+- Stud or huggie earrings: almost completely static, only light reflection shifts
+- NO unnatural spinning, NO floating, NO exaggerated swing, NO deformation
+
+Lighting:
+Warm natural sunlight, soft and directional from one side.
+Slight realistic light shift as if clouds subtly pass (very minimal).
+Real gold reflections with soft sparkle on earring surface.
+Stone light refraction if gemstone is present (natural, not laser-sharp).
+
+Camera:
+Static camera (no zoom, no pan, no rotation).
+Cinematic shallow depth of field.
+Ultra sharp focus on earring, natural falloff on skin and background.
+
+Style & Mood:
+Lifestyle, minimal, elegant, calm, premium.
+Looks like a real product video shot on a professional camera.
+
+Technical:
+Ultra photorealistic. 4K quality.
+1:1 square aspect ratio (Etsy optimized). 10 seconds duration. 24 fps natural motion.
+
+Strict negatives:
+No CGI look. No artificial skin. No exaggerated jewelry movement.
+No mannequin behavior. No camera shake.
+No unrealistic facial or ear motion. No fantasy lighting.`
     }
   ]
 };
