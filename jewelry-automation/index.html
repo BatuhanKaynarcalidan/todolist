@@ -594,7 +594,11 @@
     <div style="margin-top:18px;">
       <label style="font-size:11px;text-transform:uppercase;letter-spacing:.2em;color:var(--muted);display:block;margin-bottom:10px;">AI Motoru Seçin</label>
       <div style="display:flex;gap:12px;flex-wrap:wrap;">
-        <div class="mode-card active" data-lmode="gemini" onclick="selectListingMode('gemini')" style="flex:1;min-width:200px;">
+        <div class="mode-card active" data-lmode="claude" onclick="selectListingMode('claude')" style="flex:1;min-width:200px;">
+          <h3>🤖 Claude (Önerilen)</h3>
+          <p>Anthropic API key — Claude görsel anlayışıyla en kaliteli Etsy içeriği.</p>
+        </div>
+        <div class="mode-card" data-lmode="gemini" onclick="selectListingMode('gemini')" style="flex:1;min-width:200px;">
           <h3>✨ Gemini (Ücretsiz)</h3>
           <p>Google AI Studio API key — ücretsiz kota ile çalışır.</p>
         </div>
@@ -604,7 +608,14 @@
         </div>
       </div>
 
-      <div id="listing-gemini-key-row" style="margin-top:14px;" class="field">
+      <div id="listing-claude-key-row" style="margin-top:14px;" class="field">
+        <label>Anthropic API Key</label>
+        <input type="password" id="listing-claude-key" placeholder="sk-ant-..." autocomplete="off" />
+        <div class="banner banner-info" style="margin-top:8px;font-size:12px;">
+          🔑 Key almak için: <strong>console.anthropic.com</strong> → API Keys → Create Key
+        </div>
+      </div>
+      <div id="listing-gemini-key-row" style="margin-top:14px;" class="field hidden">
         <label>Google AI Studio API Key</label>
         <input type="password" id="listing-gemini-key" placeholder="AIza..." autocomplete="off"
           oninput="syncKey('gemini')" />
@@ -3330,7 +3341,7 @@ updateActionUI();
    ETsY LİSTİNG OTOMASYONU
 ═══════════════════════════════════════════════════ */
 
-let listingState = { mode: 'gemini', tags: [] };
+let listingState = { mode: 'claude', tags: [] };
 
 /* ── Mod seçimi ── */
 function selectListingMode(m) {
@@ -3338,6 +3349,7 @@ function selectListingMode(m) {
   document.querySelectorAll('[data-lmode]').forEach(c =>
     c.classList.toggle('active', c.dataset.lmode === m)
   );
+  document.getElementById('listing-claude-key-row').classList.toggle('hidden', m !== 'claude');
   document.getElementById('listing-gemini-key-row').classList.toggle('hidden', m !== 'gemini');
   document.getElementById('listing-openai-key-row').classList.toggle('hidden', m !== 'openai');
 }
@@ -3356,6 +3368,9 @@ function syncKey(provider) {
 }
 
 function getListingApiKey() {
+  if (listingState.mode === 'claude') {
+    return document.getElementById('listing-claude-key').value.trim();
+  }
   if (listingState.mode === 'gemini') {
     return document.getElementById('listing-gemini-key').value.trim() ||
            document.getElementById('gemini-key').value.trim();
@@ -3389,7 +3404,9 @@ async function generateListing() {
 
   try {
     let result;
-    if (listingState.mode === 'gemini') {
+    if (listingState.mode === 'claude') {
+      result = await callClaudeListing(apiKey, prompt);
+    } else if (listingState.mode === 'gemini') {
       result = await callGeminiListing(apiKey, prompt);
     } else {
       result = await callOpenAIListing(apiKey, prompt);
@@ -3448,6 +3465,40 @@ OUTPUT FORMAT (respond ONLY with valid JSON, no markdown fences):
   "description": "...",
   "tags": ["tag1","tag2","tag3","tag4","tag5","tag6","tag7","tag8","tag9","tag10","tag11","tag12","tag13"]
 }`;
+}
+
+async function callClaudeListing(apiKey, prompt) {
+  const mimeType = state.refFile ? state.refFile.type : 'image/jpeg';
+  const resp = await fetch('https://api.anthropic.com/v1/messages', {
+    method: 'POST',
+    headers: {
+      'x-api-key': apiKey,
+      'anthropic-version': '2023-06-01',
+      'anthropic-dangerous-allow-browser': 'true',
+      'content-type': 'application/json'
+    },
+    body: JSON.stringify({
+      model: 'claude-opus-4-8',
+      max_tokens: 2048,
+      messages: [{
+        role: 'user',
+        content: [
+          {
+            type: 'image',
+            source: { type: 'base64', media_type: mimeType, data: state.refBase64 }
+          },
+          { type: 'text', text: prompt }
+        ]
+      }]
+    })
+  });
+  if (!resp.ok) {
+    const e = await resp.json();
+    throw new Error(e.error?.message || `HTTP ${resp.status}`);
+  }
+  const data = await resp.json();
+  const text = data.content?.[0]?.text || '';
+  return parseListingJSON(text);
 }
 
 async function callGeminiListing(apiKey, prompt) {
