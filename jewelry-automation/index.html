@@ -941,8 +941,10 @@ function copyPrompt(id, index) {
 }
 
 /* ─────────────────────────────────────────
-   GEMİNİ MODU — IMAGEN OTOMATİK ÜRETİM
+   GEMİNİ MODU — IMAGEN 3 OTOMATİK ÜRETİM
 ───────────────────────────────────────── */
+let _geminiNativeWorks = null; // oturum başına cache
+
 async function runGeminiGeneration() {
   const apiKey = document.getElementById('gemini-key').value.trim();
   if (!apiKey) { showStatus('Lütfen Google AI Studio API key girin.', 'warn'); return; }
@@ -956,16 +958,18 @@ async function runGeminiGeneration() {
 
   const btn = document.getElementById('main-btn');
   btn.disabled = true;
+  _geminiNativeWorks = null;
   document.getElementById('progress-wrap').classList.remove('hidden');
 
   const grid = document.getElementById('results-grid');
   grid.innerHTML = '';
-  document.getElementById('results-title').textContent = 'Gemini ile Üretiliyor...';
+  document.getElementById('results-title').textContent = 'Gemini / Imagen 3 ile Üretiliyor...';
   document.getElementById('results-section').classList.add('visible');
 
   for (let i = 0; i < poses.length; i++) {
     const p = poses[i];
-    setProgress(Math.round((i / poses.length) * 95), `Üretiliyor: ${p.subtitle} (${i + 1}/${poses.length})`);
+    const basePct = Math.round((i / poses.length) * 95);
+    setProgress(basePct, `Üretiliyor: ${p.subtitle} (${i + 1}/${poses.length})`);
 
     const cardId = `img-${p.id}`;
     grid.insertAdjacentHTML('beforeend', `
@@ -979,14 +983,16 @@ async function runGeminiGeneration() {
 
     try {
       const prompt = i > 0 ? p.prompt + '\n' + CONSISTENCY : p.prompt;
-      const imgBase64 = await generateWithGemini(apiKey, prompt);
-      const blob = base64ToBlob(imgBase64, 'image/png');
+      const imgB64 = await generateWithGemini(apiKey, prompt,
+        msg => setProgress(basePct, msg)
+      );
+      const blob = base64ToBlob(imgB64, 'image/png');
       const blobUrl = URL.createObjectURL(blob);
       document.getElementById(cardId).innerHTML = `
         <img src="${blobUrl}" alt="${p.subtitle}" />
         <div class="img-card-foot">
           <span>${p.subtitle}</span>
-          <a href="${blobUrl}" download="gemini-poz-${i+1}.png" target="_blank">İndir ↓</a>
+          <a href="${blobUrl}" download="imagen-poz-${i+1}.png" target="_blank">İndir ↓</a>
         </div>
       `;
     } catch (err) {
@@ -1002,62 +1008,92 @@ async function runGeminiGeneration() {
 
   setProgress(100, 'Tamamlandı!');
   btn.disabled = false;
-  document.getElementById('results-title').textContent = `${poses.length} Görsel Üretildi (Gemini)`;
+  document.getElementById('results-title').textContent = `${poses.length} Görsel Üretildi (Imagen 3)`;
   showStatus('✅ Tüm görseller üretildi. İndirmek için "İndir" bağlantısına tıklayın.', 'ok');
 }
 
-async function generateWithGemini(apiKey, prompt) {
+async function generateWithGemini(apiKey, prompt, onStatus) {
   const mimeType = state.refFile ? state.refFile.type : 'image/jpeg';
 
-  // Görsel üretimi için doğru modeli sırayla dene
-  const models = [
-    'gemini-2.0-flash-preview-image-generation',
-    'gemini-2.0-flash-exp-image-generation',
-    'gemini-2.0-flash'
-  ];
-
-  let lastError = null;
-  for (const model of models) {
-    try {
-      const resp = await fetch(
-        `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${apiKey}`,
-        {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({
-            contents: [{
-              parts: [
+  // 1. Gemini native image gen modellerini dene (destekliyorlarsa)
+  if (_geminiNativeWorks !== false) {
+    const nativeModels = [
+      'gemini-2.0-flash-preview-image-generation',
+      'gemini-2.0-flash-exp-image-generation',
+      'gemini-2.5-flash-preview-image-generation'
+    ];
+    for (const model of nativeModels) {
+      try {
+        const resp = await fetch(
+          `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${apiKey}`,
+          {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              contents: [{ parts: [
                 { inline_data: { mime_type: mimeType, data: state.refBase64 } },
                 { text: prompt }
-              ]
-            }],
-            generationConfig: { responseModalities: ['IMAGE', 'TEXT'] }
-          })
-        }
-      );
-      if (!resp.ok) {
-        const e = await resp.json();
-        const msg = e.error?.message || `HTTP ${resp.status}`;
-        // Model desteklenmiyorsa bir sonrakini dene
-        if (msg.includes('not found') || msg.includes('not supported') || resp.status === 404) {
-          lastError = new Error(msg);
-          continue;
-        }
-        throw new Error(msg);
-      }
-      const data = await resp.json();
-      const parts = data.candidates?.[0]?.content?.parts || [];
-      const imgPart = parts.find(p => p.inline_data?.mime_type?.startsWith('image/'));
-      if (!imgPart) throw new Error('Gemini görsel döndürmedi. Prompt politika filtrelerine takılmış olabilir.');
-      return imgPart.inline_data.data;
-    } catch (err) {
-      lastError = err;
-      if (!err.message.includes('not found') && !err.message.includes('not supported')) {
-        throw err;
-      }
+              ]}],
+              generationConfig: { responseModalities: ['IMAGE', 'TEXT'] }
+            })
+          }
+        );
+        if (!resp.ok) { await resp.json(); continue; }
+        const data = await resp.json();
+        const imgPart = (data.candidates?.[0]?.content?.parts || [])
+          .find(p => p.inline_data?.mime_type?.startsWith('image/'));
+        if (imgPart) { _geminiNativeWorks = true; return imgPart.inline_data.data; }
+      } catch { /* bir sonrakini dene */ }
     }
+    _geminiNativeWorks = false; // native çalışmıyor, cache et
   }
-  throw lastError || new Error('Hiçbir Gemini modeli görsel üretemedi.');
+
+  // 2. Fallback: Gemini ile analiz et → Imagen 3 ile üret
+  onStatus?.('Referans görsel analiz ediliyor...');
+  const desc = await analyzeWithGemini(apiKey, mimeType);
+
+  onStatus?.('Imagen 3 ile görsel üretiliyor...');
+  const enriched = prompt.slice(0, 1800) + '\n\nEXACT JEWELRY FROM REFERENCE IMAGE:\n' + desc.slice(0, 400);
+  return await generateWithImagen3(apiKey, enriched);
+}
+
+async function analyzeWithGemini(apiKey, mimeType) {
+  const resp = await fetch(
+    `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey}`,
+    {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        contents: [{ parts: [
+          { inline_data: { mime_type: mimeType, data: state.refBase64 } },
+          { text: 'Describe this jewelry piece in precise detail for image generation. Include: exact shape, any letters/words (spell exactly), chain type, thickness, proportions, material. Be literal and concise.' }
+        ]}]
+      })
+    }
+  );
+  if (!resp.ok) { const e = await resp.json(); throw new Error(e.error?.message || `HTTP ${resp.status}`); }
+  const data = await resp.json();
+  return data.candidates?.[0]?.content?.parts?.[0]?.text || '';
+}
+
+async function generateWithImagen3(apiKey, prompt) {
+  const resp = await fetch(
+    `https://generativelanguage.googleapis.com/v1beta/models/imagen-3.0-generate-002:predict?key=${apiKey}`,
+    {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        instances: [{ prompt }],
+        parameters: { sampleCount: 1, aspectRatio: '1:1',
+          safetyFilterLevel: 'block_some', personGeneration: 'allow_adult' }
+      })
+    }
+  );
+  if (!resp.ok) { const e = await resp.json(); throw new Error(e.error?.message || `HTTP ${resp.status}`); }
+  const data = await resp.json();
+  const b64 = data.predictions?.[0]?.bytesBase64Encoded;
+  if (!b64) throw new Error('Imagen 3 görsel döndürmedi. Prompt içerik politikasına takılmış olabilir.');
+  return b64;
 }
 
 /* ─────────────────────────────────────────
