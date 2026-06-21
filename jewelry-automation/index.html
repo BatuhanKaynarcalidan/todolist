@@ -308,6 +308,11 @@
     @media (max-width: 420px) {
       .type-grid { grid-template-columns: 1fr 1fr; }
     }
+    .key-saved {
+      font-size: 11px; color: #15803D; margin-top: 5px;
+      display: block; opacity: 0; transition: opacity .3s;
+      letter-spacing: .05em;
+    }
     .hidden { display: none !important; }
     #results-section.visible { display: block; }
 
@@ -501,7 +506,8 @@
       <div style="height:18px;"></div>
       <div class="field">
         <label>Google AI Studio API Key</label>
-        <input type="password" id="gemini-key" placeholder="AIza..." autocomplete="off" oninput="saveKey('gemini',this.value)" />
+        <input type="password" id="gemini-key" placeholder="AIza..." autocomplete="off" oninput="saveKey('gemini',this.value)" onchange="saveKey('gemini',this.value)" onblur="saveKey('gemini',this.value)" />
+        <span class="key-saved">✓ Tarayıcıya kaydedildi</span>
       </div>
       <div class="banner banner-info" style="margin-top:12px;">
         🔑 Key almak için: <strong>aistudio.google.com</strong> → "Get API key" → ücretsiz.
@@ -514,7 +520,8 @@
       <div style="height:18px;"></div>
       <div class="field">
         <label>OpenAI API Key</label>
-        <input type="password" id="api-key" placeholder="sk-..." autocomplete="off" oninput="saveKey('openai',this.value)" />
+        <input type="password" id="api-key" placeholder="sk-..." autocomplete="off" oninput="saveKey('openai',this.value)" onchange="saveKey('openai',this.value)" onblur="saveKey('openai',this.value)" />
+        <span class="key-saved">✓ Tarayıcıya kaydedildi</span>
       </div>
       <div class="banner banner-warn" style="margin-top:12px;">
         ⚠️ API key tarayıcıda tutulur, sunucuya gönderilmez. Gizli tutun.
@@ -610,7 +617,8 @@
 
       <div id="listing-claude-key-row" style="margin-top:14px;" class="field">
         <label>Anthropic API Key</label>
-        <input type="password" id="listing-claude-key" placeholder="sk-ant-..." autocomplete="off" oninput="saveKey('claude',this.value)" />
+        <input type="password" id="listing-claude-key" placeholder="sk-ant-..." autocomplete="off" oninput="saveKey('claude',this.value)" onchange="saveKey('claude',this.value)" onblur="saveKey('claude',this.value)" />
+        <span class="key-saved">✓ Tarayıcıya kaydedildi</span>
         <div class="banner banner-info" style="margin-top:8px;font-size:12px;">
           🔑 Key almak için: <strong>console.anthropic.com</strong> → API Keys → Create Key
         </div>
@@ -618,12 +626,12 @@
       <div id="listing-gemini-key-row" style="margin-top:14px;" class="field hidden">
         <label>Google AI Studio API Key</label>
         <input type="password" id="listing-gemini-key" placeholder="AIza..." autocomplete="off"
-          oninput="saveKey('gemini',this.value);syncKey('gemini')" />
+          oninput="saveKey('gemini',this.value);syncKey('gemini')" onchange="saveKey('gemini',this.value)" onblur="saveKey('gemini',this.value)" />
       </div>
       <div id="listing-openai-key-row" style="margin-top:14px;" class="field hidden">
         <label>OpenAI API Key</label>
         <input type="password" id="listing-openai-key" placeholder="sk-..." autocomplete="off"
-          oninput="saveKey('openai',this.value);syncKey('openai')" />
+          oninput="saveKey('openai',this.value);syncKey('openai')" onchange="saveKey('openai',this.value)" onblur="saveKey('openai',this.value)" />
       </div>
     </div>
 
@@ -3339,25 +3347,47 @@ updateActionUI();
 loadSavedKeys();
 
 /* ── Key kaydet / yükle (localStorage) ── */
+const KEY_MAP = {
+  gemini: ['gemini-key', 'listing-gemini-key'],
+  openai: ['api-key', 'listing-openai-key'],
+  claude: ['listing-claude-key']
+};
+
 function saveKey(provider, value) {
-  if (value) localStorage.setItem('etsy_key_' + provider, value);
-  else localStorage.removeItem('etsy_key_' + provider);
+  try {
+    if (value && value.length > 5) {
+      localStorage.setItem('etsy_key_' + provider, value);
+      showKeySaved(provider);
+    }
+  } catch(e) {}
+}
+
+function showKeySaved(provider) {
+  KEY_MAP[provider].forEach(id => {
+    const el = document.getElementById(id);
+    if (!el) return;
+    const indicator = el.parentElement.querySelector('.key-saved');
+    if (indicator) {
+      indicator.style.opacity = '1';
+      clearTimeout(indicator._t);
+      indicator._t = setTimeout(() => { indicator.style.opacity = '0'; }, 2000);
+    }
+  });
 }
 
 function loadSavedKeys() {
-  const map = {
-    gemini: ['gemini-key', 'listing-gemini-key'],
-    openai: ['api-key', 'listing-openai-key'],
-    claude: ['listing-claude-key']
-  };
-  Object.entries(map).forEach(([provider, ids]) => {
-    const saved = localStorage.getItem('etsy_key_' + provider);
-    if (saved) ids.forEach(id => {
-      const el = document.getElementById(id);
-      if (el) el.value = saved;
-    });
+  Object.entries(KEY_MAP).forEach(([provider, ids]) => {
+    try {
+      const saved = localStorage.getItem('etsy_key_' + provider);
+      if (saved) ids.forEach(id => {
+        const el = document.getElementById(id);
+        if (el && !el.value) el.value = saved;
+      });
+    } catch(e) {}
   });
 }
+
+window.addEventListener('load', loadSavedKeys);
 
 /* ═══════════════════════════════════════════════════
    ETsY LİSTİNG OTOMASYONU
