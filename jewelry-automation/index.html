@@ -366,8 +366,8 @@
         Imagen 3 ile görseller otomatik üretilir. <strong>Ücretsiz kota var!</strong></p>
       </div>
       <div class="mode-card" data-mode="dalle" onclick="selectMode('dalle')">
-        <h3>⚡ DALL·E 3 Otomasyonu</h3>
-        <p>OpenAI API key girin. Referans görsel GPT-4o ile analiz edilir, ardından DALL·E 3 ile
+        <h3>⚡ OpenAI — gpt-image-1</h3>
+        <p>OpenAI API key girin. Referans görsel doğrudan gpt-image-1 modeline gönderilir,
         tüm görseller otomatik üretilir.</p>
       </div>
     </div>
@@ -1061,7 +1061,7 @@ async function generateWithGemini(apiKey, prompt) {
 }
 
 /* ─────────────────────────────────────────
-   DALL·E 3 MODU — OTOMATİK ÜRETİM
+   OPENAI MODU — gpt-image-1 OTOMATİK ÜRETİM
 ───────────────────────────────────────── */
 async function runDalleGeneration() {
   const apiKey = document.getElementById('api-key').value.trim();
@@ -1083,29 +1083,14 @@ async function runDalleGeneration() {
   document.getElementById('results-title').textContent = 'Görseller Üretiliyor...';
   document.getElementById('results-section').classList.add('visible');
 
-  // Adım 1: Referans görseli analiz et
-  setProgress(5, 'Referans görsel analiz ediliyor (GPT-4o)...');
-  let jewelryDesc = '';
-  try {
-    jewelryDesc = await analyzeReference(apiKey);
-  } catch (err) {
-    setProgress(0, '');
-    showStatus(`Görsel analizi başarısız: ${err.message}`, 'error');
-    btn.disabled = false;
-    return;
-  }
-
-  // Adım 2: Her poz için üret
   for (let i = 0; i < poses.length; i++) {
     const p = poses[i];
-    const pct = Math.round(10 + ((i / poses.length) * 88));
-    setProgress(pct, `Üretiliyor: ${p.subtitle} (${i + 1}/${poses.length})`);
+    setProgress(Math.round((i / poses.length) * 95), `Üretiliyor: ${p.subtitle} (${i + 1}/${poses.length})`);
 
-    // Placeholder kart ekle
     const cardId = `img-${p.id}`;
     grid.insertAdjacentHTML('beforeend', `
       <div class="img-card" id="${cardId}">
-        <div style="aspect-ratio:1;background:var(--sand);display:flex;align-items:center;justify-content:center;font-size:32px;">
+        <div style="aspect-ratio:1;background:var(--sand);display:flex;align-items:center;justify-content:center;">
           <span class="spinner"></span>
         </div>
         <div class="img-card-foot">
@@ -1116,13 +1101,13 @@ async function runDalleGeneration() {
     `);
 
     try {
-      const enrichedPrompt = buildEnrichedPrompt(p.prompt, jewelryDesc, i > 0);
-      const imgUrl = await generateImage(apiKey, enrichedPrompt);
+      const prompt = i > 0 ? p.prompt + '\n' + CONSISTENCY : p.prompt;
+      const blobUrl = await generateWithOpenAI(apiKey, prompt);
       document.getElementById(cardId).innerHTML = `
-        <img src="${imgUrl}" alt="${p.subtitle}" />
+        <img src="${blobUrl}" alt="${p.subtitle}" />
         <div class="img-card-foot">
           <span>${p.subtitle}</span>
-          <a href="${imgUrl}" download="dalle-poz-${i+1}.png" target="_blank">İndir ↓</a>
+          <a href="${blobUrl}" download="openai-poz-${i+1}.png" target="_blank">İndir ↓</a>
         </div>
       `;
     } catch (err) {
@@ -1142,71 +1127,74 @@ async function runDalleGeneration() {
   showStatus('✅ Tüm görseller üretildi. İndirmek için "İndir" bağlantısına tıklayın.', 'ok');
 }
 
-async function analyzeReference(apiKey) {
+async function generateWithOpenAI(apiKey, prompt) {
   const mimeType = state.refFile ? state.refFile.type : 'image/jpeg';
-  const resp = await fetch('https://api.openai.com/v1/chat/completions', {
-    method: 'POST',
-    headers: { 'Authorization': `Bearer ${apiKey}`, 'Content-Type': 'application/json' },
-    body: JSON.stringify({
-      model: 'gpt-4o',
-      max_tokens: 600,
-      messages: [{
-        role: 'user',
-        content: [
-          {
-            type: 'text',
-            text: 'Describe this jewelry piece in exact detail for an AI image generation prompt. Include: exact shape of pendant/charm, any letters, words, symbols or typography (spell them out exactly), chain type and structure, thickness, proportions, material finish, clasp style, and every visible design element. Be extremely precise and literal. Do not interpret or embellish — describe only what you see.'
-          },
-          {
-            type: 'image_url',
-            image_url: { url: `data:${mimeType};base64,${state.refBase64}`, detail: 'high' }
-          }
-        ]
-      }]
-    })
-  });
-  if (!resp.ok) {
+
+  // gpt-image-1: referans görseli doğrudan destekler (image edits endpoint)
+  try {
+    const refBlob = base64ToBlob(state.refBase64, mimeType);
+    const form = new FormData();
+    form.append('model', 'gpt-image-1');
+    form.append('image[]', refBlob, 'reference.jpg');
+    form.append('prompt', prompt.slice(0, 32000));
+    form.append('n', '1');
+    form.append('size', '1024x1024');
+
+    const resp = await fetch('https://api.openai.com/v1/images/edits', {
+      method: 'POST',
+      headers: { 'Authorization': `Bearer ${apiKey}` },
+      body: form
+    });
+
+    if (resp.ok) {
+      const data = await resp.json();
+      const b64 = data.data[0].b64_json || data.data[0].url;
+      if (data.data[0].b64_json) {
+        const blob = base64ToBlob(b64, 'image/png');
+        return URL.createObjectURL(blob);
+      }
+      // URL döndüyse blob'a çevir
+      const imgResp = await fetch(b64);
+      return URL.createObjectURL(await imgResp.blob());
+    }
+
+    // edits başarısız → generations endpoint'e geç
     const e = await resp.json();
-    throw new Error(e.error?.message || `HTTP ${resp.status}`);
+    if (!e.error?.message?.includes('does not exist')) {
+      throw new Error(e.error?.message || `HTTP ${resp.status}`);
+    }
+  } catch (err) {
+    if (!err.message?.includes('does not exist') && !err.message?.includes('NetworkError')) {
+      throw err;
+    }
   }
-  const data = await resp.json();
-  return data.choices[0].message.content;
-}
 
-function buildEnrichedPrompt(basePrompt, jewelryDesc, addConsistency) {
-  let p = basePrompt
-    + '\n\nEXACT JEWELRY DESCRIPTION FROM REFERENCE IMAGE:\n'
-    + jewelryDesc;
-  if (addConsistency) p += '\n' + CONSISTENCY;
-  return p;
-}
-
-async function generateImage(apiKey, prompt) {
-  const resp = await fetch('https://api.openai.com/v1/images/generations', {
+  // Fallback: gpt-image-1 generations (referans görselsiz)
+  const resp2 = await fetch('https://api.openai.com/v1/images/generations', {
     method: 'POST',
     headers: { 'Authorization': `Bearer ${apiKey}`, 'Content-Type': 'application/json' },
     body: JSON.stringify({
-      model: 'dall-e-3',
-      prompt: prompt.slice(0, 4000),
+      model: 'gpt-image-1',
+      prompt: prompt.slice(0, 32000),
       n: 1,
       size: '1024x1024',
-      quality: 'hd'
+      quality: 'high'
     })
   });
-  if (!resp.ok) {
-    const e = await resp.json();
-    throw new Error(e.error?.message || `HTTP ${resp.status}`);
+
+  if (!resp2.ok) {
+    const e = await resp2.json();
+    throw new Error(e.error?.message || `HTTP ${resp2.status}`);
   }
-  const data = await resp.json();
-  // Görseli base64'e çevir (mobilde indirme düzgün çalışsın)
-  const imgUrl = data.data[0].url;
-  try {
-    const imgResp = await fetch(imgUrl);
-    const blob = await imgResp.blob();
+
+  const data2 = await resp2.json();
+  const b64 = data2.data[0].b64_json;
+  if (b64) {
+    const blob = base64ToBlob(b64, 'image/png');
     return URL.createObjectURL(blob);
-  } catch {
-    return imgUrl;
   }
+  const imgResp = await fetch(data2.data[0].url);
+  return URL.createObjectURL(await imgResp.blob());
 }
 
 /* ─────────────────────────────────────────
