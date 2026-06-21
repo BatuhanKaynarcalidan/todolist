@@ -980,12 +980,13 @@ async function runGeminiGeneration() {
     try {
       const prompt = i > 0 ? p.prompt + '\n' + CONSISTENCY : p.prompt;
       const imgBase64 = await generateWithGemini(apiKey, prompt);
-      const src = `data:image/png;base64,${imgBase64}`;
+      const blob = base64ToBlob(imgBase64, 'image/png');
+      const blobUrl = URL.createObjectURL(blob);
       document.getElementById(cardId).innerHTML = `
-        <img src="${src}" alt="${p.subtitle}" />
+        <img src="${blobUrl}" alt="${p.subtitle}" />
         <div class="img-card-foot">
           <span>${p.subtitle}</span>
-          <a href="${src}" download="gemini-poz-${i+1}.png">İndir ↓</a>
+          <a href="${blobUrl}" download="gemini-poz-${i+1}.png" target="_blank">İndir ↓</a>
         </div>
       `;
     } catch (err) {
@@ -1200,6 +1201,13 @@ function resetSession() {
 
 function escHtml(s) {
   return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+}
+
+function base64ToBlob(base64, mimeType) {
+  const bytes = atob(base64);
+  const arr = new Uint8Array(bytes.length);
+  for (let i = 0; i < bytes.length; i++) arr[i] = bytes.charCodeAt(i);
+  return new Blob([arr], { type: mimeType });
 }
 
 /* ─────────────────────────────────────────
