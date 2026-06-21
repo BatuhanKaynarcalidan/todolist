@@ -77,7 +77,7 @@
     .step-head h2 { font-size: 17px; font-weight: 400; letter-spacing: .08em; }
 
     /* ── Type cards ── */
-    .type-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 16px; }
+    .type-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap: 16px; }
     .type-card {
       border: 2px solid var(--border);
       padding: 32px 24px;
@@ -305,11 +305,8 @@
     @media (max-width: 700px) {
       .mode-grid { grid-template-columns: 1fr; }
     }
-    @media (max-width: 700px) {
-      .type-grid { grid-template-columns: 1fr 1fr; }
-    }
     @media (max-width: 420px) {
-      .type-grid { grid-template-columns: 1fr; }
+      .type-grid { grid-template-columns: 1fr 1fr; }
     }
     .hidden { display: none !important; }
     #results-section.visible { display: block; }
@@ -345,6 +342,26 @@
         <div class="emoji">💎</div>
         <div class="label">Küpe</div>
         <div class="sublabel">Earring — 6 Poz + Video</div>
+      </div>
+      <div class="type-card" data-type="halhal" onclick="selectType('halhal')">
+        <div class="emoji">✨</div>
+        <div class="label">Halhal</div>
+        <div class="sublabel">Anklet — 6 Poz + Video</div>
+      </div>
+      <div class="type-card" data-type="koldugmesi" onclick="selectType('koldugmesi')">
+        <div class="emoji">👔</div>
+        <div class="label">Kol Düğmesi</div>
+        <div class="sublabel">Cufflink — 6 Poz + Video</div>
+      </div>
+      <div class="type-card" data-type="yakaiğnesi" onclick="selectType('yakaiğnesi')">
+        <div class="emoji">🌸</div>
+        <div class="label">Yaka İğnesi</div>
+        <div class="sublabel">Brooch — 6 Poz + Video</div>
+      </div>
+      <div class="type-card" data-type="yuzuk" onclick="selectType('yuzuk')">
+        <div class="emoji">💍</div>
+        <div class="label">Yüzük</div>
+        <div class="sublabel">Ring — 6 Poz + Video</div>
       </div>
     </div>
   </div>
@@ -1157,6 +1174,1299 @@ Strict negatives:
 No CGI look. No artificial skin. No exaggerated jewelry movement.
 No mannequin behavior. No camera shake.
 No unrealistic facial or ear motion. No fantasy lighting.`
+    }
+  ],
+  halhal: [
+    {
+      id: 'hal1',
+      title: 'POZ 1',
+      subtitle: 'Ayakta Takılı — Yukarıdan Yakın Çekim',
+      desc: 'Bileğe yukarıdan yakın çekim, ayak doğal duruşta',
+      isVideo: false,
+      prompt: `CRITICAL INSTRUCTION — MUST FOLLOW EXACTLY:
+The uploaded reference image is the SINGLE SOURCE OF TRUTH for the anklet design.
+You MUST recreate the anklet in the reference image as an EXACT 1:1 COPY.
+DO NOT change:
+- anklet shape and overall design
+- charm, pendant, symbol, or name (if applicable)
+- proportions and overall scale
+- chain type and link structure
+- clasp or closure type
+- stone color, cut, and setting (if applicable)
+- spacing between elements
+- overall construction and geometry
+NO redesign, NO reinterpretation, NO simplification, NO artistic variation.
+Only lighting, camera angle, framing and environment are allowed to change.
+The anklet must be IDENTICAL to the uploaded reference image in every design detail.
+If the design changes in any way, the result is INVALID.
+Lighting style:
+warm golden-hour sunlight,
+soft directional natural light,
+cinematic gentle shadows,
+low contrast,
+natural skin tones,
+controlled highlights,
+subtle film grain.
+Editorial lifestyle jewelry photography aesthetic.
+Minimal, warm beige / sand-toned background.
+Clean, premium, luxury Etsy-ready look.
+Ultra realistic.
+1:1 square format.
+
+Ultra realistic jewelry photography, 1:1 square format,
+female model wearing the EXACT anklet from the reference image,
+top-down close-up angle looking down at ankle and lower leg,
+anklet centered in frame, full design clearly visible.
+Natural bare foot and ankle, relaxed standing pose on warm beige surface.
+14K gold anklet with realistic metallic shine and accurate proportions,
+anklet resting naturally at ankle bone level.
+Skin texture natural and visible, soft shadows and warm highlights,
+shallow depth of field, background minimal warm beige.
+Premium Etsy product style, high realism, clean composition.`
+    },
+    {
+      id: 'hal2',
+      title: 'POZ 2',
+      subtitle: 'Yan Açı — Bilek Profil Çekimi',
+      desc: 'Tam görünürlük için yan açıdan bilek profil çekimi',
+      isVideo: false,
+      prompt: `CRITICAL INSTRUCTION — MUST FOLLOW EXACTLY:
+The uploaded reference image is the SINGLE SOURCE OF TRUTH for the anklet design.
+You MUST recreate the anklet in the reference image as an EXACT 1:1 COPY.
+DO NOT change:
+- anklet shape and overall design
+- charm, pendant, symbol, or name (if applicable)
+- proportions and overall scale
+- chain type and link structure
+- clasp or closure type
+- stone color, cut, and setting (if applicable)
+- spacing between elements
+- overall construction and geometry
+NO redesign, NO reinterpretation, NO simplification, NO artistic variation.
+Only lighting, camera angle, framing and environment are allowed to change.
+The anklet must be IDENTICAL to the uploaded reference image in every design detail.
+If the design changes in any way, the result is INVALID.
+Lighting style:
+warm golden-hour sunlight,
+soft directional natural light,
+cinematic gentle shadows,
+low contrast,
+natural skin tones,
+controlled highlights,
+subtle film grain.
+Editorial lifestyle jewelry photography aesthetic.
+Minimal, warm beige / sand-toned background.
+Clean, premium, luxury Etsy-ready look.
+Ultra realistic.
+1:1 square format.
+
+Ultra realistic lifestyle jewelry photography, 1:1 square format,
+female model wearing the EXACT anklet from the reference image,
+side profile angle from ankle to lower calf,
+full anklet design clearly visible — no part cropped or hidden.
+Leg in natural relaxed position, either standing or gently raised.
+Warm directional sunlight hitting anklet creating soft gold reflections,
+natural skin texture with soft shadows and highlights.
+Background minimal warm sand or beige, ultra photorealistic,
+premium Etsy editorial look.`
+    },
+    {
+      id: 'hal3',
+      title: 'POZ 3',
+      subtitle: 'Lifestyle — Kum veya Ahşap Zemin',
+      desc: 'Doğal zemin üzerinde ayak lifestyle çekimi',
+      isVideo: false,
+      prompt: `CRITICAL INSTRUCTION — MUST FOLLOW EXACTLY:
+The uploaded reference image is the SINGLE SOURCE OF TRUTH for the anklet design.
+You MUST recreate the anklet in the reference image as an EXACT 1:1 COPY.
+DO NOT change:
+- anklet shape and overall design
+- charm, pendant, symbol, or name (if applicable)
+- proportions and overall scale
+- chain type and link structure
+- clasp or closure type
+- stone color, cut, and setting (if applicable)
+- spacing between elements
+- overall construction and geometry
+NO redesign, NO reinterpretation, NO simplification, NO artistic variation.
+Only lighting, camera angle, framing and environment are allowed to change.
+The anklet must be IDENTICAL to the uploaded reference image in every design detail.
+If the design changes in any way, the result is INVALID.
+Lighting style:
+warm golden-hour sunlight,
+soft directional natural light,
+cinematic gentle shadows,
+low contrast,
+natural skin tones,
+controlled highlights,
+subtle film grain.
+Editorial lifestyle jewelry photography aesthetic.
+Minimal, warm beige / sand-toned background.
+Clean, premium, luxury Etsy-ready look.
+Ultra realistic.
+1:1 square format.
+
+Ultra realistic lifestyle jewelry photography, 1:1 square format,
+female model wearing the EXACT anklet from the reference image,
+foot and ankle resting naturally on warm sand or light wooden surface,
+editorial outdoor lifestyle mood.
+Anklet fully visible, natural drape and accurate scale.
+Warm golden-hour light, sun-drenched atmosphere,
+gentle shadows, natural skin texture.
+Minimal composition, premium editorial aesthetic,
+high-end Etsy product photography style.`
+    },
+    {
+      id: 'hal4',
+      title: 'POZ 4',
+      subtitle: 'Oturur Poz — Bacaklar Öne Uzatılmış',
+      desc: 'Oturur pozda bacaklar öne uzatılmış, halhal ön planda',
+      isVideo: false,
+      prompt: `CRITICAL INSTRUCTION — MUST FOLLOW EXACTLY:
+The uploaded reference image is the SINGLE SOURCE OF TRUTH for the anklet design.
+You MUST recreate the anklet in the reference image as an EXACT 1:1 COPY.
+DO NOT change:
+- anklet shape and overall design
+- charm, pendant, symbol, or name (if applicable)
+- proportions and overall scale
+- chain type and link structure
+- clasp or closure type
+- stone color, cut, and setting (if applicable)
+- spacing between elements
+- overall construction and geometry
+NO redesign, NO reinterpretation, NO simplification, NO artistic variation.
+Only lighting, camera angle, framing and environment are allowed to change.
+The anklet must be IDENTICAL to the uploaded reference image in every design detail.
+If the design changes in any way, the result is INVALID.
+Lighting style:
+warm golden-hour sunlight,
+soft directional natural light,
+cinematic gentle shadows,
+low contrast,
+natural skin tones,
+controlled highlights,
+subtle film grain.
+Editorial lifestyle jewelry photography aesthetic.
+Minimal, warm beige / sand-toned background.
+Clean, premium, luxury Etsy-ready look.
+Ultra realistic.
+1:1 square format.
+
+Ultra realistic lifestyle jewelry photography, 1:1 square format,
+female model seated with legs extended forward or crossed at ankle,
+the EXACT anklet from the reference image worn and fully visible,
+camera at low angle or straight-on to highlight anklet.
+Natural relaxed seated pose, warm minimal background.
+Warm directional sunlight, realistic gold reflections on anklet,
+natural skin tone and texture.
+Shallow depth of field, clean editorial composition,
+premium Etsy product photography.`
+    },
+    {
+      id: 'hal5',
+      title: 'POZ 5',
+      subtitle: 'Masada Ürün Çekimi — Flat Lay',
+      desc: 'Bej yüzeyde doğal düzenlemeli ürün çekimi',
+      isVideo: false,
+      prompt: `CRITICAL INSTRUCTION — MUST FOLLOW EXACTLY:
+The uploaded reference image is the SINGLE SOURCE OF TRUTH for the anklet design.
+You MUST recreate the anklet in the reference image as an EXACT 1:1 COPY.
+DO NOT change:
+- anklet shape and overall design
+- charm, pendant, symbol, or name (if applicable)
+- proportions and overall scale
+- chain type and link structure
+- clasp or closure type
+- stone color, cut, and setting (if applicable)
+- spacing between elements
+- overall construction and geometry
+NO redesign, NO reinterpretation, NO simplification, NO artistic variation.
+Only lighting, camera angle, framing and environment are allowed to change.
+The anklet must be IDENTICAL to the uploaded reference image in every design detail.
+If the design changes in any way, the result is INVALID.
+Lighting style:
+warm golden-hour sunlight,
+soft directional natural light,
+cinematic gentle shadows,
+low contrast,
+natural skin tones,
+controlled highlights,
+subtle film grain.
+Editorial lifestyle jewelry photography aesthetic.
+Minimal, warm beige / sand-toned background.
+Clean, premium, luxury Etsy-ready look.
+Ultra realistic.
+1:1 square format.
+
+Ultra realistic product jewelry photography, 1:1 square format,
+EXACT anklet from the reference image placed on a warm beige surface,
+natural circular or curved arrangement showing full design.
+Optional minimal props: small dried flower, linen fabric swatch, or smooth pebble.
+No props overlapping or obscuring the anklet design.
+Warm top-down or 45-degree directional light,
+realistic gold reflections on surface,
+subtle natural shadow beneath anklet.
+Anklet must be exact replica of reference.
+Premium Etsy hero product image, clean and elegant.`
+    },
+    {
+      id: 'hal6',
+      title: 'POZ 6',
+      subtitle: 'Makro Detay — Yakın Çekim',
+      desc: 'Halhal işçiliğini gösteren makro düzeyde detay çekimi',
+      isVideo: false,
+      prompt: `CRITICAL INSTRUCTION — MUST FOLLOW EXACTLY:
+The uploaded reference image is the SINGLE SOURCE OF TRUTH for the anklet design.
+You MUST recreate the anklet in the reference image as an EXACT 1:1 COPY.
+DO NOT change:
+- anklet shape and overall design
+- charm, pendant, symbol, or name (if applicable)
+- proportions and overall scale
+- chain type and link structure
+- clasp or closure type
+- stone color, cut, and setting (if applicable)
+- spacing between elements
+- overall construction and geometry
+NO redesign, NO reinterpretation, NO simplification, NO artistic variation.
+Only lighting, camera angle, framing and environment are allowed to change.
+The anklet must be IDENTICAL to the uploaded reference image in every design detail.
+If the design changes in any way, the result is INVALID.
+Lighting style:
+warm golden-hour sunlight,
+soft directional natural light,
+cinematic gentle shadows,
+low contrast,
+natural skin tones,
+controlled highlights,
+subtle film grain.
+Editorial lifestyle jewelry photography aesthetic.
+Minimal, warm beige / sand-toned background.
+Clean, premium, luxury Etsy-ready look.
+Ultra realistic.
+1:1 square format.
+
+Ultra realistic macro-style jewelry photography, 1:1 square format,
+extreme close-up of the EXACT anklet from the reference image
+worn on a female ankle, centered in frame.
+Maximum design detail visible:
+- metal texture and 14K gold grain clearly rendered
+- stone facets and reflections if applicable
+- charm or pendant detail sharp and accurate
+- chain link structure precisely shown
+- clasp or closure rendered naturally
+Warm directional sunlight, soft glow, balanced exposure.
+Razor-sharp focus on anklet design,
+natural skin texture in soft focus background.
+Premium Etsy detail shot.`
+    },
+    {
+      id: 'hal-video',
+      title: 'VİDEO',
+      subtitle: 'Halhal — 10 Saniyelik Lifestyle Video',
+      desc: 'Nano Banana 2 / Runway / Kling için video prompt',
+      isVideo: true,
+      prompt: `Use the uploaded image as the primary visual reference.
+Create a 10-second ultra-realistic lifestyle product video based strictly on this image.
+
+Scene & Subject:
+A real human female ankle and lower leg wearing the EXACT anklet from the reference image — matching design, scale, chain style, charm or pendant, and position on ankle.
+Skin and ankle texture must remain natural, with visible detail and realistic highlights — no CGI plastic look.
+
+Motion (VERY IMPORTANT – minimal & natural):
+Extremely subtle natural ankle micro-movement (barely perceptible weight shift or gentle sway).
+Anklet reacts with barely noticeable micro-movement caused by motion (real physics).
+If anklet has a charm or pendant: gentle natural pendulum movement, 1-2 small swings.
+NO unnatural spinning, NO floating, NO exaggerated swing, NO deformation.
+
+Lighting:
+Warm natural sunlight, soft and directional from one side.
+Slight realistic light shift as if clouds subtly pass (very minimal).
+Real gold reflections with soft sparkle on anklet surface, never sharp or artificial.
+
+Camera:
+Static camera (no zoom, no pan, no rotation).
+Cinematic shallow depth of field.
+Ultra sharp focus on anklet, natural falloff on skin and background.
+
+Style & Mood:
+Lifestyle, minimal, elegant, calm, premium.
+Looks like a real product video shot on a professional camera, not rendered.
+
+Technical:
+Ultra photorealistic. 4K quality.
+1:1 square aspect ratio (Etsy optimized). 10 seconds duration. 24 fps natural motion.
+
+Strict negatives:
+No CGI look. No artificial skin. No exaggerated jewelry movement.
+No mannequin behavior. No camera shake.
+No unrealistic foot or ankle motion. No fantasy lighting.`
+    }
+  ],
+  koldugmesi: [
+    {
+      id: 'kd1',
+      title: 'POZ 1',
+      subtitle: 'Gömlekte Takılı — Manşet Yakın Çekim',
+      desc: 'Erkek manken, Fransız manşette kol düğmesi yakın çekim',
+      isVideo: false,
+      prompt: `CRITICAL INSTRUCTION — MUST FOLLOW EXACTLY:
+The uploaded reference image is the SINGLE SOURCE OF TRUTH for the cufflink design.
+You MUST recreate the cufflink(s) in the reference image as an EXACT 1:1 COPY.
+DO NOT change:
+- cufflink face shape and design
+- symbol, monogram, pattern, or decorative element
+- stone color, cut, and setting (if applicable)
+- metal finish and color
+- proportions and overall scale
+- post or toggle closure type
+- engraving or lettering (if applicable)
+- overall construction and geometry
+NO redesign, NO reinterpretation, NO simplification, NO artistic variation.
+Only lighting, camera angle, framing and environment are allowed to change.
+The cufflink must be IDENTICAL to the uploaded reference image in every design detail.
+If the design changes in any way, the result is INVALID.
+Lighting style:
+warm soft directional light,
+cinematic elegant shadows,
+low contrast,
+rich and refined atmosphere,
+controlled highlights on metal surface,
+subtle film grain.
+Premium editorial menswear jewelry photography aesthetic.
+Minimal, dark or warm neutral background.
+Clean, luxury, sophisticated look.
+Ultra realistic.
+1:1 square format.
+
+Ultra realistic menswear jewelry photography, 1:1 square format,
+MALE model wearing the EXACT cufflink from the reference image,
+close-up framing on dress shirt cuff and wrist,
+cufflink face centered and clearly visible.
+Crisp formal dress shirt — white or light blue — with French cuff,
+cufflink fitted correctly through buttonhole,
+cufflink face angled for maximum visibility.
+Warm soft directional light, realistic metallic reflections on cufflink,
+fabric texture natural and sharp.
+Clean background, minimal, premium editorial feel,
+ultra realistic, luxury menswear Etsy product style.`
+    },
+    {
+      id: 'kd2',
+      title: 'POZ 2',
+      subtitle: 'El ve Bilek — Yan Açı',
+      desc: 'Erkek el ve bileği yan profil, kol düğmesi detayı',
+      isVideo: false,
+      prompt: `CRITICAL INSTRUCTION — MUST FOLLOW EXACTLY:
+The uploaded reference image is the SINGLE SOURCE OF TRUTH for the cufflink design.
+You MUST recreate the cufflink(s) in the reference image as an EXACT 1:1 COPY.
+DO NOT change:
+- cufflink face shape and design
+- symbol, monogram, pattern, or decorative element
+- stone color, cut, and setting (if applicable)
+- metal finish and color
+- proportions and overall scale
+- post or toggle closure type
+- engraving or lettering (if applicable)
+- overall construction and geometry
+NO redesign, NO reinterpretation, NO simplification, NO artistic variation.
+Only lighting, camera angle, framing and environment are allowed to change.
+The cufflink must be IDENTICAL to the uploaded reference image in every design detail.
+If the design changes in any way, the result is INVALID.
+Lighting style:
+warm soft directional light,
+cinematic elegant shadows,
+low contrast,
+rich and refined atmosphere,
+controlled highlights on metal surface,
+subtle film grain.
+Premium editorial menswear jewelry photography aesthetic.
+Minimal, dark or warm neutral background.
+Clean, luxury, sophisticated look.
+Ultra realistic.
+1:1 square format.
+
+Ultra realistic menswear jewelry photography, 1:1 square format,
+MALE model's hand and wrist in side profile view,
+wearing the EXACT cufflink from the reference image on formal shirt cuff.
+Full cufflink design visible: face, edge, and post or toggle closure.
+Natural masculine hand posture — relaxed or lightly closed fist.
+Warm directional light creating depth on cufflink surface,
+fabric weave of shirt visible and sharp.
+Minimal warm neutral background, editorial menswear aesthetic,
+premium Etsy product photography.`
+    },
+    {
+      id: 'kd3',
+      title: 'POZ 3',
+      subtitle: 'Takım Elbise ile Lifestyle — Editorial',
+      desc: 'Erkek manken takım elbisesiyle editorial üst beden çekimi',
+      isVideo: false,
+      prompt: `CRITICAL INSTRUCTION — MUST FOLLOW EXACTLY:
+The uploaded reference image is the SINGLE SOURCE OF TRUTH for the cufflink design.
+You MUST recreate the cufflink(s) in the reference image as an EXACT 1:1 COPY.
+DO NOT change:
+- cufflink face shape and design
+- symbol, monogram, pattern, or decorative element
+- stone color, cut, and setting (if applicable)
+- metal finish and color
+- proportions and overall scale
+- post or toggle closure type
+- engraving or lettering (if applicable)
+- overall construction and geometry
+NO redesign, NO reinterpretation, NO simplification, NO artistic variation.
+Only lighting, camera angle, framing and environment are allowed to change.
+The cufflink must be IDENTICAL to the uploaded reference image in every design detail.
+If the design changes in any way, the result is INVALID.
+Lighting style:
+warm soft directional light,
+cinematic elegant shadows,
+low contrast,
+rich and refined atmosphere,
+controlled highlights on metal surface,
+subtle film grain.
+Premium editorial menswear jewelry photography aesthetic.
+Minimal, dark or warm neutral background.
+Clean, luxury, sophisticated look.
+Ultra realistic.
+1:1 square format.
+
+Ultra realistic editorial menswear photography, 1:1 square format,
+MALE model in tailored suit jacket or blazer,
+wearing the EXACT cufflink from the reference image,
+upper body framing showing jacket lapel, shirt cuff, and cufflink.
+Cufflink clearly visible at wrist with jacket sleeve pulled back slightly.
+Confident, sophisticated masculine pose.
+Warm cinematic light, rich shadows, premium editorial atmosphere.
+Minimal warm or dark neutral background,
+luxury Etsy menswear accessory style.`
+    },
+    {
+      id: 'kd4',
+      title: 'POZ 4',
+      subtitle: 'Makro Detay — Kol Düğmesi Yüzeyi',
+      desc: 'Yüzey işçiliğini gösteren makro yakın çekim',
+      isVideo: false,
+      prompt: `CRITICAL INSTRUCTION — MUST FOLLOW EXACTLY:
+The uploaded reference image is the SINGLE SOURCE OF TRUTH for the cufflink design.
+You MUST recreate the cufflink(s) in the reference image as an EXACT 1:1 COPY.
+DO NOT change:
+- cufflink face shape and design
+- symbol, monogram, pattern, or decorative element
+- stone color, cut, and setting (if applicable)
+- metal finish and color
+- proportions and overall scale
+- post or toggle closure type
+- engraving or lettering (if applicable)
+- overall construction and geometry
+NO redesign, NO reinterpretation, NO simplification, NO artistic variation.
+Only lighting, camera angle, framing and environment are allowed to change.
+The cufflink must be IDENTICAL to the uploaded reference image in every design detail.
+If the design changes in any way, the result is INVALID.
+Lighting style:
+warm soft directional light,
+cinematic elegant shadows,
+low contrast,
+rich and refined atmosphere,
+controlled highlights on metal surface,
+subtle film grain.
+Premium editorial menswear jewelry photography aesthetic.
+Minimal, dark or warm neutral background.
+Clean, luxury, sophisticated look.
+Ultra realistic.
+1:1 square format.
+
+Ultra realistic macro-style jewelry photography, 1:1 square format,
+extreme close-up of the EXACT cufflink from the reference image
+fitted in a formal shirt cuff, cufflink face filling the frame.
+Maximum design detail visible:
+- metal surface texture and finish clearly rendered
+- stone facets and reflections if applicable
+- monogram, symbol, or engraving sharp and legible
+- shirt fabric weave visible in soft focus background
+Warm soft directional light, controlled highlights,
+balanced exposure, subtle cinematic contrast.
+Razor-sharp focus on cufflink face, premium detail shot.`
+    },
+    {
+      id: 'kd5',
+      title: 'POZ 5',
+      subtitle: 'Masada Ürün Çekimi — Çift Kol Düğmesi',
+      desc: 'Premium yüzeyde çift kol düğmesi flat lay çekimi',
+      isVideo: false,
+      prompt: `CRITICAL INSTRUCTION — MUST FOLLOW EXACTLY:
+The uploaded reference image is the SINGLE SOURCE OF TRUTH for the cufflink design.
+You MUST recreate the cufflink(s) in the reference image as an EXACT 1:1 COPY.
+DO NOT change:
+- cufflink face shape and design
+- symbol, monogram, pattern, or decorative element
+- stone color, cut, and setting (if applicable)
+- metal finish and color
+- proportions and overall scale
+- post or toggle closure type
+- engraving or lettering (if applicable)
+- overall construction and geometry
+NO redesign, NO reinterpretation, NO simplification, NO artistic variation.
+Only lighting, camera angle, framing and environment are allowed to change.
+The cufflink must be IDENTICAL to the uploaded reference image in every design detail.
+If the design changes in any way, the result is INVALID.
+Lighting style:
+warm soft directional light,
+cinematic elegant shadows,
+low contrast,
+rich and refined atmosphere,
+controlled highlights on metal surface,
+subtle film grain.
+Premium editorial menswear jewelry photography aesthetic.
+Minimal, dark or warm neutral background.
+Clean, luxury, sophisticated look.
+Ultra realistic.
+1:1 square format.
+
+Ultra realistic product jewelry photography, 1:1 square format,
+EXACT pair of cufflinks from the reference image placed on a premium surface —
+dark leather, slate, marble, or warm neutral fabric.
+Both cufflinks symmetrically arranged face-up, design clearly visible.
+Optional minimal props: folded dress shirt cuff in background.
+Warm directional light creating metallic reflections,
+subtle shadow beneath each cufflink.
+No props obscuring cufflink design.
+Premium Etsy hero product image, sophisticated and clean.`
+    },
+    {
+      id: 'kd6',
+      title: 'POZ 6',
+      subtitle: 'El ile Tutulurken — Manşete Takarken',
+      desc: 'Erkek eli kol düğmesini manşete takarken yaşamsal çekim',
+      isVideo: false,
+      prompt: `CRITICAL INSTRUCTION — MUST FOLLOW EXACTLY:
+The uploaded reference image is the SINGLE SOURCE OF TRUTH for the cufflink design.
+You MUST recreate the cufflink(s) in the reference image as an EXACT 1:1 COPY.
+DO NOT change:
+- cufflink face shape and design
+- symbol, monogram, pattern, or decorative element
+- stone color, cut, and setting (if applicable)
+- metal finish and color
+- proportions and overall scale
+- post or toggle closure type
+- engraving or lettering (if applicable)
+- overall construction and geometry
+NO redesign, NO reinterpretation, NO simplification, NO artistic variation.
+Only lighting, camera angle, framing and environment are allowed to change.
+The cufflink must be IDENTICAL to the uploaded reference image in every design detail.
+If the design changes in any way, the result is INVALID.
+Lighting style:
+warm soft directional light,
+cinematic elegant shadows,
+low contrast,
+rich and refined atmosphere,
+controlled highlights on metal surface,
+subtle film grain.
+Premium editorial menswear jewelry photography aesthetic.
+Minimal, dark or warm neutral background.
+Clean, luxury, sophisticated look.
+Ultra realistic.
+1:1 square format.
+
+Ultra realistic lifestyle jewelry photography, 1:1 square format,
+MALE model's hand holding or fastening the EXACT cufflink from the reference image
+through a formal shirt cuff buttonhole.
+Natural masculine hand pose, cufflink face visible and in sharp focus.
+Warm cinematic light on hands and cufflink surface,
+shirt fabric texture crisp and detailed.
+Minimal background, intimate close-up framing,
+editorial menswear mood, premium Etsy lifestyle shot.`
+    },
+    {
+      id: 'kd-video',
+      title: 'VİDEO',
+      subtitle: 'Kol Düğmesi — 10 Saniyelik Lifestyle Video',
+      desc: 'Nano Banana 2 / Runway / Kling için video prompt (erkek manken)',
+      isVideo: true,
+      prompt: `Use the uploaded image as the primary visual reference.
+Create a 10-second ultra-realistic lifestyle product video based strictly on this image.
+
+Scene & Subject:
+A real MALE model's hand and wrist wearing the EXACT cufflink from the reference image —
+fitted through a formal French cuff dress shirt, matching design, scale, and metal finish.
+Shirt fabric and hand texture must remain natural and realistic — no CGI plastic look.
+
+Motion (VERY IMPORTANT – minimal & natural):
+Extremely subtle natural wrist micro-movement (barely perceptible shift or hand relaxation).
+Cufflink catches light with a gentle metallic glint as wrist moves slightly.
+Stone light refraction if gemstone is present (natural, not laser-sharp).
+NO unnatural spinning, NO floating, NO exaggerated movement, NO deformation.
+
+Lighting:
+Warm soft directional light, elegant and refined.
+Subtle light shift creating natural metallic reflections on cufflink surface.
+Rich, controlled highlights — never harsh or artificial.
+
+Camera:
+Static camera (no zoom, no pan, no rotation).
+Cinematic shallow depth of field.
+Ultra sharp focus on cufflink face, natural falloff on fabric and background.
+
+Style & Mood:
+Menswear, sophisticated, minimal, premium, calm.
+Looks like a real product video shot on a professional camera, not rendered.
+
+Technical:
+Ultra photorealistic. 4K quality.
+1:1 square aspect ratio (Etsy optimized). 10 seconds duration. 24 fps natural motion.
+
+Strict negatives:
+No CGI look. No artificial fabric. No exaggerated jewelry movement.
+No mannequin behavior. No camera shake.
+No unrealistic hand or wrist motion. No fantasy lighting.`
+    }
+  ],
+  yakaiğnesi: [
+    {
+      id: 'yi1',
+      title: 'POZ 1',
+      subtitle: 'Yaka / Ceket Üzerinde — Önden Yakın Çekim',
+      desc: 'Ceket yakasında takılı yaka iğnesi, önden yakın çekim',
+      isVideo: false,
+      prompt: `CRITICAL INSTRUCTION — MUST FOLLOW EXACTLY:
+The uploaded reference image is the SINGLE SOURCE OF TRUTH for the brooch design.
+You MUST recreate the brooch in the reference image as an EXACT 1:1 COPY.
+DO NOT change:
+- brooch shape and overall silhouette
+- decorative elements (flowers, leaves, animals, geometric forms)
+- stone color, cut, and setting (if applicable)
+- metal finish and color
+- proportions and overall scale
+- enamel color or texture (if applicable)
+- engraving or lettering (if applicable)
+- overall construction and geometry
+NO redesign, NO reinterpretation, NO simplification, NO artistic variation.
+Only lighting, camera angle, framing and environment are allowed to change.
+The brooch must be IDENTICAL to the uploaded reference image in every design detail.
+If the design changes in any way, the result is INVALID.
+Lighting style:
+warm golden-hour sunlight,
+soft directional natural light,
+cinematic gentle shadows,
+low contrast,
+natural skin tones,
+controlled highlights,
+subtle film grain.
+Editorial lifestyle jewelry photography aesthetic.
+Minimal, warm beige / sand-toned background.
+Clean, premium, luxury Etsy-ready look.
+Ultra realistic.
+1:1 square format.
+
+Ultra realistic editorial jewelry photography, 1:1 square format,
+female model wearing the EXACT brooch from the reference image
+pinned to jacket lapel or coat collar, front close-up framing.
+Brooch centered in frame, full design clearly visible.
+Garment fabric texture (tweed, silk, or linen) crisp and realistic.
+Warm golden-hour soft light highlighting brooch metallic surface,
+natural shadow play on fabric.
+Minimal warm background, shallow depth of field,
+premium Etsy editorial style, ultra realistic.`
+    },
+    {
+      id: 'yi2',
+      title: 'POZ 2',
+      subtitle: 'Model ile Editorial — Üst Beden',
+      desc: 'Modelin üst bedeni, yakayla birlikte editorial çekim',
+      isVideo: false,
+      prompt: `CRITICAL INSTRUCTION — MUST FOLLOW EXACTLY:
+The uploaded reference image is the SINGLE SOURCE OF TRUTH for the brooch design.
+You MUST recreate the brooch in the reference image as an EXACT 1:1 COPY.
+DO NOT change:
+- brooch shape and overall silhouette
+- decorative elements (flowers, leaves, animals, geometric forms)
+- stone color, cut, and setting (if applicable)
+- metal finish and color
+- proportions and overall scale
+- enamel color or texture (if applicable)
+- engraving or lettering (if applicable)
+- overall construction and geometry
+NO redesign, NO reinterpretation, NO simplification, NO artistic variation.
+Only lighting, camera angle, framing and environment are allowed to change.
+The brooch must be IDENTICAL to the uploaded reference image in every design detail.
+If the design changes in any way, the result is INVALID.
+Lighting style:
+warm golden-hour sunlight,
+soft directional natural light,
+cinematic gentle shadows,
+low contrast,
+natural skin tones,
+controlled highlights,
+subtle film grain.
+Editorial lifestyle jewelry photography aesthetic.
+Minimal, warm beige / sand-toned background.
+Clean, premium, luxury Etsy-ready look.
+Ultra realistic.
+1:1 square format.
+
+Ultra realistic lifestyle editorial photography, 1:1 square format,
+female model upper body shot wearing the EXACT brooch from the reference image
+pinned on lapel, chest, or shoulder of elegant garment.
+Brooch visible and in sharp focus within editorial composition.
+Natural feminine pose, warm cinematic light,
+soft directional shadows, film grain texture.
+Minimal warm background, luxury editorial mood,
+high-end Etsy lifestyle product photography.`
+    },
+    {
+      id: 'yi3',
+      title: 'POZ 3',
+      subtitle: 'Kazak veya Eşarp Üzerinde — Lifestyle',
+      desc: 'Örgü kazak ya da eşarp üzerinde samimi lifestyle detay',
+      isVideo: false,
+      prompt: `CRITICAL INSTRUCTION — MUST FOLLOW EXACTLY:
+The uploaded reference image is the SINGLE SOURCE OF TRUTH for the brooch design.
+You MUST recreate the brooch in the reference image as an EXACT 1:1 COPY.
+DO NOT change:
+- brooch shape and overall silhouette
+- decorative elements (flowers, leaves, animals, geometric forms)
+- stone color, cut, and setting (if applicable)
+- metal finish and color
+- proportions and overall scale
+- enamel color or texture (if applicable)
+- engraving or lettering (if applicable)
+- overall construction and geometry
+NO redesign, NO reinterpretation, NO simplification, NO artistic variation.
+Only lighting, camera angle, framing and environment are allowed to change.
+The brooch must be IDENTICAL to the uploaded reference image in every design detail.
+If the design changes in any way, the result is INVALID.
+Lighting style:
+warm golden-hour sunlight,
+soft directional natural light,
+cinematic gentle shadows,
+low contrast,
+natural skin tones,
+controlled highlights,
+subtle film grain.
+Editorial lifestyle jewelry photography aesthetic.
+Minimal, warm beige / sand-toned background.
+Clean, premium, luxury Etsy-ready look.
+Ultra realistic.
+1:1 square format.
+
+Ultra realistic lifestyle jewelry photography, 1:1 square format,
+the EXACT brooch from the reference image pinned naturally
+on a cozy knit sweater, silk scarf, or linen blouse.
+Intimate lifestyle framing focused on brooch and surrounding fabric texture.
+Warm natural light, cozy atmosphere, soft shadows.
+Brooch design fully visible, no part obscured by fabric folds.
+Natural fabric texture rendered realistically.
+Minimal warm editorial aesthetic, premium Etsy look.`
+    },
+    {
+      id: 'yi4',
+      title: 'POZ 4',
+      subtitle: 'Makro Detay — Yaka İğnesi Yüzeyi',
+      desc: 'İşçilik ve taş kalitesini gösteren makro detay çekimi',
+      isVideo: false,
+      prompt: `CRITICAL INSTRUCTION — MUST FOLLOW EXACTLY:
+The uploaded reference image is the SINGLE SOURCE OF TRUTH for the brooch design.
+You MUST recreate the brooch in the reference image as an EXACT 1:1 COPY.
+DO NOT change:
+- brooch shape and overall silhouette
+- decorative elements (flowers, leaves, animals, geometric forms)
+- stone color, cut, and setting (if applicable)
+- metal finish and color
+- proportions and overall scale
+- enamel color or texture (if applicable)
+- engraving or lettering (if applicable)
+- overall construction and geometry
+NO redesign, NO reinterpretation, NO simplification, NO artistic variation.
+Only lighting, camera angle, framing and environment are allowed to change.
+The brooch must be IDENTICAL to the uploaded reference image in every design detail.
+If the design changes in any way, the result is INVALID.
+Lighting style:
+warm golden-hour sunlight,
+soft directional natural light,
+cinematic gentle shadows,
+low contrast,
+natural skin tones,
+controlled highlights,
+subtle film grain.
+Editorial lifestyle jewelry photography aesthetic.
+Minimal, warm beige / sand-toned background.
+Clean, premium, luxury Etsy-ready look.
+Ultra realistic.
+1:1 square format.
+
+Ultra realistic macro-style jewelry photography, 1:1 square format,
+extreme close-up of the EXACT brooch from the reference image
+pinned to fabric, brooch face filling the frame.
+Maximum design detail visible:
+- metal texture and finish clearly rendered
+- stone facets, color, and transparency if applicable
+- enamel color and texture if applicable
+- decorative elements (petals, leaves, figures) precisely detailed
+- engraving or lettering sharp and legible
+Warm directional sunlight, soft glow, balanced exposure.
+Razor-sharp focus on brooch design,
+fabric texture in soft focus background.
+Premium Etsy detail shot.`
+    },
+    {
+      id: 'yi5',
+      title: 'POZ 5',
+      subtitle: 'Masada Ürün Çekimi — Flat Lay',
+      desc: 'Bej yüzeyde minimal aksesuar ile flat lay ürün çekimi',
+      isVideo: false,
+      prompt: `CRITICAL INSTRUCTION — MUST FOLLOW EXACTLY:
+The uploaded reference image is the SINGLE SOURCE OF TRUTH for the brooch design.
+You MUST recreate the brooch in the reference image as an EXACT 1:1 COPY.
+DO NOT change:
+- brooch shape and overall silhouette
+- decorative elements (flowers, leaves, animals, geometric forms)
+- stone color, cut, and setting (if applicable)
+- metal finish and color
+- proportions and overall scale
+- enamel color or texture (if applicable)
+- engraving or lettering (if applicable)
+- overall construction and geometry
+NO redesign, NO reinterpretation, NO simplification, NO artistic variation.
+Only lighting, camera angle, framing and environment are allowed to change.
+The brooch must be IDENTICAL to the uploaded reference image in every design detail.
+If the design changes in any way, the result is INVALID.
+Lighting style:
+warm golden-hour sunlight,
+soft directional natural light,
+cinematic gentle shadows,
+low contrast,
+natural skin tones,
+controlled highlights,
+subtle film grain.
+Editorial lifestyle jewelry photography aesthetic.
+Minimal, warm beige / sand-toned background.
+Clean, premium, luxury Etsy-ready look.
+Ultra realistic.
+1:1 square format.
+
+Ultra realistic product jewelry photography, 1:1 square format,
+EXACT brooch from the reference image placed face-up on a warm beige surface,
+natural flat-lay or slight angled composition.
+Optional minimal props:
+- single dried flower or leaf beside brooch
+- silk ribbon or linen swatch as surface texture
+No props overlapping or obscuring brooch design.
+Warm top-down or 45-degree directional light,
+realistic metallic and gemstone reflections.
+Subtle natural shadow beneath brooch.
+Premium Etsy hero product image, clean and elegant.`
+    },
+    {
+      id: 'yi6',
+      title: 'POZ 6',
+      subtitle: 'El ile Tutulurken — Parmak Arası',
+      desc: 'Kadın eli yaka iğnesini nazikçe tutarken yaşamsal çekim',
+      isVideo: false,
+      prompt: `CRITICAL INSTRUCTION — MUST FOLLOW EXACTLY:
+The uploaded reference image is the SINGLE SOURCE OF TRUTH for the brooch design.
+You MUST recreate the brooch in the reference image as an EXACT 1:1 COPY.
+DO NOT change:
+- brooch shape and overall silhouette
+- decorative elements (flowers, leaves, animals, geometric forms)
+- stone color, cut, and setting (if applicable)
+- metal finish and color
+- proportions and overall scale
+- enamel color or texture (if applicable)
+- engraving or lettering (if applicable)
+- overall construction and geometry
+NO redesign, NO reinterpretation, NO simplification, NO artistic variation.
+Only lighting, camera angle, framing and environment are allowed to change.
+The brooch must be IDENTICAL to the uploaded reference image in every design detail.
+If the design changes in any way, the result is INVALID.
+Lighting style:
+warm golden-hour sunlight,
+soft directional natural light,
+cinematic gentle shadows,
+low contrast,
+natural skin tones,
+controlled highlights,
+subtle film grain.
+Editorial lifestyle jewelry photography aesthetic.
+Minimal, warm beige / sand-toned background.
+Clean, premium, luxury Etsy-ready look.
+Ultra realistic.
+1:1 square format.
+
+Ultra realistic lifestyle jewelry photography, 1:1 square format,
+female hand elegantly holding the EXACT brooch from the reference image
+between thumb and fingers, brooch face toward camera.
+Natural feminine hand pose, clean nail presentation.
+Brooch design fully visible and in sharp focus.
+Warm golden-hour light on hand and brooch surface,
+realistic metallic and gemstone highlights.
+Minimal warm background, intimate close-up framing,
+editorial aesthetic, premium Etsy lifestyle shot.`
+    },
+    {
+      id: 'yi-video',
+      title: 'VİDEO',
+      subtitle: 'Yaka İğnesi — 10 Saniyelik Lifestyle Video',
+      desc: 'Nano Banana 2 / Runway / Kling için video prompt',
+      isVideo: true,
+      prompt: `Use the uploaded image as the primary visual reference.
+Create a 10-second ultra-realistic lifestyle product video based strictly on this image.
+
+Scene & Subject:
+A real female model wearing the EXACT brooch from the reference image pinned to a jacket lapel or coat collar — matching design, scale, metal finish, stone color, and decorative detail.
+Fabric and skin texture must remain natural and realistic — no CGI plastic look.
+
+Motion (VERY IMPORTANT – minimal & natural):
+Extremely subtle natural breathing movement in chest and upper body.
+Brooch remains mostly static with only the subtlest micro-vibration from breathing.
+Gemstone light refraction shifts gently as body moves (natural, not artificial sparkle).
+NO unnatural spinning, NO floating, NO exaggerated swing, NO deformation.
+
+Lighting:
+Warm natural sunlight, soft and directional from one side.
+Slight realistic light shift creating natural metallic and gemstone reflections.
+Controlled highlights — never harsh or artificial.
+
+Camera:
+Static camera (no zoom, no pan, no rotation).
+Cinematic shallow depth of field.
+Ultra sharp focus on brooch, natural falloff on fabric and background.
+
+Style & Mood:
+Lifestyle, minimal, elegant, calm, premium.
+Looks like a real product video shot on a professional camera, not rendered.
+
+Technical:
+Ultra photorealistic. 4K quality.
+1:1 square aspect ratio (Etsy optimized). 10 seconds duration. 24 fps natural motion.
+
+Strict negatives:
+No CGI look. No artificial fabric or skin. No exaggerated jewelry movement.
+No mannequin behavior. No camera shake.
+No unrealistic body motion. No fantasy lighting.`
+    }
+  ],
+  yuzuk: [
+    {
+      id: 'y1',
+      title: 'POZ 1',
+      subtitle: 'Parmakta Takılı — El Portresi Önden',
+      desc: 'Yüzük parmakta, el önden şık bir portre çekimi',
+      isVideo: false,
+      prompt: `CRITICAL INSTRUCTION — MUST FOLLOW EXACTLY:
+The uploaded reference image is the SINGLE SOURCE OF TRUTH for the ring design.
+You MUST recreate the ring in the reference image as an EXACT 1:1 COPY.
+DO NOT change:
+- ring band shape, width, and profile
+- center stone shape, color, cut, and setting (if applicable)
+- side stones, pavé, or channel setting (if applicable)
+- metal finish and color
+- proportions and overall scale
+- engravings, milgrain, or texture details
+- prong count and style (if applicable)
+- overall construction and geometry
+NO redesign, NO reinterpretation, NO simplification, NO artistic variation.
+Only lighting, camera angle, framing and environment are allowed to change.
+The ring must be IDENTICAL to the uploaded reference image in every design detail.
+If the design changes in any way, the result is INVALID.
+Lighting style:
+warm golden-hour sunlight,
+soft directional natural light,
+cinematic gentle shadows,
+low contrast,
+natural skin tones,
+controlled highlights,
+subtle film grain.
+Editorial lifestyle jewelry photography aesthetic.
+Minimal, warm beige / sand-toned background.
+Clean, premium, luxury Etsy-ready look.
+Ultra realistic.
+1:1 square format.
+
+Ultra realistic editorial jewelry photography, 1:1 square format,
+female model's hand wearing the EXACT ring from the reference image,
+ring on ring finger or as styled in reference,
+hand shown from front angle — fingers elegantly extended or softly closed.
+Ring face and stone clearly visible, centered in composition.
+Warm golden-hour soft light, realistic metallic and stone reflections,
+natural hand and skin texture visible.
+Minimal warm beige background, shallow depth of field,
+premium Etsy product style, ultra realistic.`
+    },
+    {
+      id: 'y2',
+      title: 'POZ 2',
+      subtitle: 'Yan Açı — Yüzük Profili',
+      desc: 'Taşı ve ayar profilini gösteren yan açı çekimi',
+      isVideo: false,
+      prompt: `CRITICAL INSTRUCTION — MUST FOLLOW EXACTLY:
+The uploaded reference image is the SINGLE SOURCE OF TRUTH for the ring design.
+You MUST recreate the ring in the reference image as an EXACT 1:1 COPY.
+DO NOT change:
+- ring band shape, width, and profile
+- center stone shape, color, cut, and setting (if applicable)
+- side stones, pavé, or channel setting (if applicable)
+- metal finish and color
+- proportions and overall scale
+- engravings, milgrain, or texture details
+- prong count and style (if applicable)
+- overall construction and geometry
+NO redesign, NO reinterpretation, NO simplification, NO artistic variation.
+Only lighting, camera angle, framing and environment are allowed to change.
+The ring must be IDENTICAL to the uploaded reference image in every design detail.
+If the design changes in any way, the result is INVALID.
+Lighting style:
+warm golden-hour sunlight,
+soft directional natural light,
+cinematic gentle shadows,
+low contrast,
+natural skin tones,
+controlled highlights,
+subtle film grain.
+Editorial lifestyle jewelry photography aesthetic.
+Minimal, warm beige / sand-toned background.
+Clean, premium, luxury Etsy-ready look.
+Ultra realistic.
+1:1 square format.
+
+Ultra realistic jewelry photography, 1:1 square format,
+female hand in side profile view wearing the EXACT ring from the reference image,
+ring profile fully visible — band width, stone height, prong style all shown.
+Natural elegant hand posture, fingers relaxed.
+Warm directional light creating depth on ring surface and stone,
+realistic metallic reflections and shadow play.
+Minimal warm background, editorial lifestyle aesthetic,
+premium Etsy product photography.`
+    },
+    {
+      id: 'y3',
+      title: 'POZ 3',
+      subtitle: 'El Lifestyle — Doğal Poz',
+      desc: 'El doğal lifestyle pozisyonunda, yüzük belirgin',
+      isVideo: false,
+      prompt: `CRITICAL INSTRUCTION — MUST FOLLOW EXACTLY:
+The uploaded reference image is the SINGLE SOURCE OF TRUTH for the ring design.
+You MUST recreate the ring in the reference image as an EXACT 1:1 COPY.
+DO NOT change:
+- ring band shape, width, and profile
+- center stone shape, color, cut, and setting (if applicable)
+- side stones, pavé, or channel setting (if applicable)
+- metal finish and color
+- proportions and overall scale
+- engravings, milgrain, or texture details
+- prong count and style (if applicable)
+- overall construction and geometry
+NO redesign, NO reinterpretation, NO simplification, NO artistic variation.
+Only lighting, camera angle, framing and environment are allowed to change.
+The ring must be IDENTICAL to the uploaded reference image in every design detail.
+If the design changes in any way, the result is INVALID.
+Lighting style:
+warm golden-hour sunlight,
+soft directional natural light,
+cinematic gentle shadows,
+low contrast,
+natural skin tones,
+controlled highlights,
+subtle film grain.
+Editorial lifestyle jewelry photography aesthetic.
+Minimal, warm beige / sand-toned background.
+Clean, premium, luxury Etsy-ready look.
+Ultra realistic.
+1:1 square format.
+
+Ultra realistic lifestyle jewelry photography, 1:1 square format,
+female model's hand in a natural lifestyle pose wearing the EXACT ring from the reference image —
+hand resting on a warm surface, touching soft fabric, or fingers lightly interlaced.
+Ring clearly visible, natural scale accurate.
+Warm golden-hour light, cozy editorial atmosphere,
+soft shadows and highlights on ring and hand.
+Minimal warm background, shallow depth of field,
+high-end Etsy lifestyle product photography.`
+    },
+    {
+      id: 'y4',
+      title: 'POZ 4',
+      subtitle: 'Makro Detay — Taş ve Ayar',
+      desc: 'Taş kesimi ve ayar işçiliğini gösteren makro detay çekimi',
+      isVideo: false,
+      prompt: `CRITICAL INSTRUCTION — MUST FOLLOW EXACTLY:
+The uploaded reference image is the SINGLE SOURCE OF TRUTH for the ring design.
+You MUST recreate the ring in the reference image as an EXACT 1:1 COPY.
+DO NOT change:
+- ring band shape, width, and profile
+- center stone shape, color, cut, and setting (if applicable)
+- side stones, pavé, or channel setting (if applicable)
+- metal finish and color
+- proportions and overall scale
+- engravings, milgrain, or texture details
+- prong count and style (if applicable)
+- overall construction and geometry
+NO redesign, NO reinterpretation, NO simplification, NO artistic variation.
+Only lighting, camera angle, framing and environment are allowed to change.
+The ring must be IDENTICAL to the uploaded reference image in every design detail.
+If the design changes in any way, the result is INVALID.
+Lighting style:
+warm golden-hour sunlight,
+soft directional natural light,
+cinematic gentle shadows,
+low contrast,
+natural skin tones,
+controlled highlights,
+subtle film grain.
+Editorial lifestyle jewelry photography aesthetic.
+Minimal, warm beige / sand-toned background.
+Clean, premium, luxury Etsy-ready look.
+Ultra realistic.
+1:1 square format.
+
+Ultra realistic macro-style jewelry photography, 1:1 square format,
+extreme close-up of the EXACT ring from the reference image
+worn on a female finger, ring face filling the frame.
+Maximum design detail visible:
+- stone shape, color, cut, and internal light refraction
+- prong or bezel setting precisely rendered
+- pavé or side stone details if applicable
+- band texture, milgrain, or engraving sharp and legible
+- metal grain and finish clearly visible
+Warm directional sunlight, soft glow, controlled exposure.
+Razor-sharp focus on ring face, natural skin in soft focus.
+Premium Etsy detail shot.`
+    },
+    {
+      id: 'y5',
+      title: 'POZ 5',
+      subtitle: 'Masada Ürün Çekimi — Flat Lay',
+      desc: 'Bej yüzeyde minimal aksesuar ile yüzük flat lay çekimi',
+      isVideo: false,
+      prompt: `CRITICAL INSTRUCTION — MUST FOLLOW EXACTLY:
+The uploaded reference image is the SINGLE SOURCE OF TRUTH for the ring design.
+You MUST recreate the ring in the reference image as an EXACT 1:1 COPY.
+DO NOT change:
+- ring band shape, width, and profile
+- center stone shape, color, cut, and setting (if applicable)
+- side stones, pavé, or channel setting (if applicable)
+- metal finish and color
+- proportions and overall scale
+- engravings, milgrain, or texture details
+- prong count and style (if applicable)
+- overall construction and geometry
+NO redesign, NO reinterpretation, NO simplification, NO artistic variation.
+Only lighting, camera angle, framing and environment are allowed to change.
+The ring must be IDENTICAL to the uploaded reference image in every design detail.
+If the design changes in any way, the result is INVALID.
+Lighting style:
+warm golden-hour sunlight,
+soft directional natural light,
+cinematic gentle shadows,
+low contrast,
+natural skin tones,
+controlled highlights,
+subtle film grain.
+Editorial lifestyle jewelry photography aesthetic.
+Minimal, warm beige / sand-toned background.
+Clean, premium, luxury Etsy-ready look.
+Ultra realistic.
+1:1 square format.
+
+Ultra realistic product jewelry photography, 1:1 square format,
+EXACT ring from the reference image placed on a warm beige surface,
+ring standing upright in ring holder or laid at gentle angle to show face and profile.
+Optional minimal props:
+- small dried flower or petal beside ring
+- silk ribbon or linen swatch as surface texture
+- small ceramic dish or marble slab
+No props overlapping or obscuring ring design.
+Warm top-down or 45-degree directional light,
+realistic stone and metal reflections.
+Subtle natural shadow beneath ring.
+Premium Etsy hero product image, clean and elegant.`
+    },
+    {
+      id: 'y6',
+      title: 'POZ 6',
+      subtitle: 'Stacking — Featured Yüzük Ön Planda',
+      desc: 'Yüzük diğer sade bantlarla stacking görünümünde, ön planda',
+      isVideo: false,
+      prompt: `CRITICAL INSTRUCTION — MUST FOLLOW EXACTLY:
+The uploaded reference image is the SINGLE SOURCE OF TRUTH for the ring design.
+You MUST recreate the ring in the reference image as an EXACT 1:1 COPY.
+DO NOT change:
+- ring band shape, width, and profile
+- center stone shape, color, cut, and setting (if applicable)
+- side stones, pavé, or channel setting (if applicable)
+- metal finish and color
+- proportions and overall scale
+- engravings, milgrain, or texture details
+- prong count and style (if applicable)
+- overall construction and geometry
+NO redesign, NO reinterpretation, NO simplification, NO artistic variation.
+Only lighting, camera angle, framing and environment are allowed to change.
+The ring must be IDENTICAL to the uploaded reference image in every design detail.
+If the design changes in any way, the result is INVALID.
+Lighting style:
+warm golden-hour sunlight,
+soft directional natural light,
+cinematic gentle shadows,
+low contrast,
+natural skin tones,
+controlled highlights,
+subtle film grain.
+Editorial lifestyle jewelry photography aesthetic.
+Minimal, warm beige / sand-toned background.
+Clean, premium, luxury Etsy-ready look.
+Ultra realistic.
+1:1 square format.
+
+Ultra realistic lifestyle jewelry photography, 1:1 square format,
+female hand wearing the EXACT ring from the reference image as the featured focal piece,
+optionally complemented by 1-2 minimal plain gold bands on adjacent fingers for stacking effect.
+The reference ring must remain the clear focal point — most prominent in size and detail.
+Hand in elegant natural pose, fingers softly spread.
+Warm golden-hour light, realistic gold and stone reflections,
+natural skin texture visible.
+Minimal warm background, shallow depth of field,
+premium editorial Etsy product style.`
+    },
+    {
+      id: 'y-video',
+      title: 'VİDEO',
+      subtitle: 'Yüzük — 10 Saniyelik Lifestyle Video',
+      desc: 'Nano Banana 2 / Runway / Kling için video prompt',
+      isVideo: true,
+      prompt: `Use the uploaded image as the primary visual reference.
+Create a 10-second ultra-realistic lifestyle product video based strictly on this image.
+
+Scene & Subject:
+A real female model's hand and fingers wearing the EXACT ring from the reference image —
+matching design, scale, stone color and cut, metal finish, and band style.
+Hand and skin texture must remain natural, with visible details and realistic highlights — no CGI plastic look.
+
+Motion (VERY IMPORTANT – minimal & natural):
+Extremely subtle natural hand micro-movement (barely perceptible finger relaxation or gentle shift).
+Ring catches light with a gentle metallic and stone glint as hand moves slightly.
+Center stone light refraction shifts naturally (real optical behavior, not laser-sharp sparkle).
+NO unnatural spinning, NO floating, NO exaggerated movement, NO deformation.
+
+Lighting:
+Warm natural sunlight, soft and directional from one side.
+Slight realistic light shift creating natural stone scintillation and metallic reflections.
+Controlled highlights — never harsh or artificial.
+
+Camera:
+Static camera (no zoom, no pan, no rotation).
+Cinematic shallow depth of field.
+Ultra sharp focus on ring, natural falloff on skin and background.
+
+Style & Mood:
+Lifestyle, minimal, elegant, calm, premium.
+Looks like a real product video shot on a professional camera, not rendered.
+
+Technical:
+Ultra photorealistic. 4K quality.
+1:1 square aspect ratio (Etsy optimized). 10 seconds duration. 24 fps natural motion.
+
+Strict negatives:
+No CGI look. No artificial skin. No exaggerated jewelry movement.
+No mannequin behavior. No camera shake.
+No unrealistic hand or finger motion. No fantasy lighting.`
     }
   ]
 };
