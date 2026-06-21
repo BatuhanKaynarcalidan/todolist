@@ -3426,40 +3426,166 @@ function buildListingPrompt(type, lang, tone, notes) {
     halhal: 'anklet', koldugmesi: 'cufflink', yakaiğnesi: 'brooch', yuzuk: 'ring'
   };
   const toneGuides = {
-    luxury: 'Use premium, sophisticated, editorial language. Evoke exclusivity and craftsmanship.',
-    warm: 'Use warm, emotional, personal language. Make the reader feel connected and gifting-oriented.',
-    minimal: 'Use clean, concise, modern language. No fluff, just clarity and elegance.'
+    luxury: 'Editorial, premium, sophisticated. Evoke exclusivity, craftsmanship, timeless elegance.',
+    warm: 'Warm, emotional, personal. Make the reader feel deeply connected. Gift-oriented storytelling.',
+    minimal: 'Clean, concise, modern. No fluff. Let the product speak with quiet confidence.'
   };
   const langGuide = lang === 'tr'
-    ? 'Write EVERYTHING in Turkish (başlık, açıklama ve taglar).'
+    ? 'Write EVERYTHING in Turkish (başlık, açıklama ve taglar Türkçe olacak).'
     : 'Write EVERYTHING in English.';
 
-  const extraNotes = notes ? `\n\nSeller notes about this product: ${notes}` : '';
+  const extraNotes = notes ? `\n\nSeller product notes: ${notes}` : '';
 
-  return `You are an expert Etsy SEO copywriter specializing in handmade jewelry listings.
-Analyze the uploaded reference jewelry image carefully and create a complete Etsy listing.
+  return `You are a professional Etsy SEO copywriter specialized in handmade gold-plated jewelry.
+Analyze the uploaded reference jewelry image carefully and generate a complete Etsy listing.
 
 JEWELRY TYPE: ${typeNames[type] || type}
 LANGUAGE: ${langGuide}
 TONE: ${toneGuides[tone]}${extraNotes}
 
-STYLE REFERENCE — Your listings must match this proven format:
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+TITLE RULES (CRITICAL — follow exactly)
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+• MAX 140 characters total — count every character including spaces and bullets
+• Structure: [Segment 1] • [Segment 2] • [Segment 3] • [Segment 4] • [Segment 5]
+• Each segment separated by " • " (space-bullet-space)
+• NO emojis in the title
 
-TITLE FORMAT (max 140 chars):
-"[Product Name] [Metal/Style] • [Feature 1] • [Feature 2] • [Gift Occasion]"
-Example: "Star Necklace Gold • Summer Dainty Star Pendant • Tiny Star Charm Necklace • Minimalist Celestial Jewelry • Birthday Gift for Her"
+KEYWORD VOLUME STRATEGY — blend all three levels across the 5 segments:
+  HIGH volume (broad, very searched): e.g. "Gold Necklace", "Gift for Her", "Dainty Earrings"
+  MEDIUM volume (specific product type): e.g. "Star Charm Necklace", "Celestial Necklace"
+  LOW volume (long-tail, niche): e.g. "Tiny Star Pendant", "Summer Star Jewelry"
 
-DESCRIPTION FORMAT (use emojis and sections):
-- Opening line: ✨ [Product Name] | [key feature] | [occasion]
-- One emotional hook paragraph (2-3 sentences)
-- 💛 WHY YOU'LL LOVE IT section with 5-6 bullet points
-- 🎁 PERFECT FOR section with gift occasions
-- 📦 SHIPPING section (ships in 3-5 business days, gift wrapping included)
+SEGMENT FORMULA (study from real examples below):
+  Segment 1 = HIGH volume: [product type] + [material] — broadest keyword first
+  Segment 2 = MEDIUM: [season/style] + [descriptor] + [product]
+  Segment 3 = LOW: [specific adjective] + [design detail] + [product]
+  Segment 4 = MEDIUM: [style category] + [broader product type]
+  Segment 5 = GIFT: always end with an occasion-based gift keyword
 
-TAGS: Exactly 13 tags, lowercase, underscores for spaces, max 20 chars each.
-Mix: product descriptors + gift keywords + style keywords + material + occasion.
+REAL TITLE EXAMPLES from this exact seller's listings (replicate this style):
+  "Star Necklace Gold • Summer Dainty Star Pendant • Tiny Star Charm Necklace • Minimalist Celestial Jewelry • Birthday Gift for Her"
+  "Birth Flower Necklace Gold • Summer Floral Coin Necklace • Engraved Flower Oval Pendant • Personalized Botanical Jewelry • Birthday Gift for Her"
+  "Fingerprint Necklace Gold Personalized • Custom Oval Fingerprint Pendant • Memorial Jewelry Gift for Her • Actual Fingerprint Keepsake"
+  "Dove Necklace Gold Women • Oval Medallion Bird Pendant • Peace Dove Charm Necklace • Spiritual Jewelry Gift Her • Summer Necklace Women Gold"
+  "Evil Eye Huggie Earrings Gold • Hoop Earrings • Dainty Evil Eye Drop Earrings • Blue Nazar Bead Huggie Gold • Protection Charm Earrings Women"
+  "Butterfly Huggie Earrings Gold • Cutout Butterfly Charm Hoop • Dainty Butterfly Drop Earrings • Summer Butterfly Jewelry Women • Nature Earrings"
+  "Emerald Marquise Huggie Earrings • Green Stone Drop Hoop Earrings • May Birthstone Earrings Women • Summer Green Jewelry Earrings"
 
-OUTPUT FORMAT (respond ONLY with valid JSON, no markdown fences):
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+DESCRIPTION STRUCTURE (follow this exactly)
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+LINE 1: ✨ [Product Name] | [Key Feature] | [Material] | [Gift Occasion]
+LINE 2: (blank)
+LINE 3: One precise sentence describing the physical product: design, material, chain type — "This [product] features a [design detail] — [adjective], [adjective], and [adjective]."
+LINE 4: (blank)
+LINE 5: Short poetic tagline. 1-2 punchy sentences. Ends with 1-2 relevant emojis.
+LINE 6: (blank)
+LINE 7-9: Story paragraph — 2-3 sentences of emotional connection, symbolism, lifestyle, wearability.
+LINE 10: (blank)
+LINE 11: 💛 WHY YOU'LL LOVE IT
+LINE 12: (blank)
+LINES 13-17: Exactly 5 bullet points. Format per line: "[Feature] — [Benefit]" (NO dash symbol or bullet at start, just the text)
+LINE 18: "Arrives beautifully gift-boxed and ready to give 🎀" (always this exact line last)
+LINE 19: (blank)
+LINE 20: (blank)
+LINE 21: 🎁 PERFECT FOR:
+LINE 22: [Occasion] • [Occasion] • [Occasion] • [Occasion] • [Occasion] • [Occasion] • Self-Gift
+LINE 23: (blank)
+LINE 24: 📦 SHIPPING
+LINE 25: Ships in 3–5 business days.
+LINE 26: Express shipping available. Gift wrapping included.
+
+REAL DESCRIPTION EXAMPLES (replicate this exact voice and structure):
+
+--- EXAMPLE 1: Star Necklace ---
+✨ Gold Star Necklace | Tiny Dainty Star Pendant | Summer Minimalist Celestial Jewelry | Birthday & Best Friend Gift for Her
+This gold star necklace features a tiny solid star charm on a chunky gold rope chain — minimal, magical, and made for every summer day and night.
+You've always been the star. Now wear one. ⭐✨
+Sometimes the smallest things carry the biggest meaning. This little gold star is the kind of necklace you put on and never want to take off — light enough to forget it's there, beautiful enough that everyone notices.
+💛 WHY YOU'LL LOVE IT
+Tiny solid gold star charm — minimal and iconic
+Chunky gold rope chain — on-trend summer look
+Perfect contrast — tiny pendant, bold chain
+Lightweight for beach, dinner, every summer moment
+Ideal layering piece — pairs with everything
+Arrives beautifully gift-boxed and ready to give 🎀
+🎁 PERFECT FOR:
+Birthdays • Summer Vacation • Best Friends • Sisters • Graduation • Teen Girls • Christmas • Self-Gift
+📦 SHIPPING
+Ships in 3–5 business days.
+Express shipping available. Gift wrapping included.
+
+--- EXAMPLE 2: Dove Necklace ---
+✨ Gold Dove Necklace | Oval Medallion Bird Pendant | 14K Gold Plated | Spiritual Peace Jewelry | Gift for Her
+This gold dove necklace features a delicate flying dove nestled inside a beaded oval medallion frame — crafted in 14K gold plated brass — spiritual, feminine, and timelessly elegant.
+Set free. Wear peace. 🕊️💛
+This is not just a necklace — it's a symbol. The dove has carried meaning across centuries — peace, hope, new beginnings, divine love. Worn close to your heart, it's a quiet reminder that you are protected, guided, and free.
+💛 WHY YOU'LL LOVE IT
+Delicate flying dove inside beaded oval frame — deeply symbolic
+Vintage medallion silhouette — timeless and on-trend
+14K gold plated brass — warm, radiant, tarnish-resistant
+Dainty cable chain — lightweight for all-day wear
+Meaningful symbolism — peace, hope, new beginnings
+Arrives beautifully gift-boxed and ready to give 🎀
+🎁 PERFECT FOR:
+Baptism • Confirmation • Graduation • Sympathy Gift • Memorial • Birthday • Easter • Self-Gift
+📦 SHIPPING
+Ships in 3–5 business days.
+Express shipping available. Gift wrapping included.
+
+--- EXAMPLE 3: Butterfly Huggie Earrings ---
+✨ Butterfly Huggie Earrings Gold | Cutout Butterfly Charm | 14K Gold Plated Brass | Dainty Drop Hoop Earrings | Summer Nature Jewelry for Her
+This butterfly huggie earring features an open cutout butterfly charm with detailed wing silhouette, dangling from a polished gold huggie hoop — crafted in 14K gold plated brass. Lightweight. Sculptural. Effortlessly summer.
+She transformed. Now she wears it. 🦋✨
+The cutout butterfly wing design catches light differently than a solid charm — shadows play through the open spaces, giving it a dimensional, almost architectural quality. It moves with you. It swings when you walk. It catches eyes without trying.
+💛 WHY YOU'LL LOVE IT
+Open cutout butterfly wings — dimensional and eye-catching
+Sculptural gold silhouette — elegant without extra stones
+Polished gold huggie hoop — snug, comfortable all-day fit
+Lightweight cutout design — moves beautifully with every step
+14K gold plated brass — warm, radiant, tarnish-resistant
+Arrives beautifully gift-boxed and ready to give 🎀
+🎁 PERFECT FOR:
+Butterfly Lover • Summer Birthday • Nature Lover • Transformation Gift • Best Friend • Graduation • Self-Gift
+📦 SHIPPING
+Ships in 3–5 business days.
+Express shipping available. Gift wrapping included.
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+TAG RULES (CRITICAL — zero tolerance)
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+• EXACTLY 13 tags — not 12, not 14
+• ALL lowercase, no capital letters
+• Underscores only between words (no hyphens, no spaces)
+• EACH tag MUST be 20 characters or fewer — count every character including underscores
+• If a tag would exceed 20 chars, shorten or split it
+
+VOLUME MIX (use exactly this blend):
+  2 HIGH volume broad tags: e.g. "necklace_gold" (13), "gift_for_her" (12)
+  4 MEDIUM volume product tags: e.g. "dainty_star_necklace" (20 ✓)
+  3 LOW volume long-tail tags: e.g. "tiny_star_charm" (15), "layering_star" (13)
+  2 FOREIGN LANGUAGE tags (1 French + 1 German): translate the product name
+  2 OCCASION/USE-CASE tags: e.g. "birthday_gift_her" (17), "summer_necklace" (15)
+
+CHARACTER COUNT EXAMPLES (learn from these):
+  "star_necklace_gold" = 18 ✓
+  "dainty_star_necklace" = 20 ✓ (maximum allowed)
+  "celestial_necklace" = 18 ✓
+  "minimalist_necklace" = 19 ✓
+  "tiny_star_charm" = 15 ✓
+  "summer_star_jewelry" = 19 ✓
+  "collier_etoile_or" = 17 ✓ (French — no accent marks in tags)
+  "stern_halskette" = 15 ✓ (German)
+  "layering_star" = 13 ✓
+  "birthday_gift_her" = 17 ✓
+
+NEVER output a tag longer than 20 characters. Always verify by counting.
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+OUTPUT FORMAT
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Respond with ONLY valid JSON. No markdown, no explanation, no text outside the JSON.
 {
   "title": "...",
   "description": "...",
@@ -3549,13 +3675,18 @@ async function callOpenAIListing(apiKey, prompt) {
 
 function parseListingJSON(text) {
   try {
-    // remove potential markdown fences
     const clean = text.replace(/```json\n?/gi,'').replace(/```\n?/g,'').trim();
     const obj = JSON.parse(clean);
     if (!obj.title || !obj.description || !Array.isArray(obj.tags)) throw new Error('Eksik alanlar');
+    // Enforce: max 20 chars per tag, lowercase, underscores, max 13 tags
+    obj.tags = obj.tags.slice(0, 13).map(t =>
+      t.toLowerCase().replace(/\s+/g, '_').replace(/[^a-z0-9_]/g, '').slice(0, 20)
+    );
+    // Enforce title max 140
+    if (obj.title.length > 140) obj.title = obj.title.slice(0, 140).replace(/\s+\S*$/, '');
     return obj;
   } catch {
-    throw new Error('AI geçerli JSON döndürmedi. Tekrar deneyin.');
+    throw new Error('AI gecerli JSON dondürmedi. Tekrar deneyin.');
   }
 }
 
