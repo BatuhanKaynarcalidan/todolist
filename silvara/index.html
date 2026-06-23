@@ -1,0 +1,562 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Silvara — Your Name, Your Signature</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400;1,500&family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+  <!-- ===== ANNOUNCEMENT BAR ===== -->
+  <div class="announcement-bar">
+    <span class="ann-gold">✦</span>
+    Free shipping on orders over $75 &nbsp;·&nbsp; Handcrafted with love &nbsp;·&nbsp; Ships in 3–5 business days
+    <span class="ann-gold">✦</span>
+  </div>
+
+  <!-- ===== NAVIGATION ===== -->
+  <nav class="nav" id="nav">
+    <div class="nav-inner">
+      <button class="hamburger" id="hamburger" aria-label="Open menu" onclick="toggleMobileMenu()">
+        <span></span><span></span><span></span>
+      </button>
+
+      <a href="index.html" class="nav-logo">Silvar<span>a</span></a>
+
+      <ul class="nav-links">
+        <li><a href="#">New Arrivals</a></li>
+        <li><a href="collection.html">Collections</a></li>
+        <li><a href="#">Personalized</a></li>
+        <li><a href="#">Gifts</a></li>
+        <li><a href="about.html">About</a></li>
+      </ul>
+
+      <div class="nav-actions">
+        <button class="nav-icon" aria-label="Search">
+          <svg width="19" height="19" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+        </button>
+        <button class="nav-icon" aria-label="Wishlist">
+          <svg width="19" height="19" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+        </button>
+        <button class="nav-icon cart-trigger" aria-label="Cart" onclick="toggleCart()">
+          <svg width="19" height="19" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
+          <span class="cart-badge" id="cart-badge">0</span>
+        </button>
+      </div>
+    </div>
+  </nav>
+
+  <!-- ===== MOBILE MENU ===== -->
+  <div class="mobile-menu" id="mobile-menu">
+    <button class="mobile-menu-close" onclick="toggleMobileMenu()" aria-label="Close menu">
+      <svg width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path d="M18 6L6 18M6 6l12 12"/></svg>
+    </button>
+    <ul class="mobile-menu-links">
+      <li><a href="#" onclick="toggleMobileMenu()">New Arrivals</a></li>
+      <li><a href="collection.html" onclick="toggleMobileMenu()">Collections</a></li>
+      <li><a href="#" onclick="toggleMobileMenu()">Personalized</a></li>
+      <li><a href="#" onclick="toggleMobileMenu()">Gifts</a></li>
+      <li><a href="about.html" onclick="toggleMobileMenu()">About</a></li>
+    </ul>
+  </div>
+
+  <!-- ===== HERO ===== -->
+  <section class="hero">
+    <div class="hero-bg">
+      <!-- Replaced with actual photo: background-image url goes here -->
+      <div class="hero-bg-gradient"></div>
+    </div>
+
+    <!-- Decorative jewelry line art -->
+    <svg class="hero-deco" viewBox="0 0 440 560" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+      <ellipse cx="220" cy="200" rx="140" ry="140" stroke="#D4AF37" stroke-width="0.75" fill="none"/>
+      <ellipse cx="220" cy="200" rx="105" ry="105" stroke="#D4AF37" stroke-width="0.5" fill="none" stroke-dasharray="6 6"/>
+      <circle cx="220" cy="200" r="9" fill="#D4AF37" opacity="0.9"/>
+      <path d="M220 209 L220 430" stroke="#D4AF37" stroke-width="1.25" stroke-dasharray="5 5"/>
+      <circle cx="220" cy="445" r="22" stroke="#D4AF37" stroke-width="1.25" fill="none"/>
+      <circle cx="220" cy="445" r="10" fill="#D4AF37" opacity="0.5"/>
+      <circle cx="220" cy="60" r="5" fill="#D4AF37" opacity="0.9"/>
+      <line x1="220" y1="55" x2="220" y2="10" stroke="#D4AF37" stroke-width="0.75"/>
+      <circle cx="316" cy="104" r="3.5" fill="#D4AF37" opacity="0.6"/>
+      <circle cx="360" cy="200" r="3.5" fill="#D4AF37" opacity="0.6"/>
+      <circle cx="124" cy="104" r="3.5" fill="#D4AF37" opacity="0.6"/>
+      <circle cx="80" cy="200" r="3.5" fill="#D4AF37" opacity="0.6"/>
+      <path d="M220 60 L316 104" stroke="#D4AF37" stroke-width="0.5" opacity="0.4"/>
+      <path d="M316 104 L360 200" stroke="#D4AF37" stroke-width="0.5" opacity="0.4"/>
+      <path d="M220 60 L124 104" stroke="#D4AF37" stroke-width="0.5" opacity="0.4"/>
+      <path d="M124 104 L80 200" stroke="#D4AF37" stroke-width="0.5" opacity="0.4"/>
+    </svg>
+
+    <div class="hero-content">
+      <span class="hero-eyebrow">Handcrafted Fine Jewelry</span>
+      <h1 class="hero-title">Your Name,<br><em>Your Signature</em></h1>
+      <p class="hero-subtitle">Jewelry that carries your story</p>
+      <a href="collection.html" class="btn-hero">Shop the Collection</a>
+    </div>
+
+    <div class="hero-scroll-indicator">
+      <div class="scroll-line"></div>
+      <span>Scroll</span>
+    </div>
+  </section>
+
+  <!-- ===== VALUE STRIP ===== -->
+  <div class="value-strip">
+    <div class="container">
+      <div class="value-strip-grid">
+        <div class="value-item">
+          <svg width="26" height="26" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+          <div><strong>Handcrafted Quality</strong><span>Every piece made with care</span></div>
+        </div>
+        <div class="value-item">
+          <svg width="26" height="26" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><rect x="1" y="3" width="15" height="13"/><polygon points="16 8 20 8 23 11 23 16 16 16 16 8"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg>
+          <div><strong>Free Shipping $75+</strong><span>Worldwide delivery available</span></div>
+        </div>
+        <div class="value-item">
+          <svg width="26" height="26" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+          <div><strong>Made Just For You</strong><span>Custom engravings & personalization</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== CATEGORIES ===== -->
+  <section class="section" id="collections">
+    <div class="container">
+      <header class="section-header reveal">
+        <span class="label-tag">Curated for You</span>
+        <h2 class="section-title">Shop by Collection</h2>
+        <div class="gold-rule"></div>
+        <p class="section-desc">Each collection tells a story. Find the one that speaks to you.</p>
+      </header>
+
+      <div class="categories-grid">
+        <a href="collection.html" class="cat-card cat-personalized reveal reveal-d1">
+          <div class="cat-card-bg"></div>
+          <div class="cat-card-art" aria-hidden="true">
+            <svg width="150" height="150" viewBox="0 0 150 150" fill="none">
+              <text x="75" y="88" text-anchor="middle" font-family="Georgia,serif" font-size="64" font-style="italic" fill="#D4AF37" opacity="0.85">A</text>
+              <circle cx="75" cy="75" r="65" stroke="#D4AF37" stroke-width="0.75" fill="none" stroke-dasharray="8 4"/>
+            </svg>
+          </div>
+          <div class="cat-card-overlay"></div>
+          <div class="cat-card-body">
+            <span class="cat-card-tag">Most Loved</span>
+            <h3>Personalized<br>&amp; Name</h3>
+            <span class="cat-card-cta">Explore <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg></span>
+          </div>
+        </a>
+
+        <a href="collection.html" class="cat-card cat-summer reveal reveal-d2">
+          <div class="cat-card-bg"></div>
+          <div class="cat-card-art" aria-hidden="true">
+            <svg width="150" height="150" viewBox="0 0 150 150" fill="none">
+              <path d="M25 100 Q75 35 125 100" stroke="#D4AF37" stroke-width="2" fill="none"/>
+              <path d="M35 116 Q75 55 115 116" stroke="#D4AF37" stroke-width="1.25" fill="none" opacity="0.6"/>
+              <circle cx="75" cy="65" r="14" stroke="#D4AF37" stroke-width="1.5" fill="none"/>
+              <circle cx="75" cy="65" r="6" fill="#D4AF37" opacity="0.7"/>
+            </svg>
+          </div>
+          <div class="cat-card-overlay"></div>
+          <div class="cat-card-body">
+            <span class="cat-card-tag">New Season</span>
+            <h3>Summer<br>&amp; Beach</h3>
+            <span class="cat-card-cta">Explore <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg></span>
+          </div>
+        </a>
+
+        <a href="collection.html" class="cat-card cat-celestial reveal reveal-d3">
+          <div class="cat-card-bg"></div>
+          <div class="cat-card-art" aria-hidden="true">
+            <svg width="150" height="150" viewBox="0 0 150 150" fill="none">
+              <path d="M75 18 L86 52 L122 52 L93 73 L104 107 L75 86 L46 107 L57 73 L28 52 L64 52 Z" stroke="#D4AF37" stroke-width="1.5" fill="none"/>
+              <circle cx="108" cy="28" r="13" stroke="#D4AF37" stroke-width="1" fill="none"/>
+              <path d="M101 28 Q108 19 115 28" stroke="#D4AF37" stroke-width="1.5" fill="none"/>
+              <circle cx="108" cy="28" r="3" fill="#D4AF37" opacity="0.6"/>
+            </svg>
+          </div>
+          <div class="cat-card-overlay"></div>
+          <div class="cat-card-body">
+            <span class="cat-card-tag">Dreamy</span>
+            <h3>Celestial<br>&amp; Sky</h3>
+            <span class="cat-card-cta">Explore <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg></span>
+          </div>
+        </a>
+
+        <a href="collection.html" class="cat-card cat-bestsellers reveal reveal-d4">
+          <div class="cat-card-bg"></div>
+          <div class="cat-card-art" aria-hidden="true">
+            <svg width="150" height="150" viewBox="0 0 150 150" fill="none">
+              <path d="M38 108 L38 68 L75 38 L112 68 L112 108 Z" stroke="#D4AF37" stroke-width="1.5" fill="none"/>
+              <path d="M38 68 L18 48 L48 63 L75 28 L102 63 L132 48 L112 68" stroke="#D4AF37" stroke-width="1.5" fill="none"/>
+              <rect x="28" y="108" width="94" height="11" stroke="#D4AF37" stroke-width="1" fill="none"/>
+            </svg>
+          </div>
+          <div class="cat-card-overlay"></div>
+          <div class="cat-card-body">
+            <span class="cat-card-tag">Top Rated</span>
+            <h3>Best<br>Sellers</h3>
+            <span class="cat-card-cta">Explore <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg></span>
+          </div>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== BEST SELLERS ===== -->
+  <section class="section section-cream" id="bestsellers">
+    <div class="container">
+      <header class="section-header reveal">
+        <span class="label-tag">Customer Favorites</span>
+        <h2 class="section-title">Best Sellers</h2>
+        <div class="gold-rule"></div>
+        <p class="section-desc">Our most loved pieces — timeless designs that become part of your story.</p>
+      </header>
+
+      <div class="products-grid">
+
+        <!-- Lotus Necklace -->
+        <article class="product-card reveal reveal-d1" data-product="Lotus Necklace" data-price="49">
+          <div class="product-img">
+            <div class="product-img-bg prod-lotus"></div>
+            <div class="product-img-art" aria-hidden="true">
+              <svg width="130" height="130" viewBox="0 0 130 130" fill="none">
+                <path d="M65 100 Q44 78 44 56 Q44 34 65 46 Q86 34 86 56 Q86 78 65 100Z" stroke="#B8860B" stroke-width="1.5" fill="none"/>
+                <path d="M65 100 Q22 82 28 50 Q40 26 65 46" stroke="#B8860B" stroke-width="1" fill="none" opacity="0.65"/>
+                <path d="M65 100 Q108 82 102 50 Q90 26 65 46" stroke="#B8860B" stroke-width="1" fill="none" opacity="0.65"/>
+                <path d="M65 100 Q8 88 14 45 Q28 16 65 46" stroke="#B8860B" stroke-width="0.75" fill="none" opacity="0.45"/>
+                <path d="M65 100 Q122 88 116 45 Q102 16 65 46" stroke="#B8860B" stroke-width="0.75" fill="none" opacity="0.45"/>
+                <line x1="65" y1="100" x2="65" y2="125" stroke="#B8860B" stroke-width="1" stroke-dasharray="3 3"/>
+              </svg>
+            </div>
+            <span class="product-badge">Best Seller</span>
+            <button class="product-wish" aria-label="Add to wishlist">
+              <svg width="15" height="15" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+            </button>
+            <button class="product-quick-add" onclick="addToCart(this)">+ Quick Add</button>
+          </div>
+          <div class="product-info">
+            <h3 class="product-name">Lotus Necklace</h3>
+            <p class="product-meta">Personalized · 14K Gold Plated</p>
+            <div class="product-stars">
+              <span>★★★★★</span><span class="review-ct">(248)</span>
+            </div>
+            <p class="product-price"><span class="from-label">from</span>$49</p>
+          </div>
+        </article>
+
+        <!-- Dove Necklace -->
+        <article class="product-card reveal reveal-d2" data-product="Dove Necklace" data-price="59">
+          <div class="product-img">
+            <div class="product-img-bg prod-dove"></div>
+            <div class="product-img-art" aria-hidden="true">
+              <svg width="130" height="130" viewBox="0 0 130 130" fill="none">
+                <path d="M20 65 Q42 34 84 46 Q106 52 110 65 Q106 71 94 68 Q112 82 95 88 Q73 94 62 78 Q42 88 20 65Z" stroke="#B8860B" stroke-width="1.5" fill="none"/>
+                <path d="M20 65 Q10 54 16 42 Q28 30 44 42" stroke="#B8860B" stroke-width="1" fill="none" opacity="0.65"/>
+                <circle cx="100" cy="58" r="3.5" fill="#B8860B" opacity="0.85"/>
+                <line x1="62" y1="78" x2="52" y2="112" stroke="#B8860B" stroke-width="1" stroke-dasharray="3 3"/>
+                <line x1="67" y1="80" x2="72" y2="112" stroke="#B8860B" stroke-width="1" stroke-dasharray="3 3"/>
+              </svg>
+            </div>
+            <span class="product-badge product-badge--new">New</span>
+            <button class="product-wish" aria-label="Add to wishlist">
+              <svg width="15" height="15" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+            </button>
+            <button class="product-quick-add" onclick="addToCart(this)">+ Quick Add</button>
+          </div>
+          <div class="product-info">
+            <h3 class="product-name">Dove Necklace</h3>
+            <p class="product-meta">Animals &amp; Nature · 925 Silver</p>
+            <div class="product-stars">
+              <span>★★★★★</span><span class="review-ct">(186)</span>
+            </div>
+            <p class="product-price"><span class="from-label">from</span>$59</p>
+          </div>
+        </article>
+
+        <!-- Sunrise Necklace -->
+        <article class="product-card reveal reveal-d3" data-product="Sunrise Necklace" data-price="55">
+          <div class="product-img">
+            <div class="product-img-bg prod-sunrise"></div>
+            <div class="product-img-art" aria-hidden="true">
+              <svg width="130" height="130" viewBox="0 0 130 130" fill="none">
+                <path d="M18 84 Q65 36 112 84" stroke="#B8860B" stroke-width="1.5" fill="none"/>
+                <circle cx="65" cy="68" r="18" stroke="#B8860B" stroke-width="1.5" fill="none"/>
+                <line x1="65" y1="34" x2="65" y2="20" stroke="#B8860B" stroke-width="1.5"/>
+                <line x1="100" y1="47" x2="110" y2="36" stroke="#B8860B" stroke-width="1.5"/>
+                <line x1="30" y1="47" x2="20" y2="36" stroke="#B8860B" stroke-width="1.5"/>
+                <line x1="116" y1="70" x2="128" y2="66" stroke="#B8860B" stroke-width="1.5"/>
+                <line x1="14" y1="70" x2="2" y2="66" stroke="#B8860B" stroke-width="1.5"/>
+                <line x1="18" y1="88" x2="112" y2="88" stroke="#B8860B" stroke-width="1.5"/>
+                <line x1="65" y1="88" x2="65" y2="118" stroke="#B8860B" stroke-width="1" stroke-dasharray="3 3"/>
+              </svg>
+            </div>
+            <button class="product-wish" aria-label="Add to wishlist">
+              <svg width="15" height="15" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+            </button>
+            <button class="product-quick-add" onclick="addToCart(this)">+ Quick Add</button>
+          </div>
+          <div class="product-info">
+            <h3 class="product-name">Sunrise Necklace</h3>
+            <p class="product-meta">Celestial &amp; Sky · 14K Gold Plated</p>
+            <div class="product-stars">
+              <span>★★★★<span style="color:#C8C0B0">★</span></span><span class="review-ct">(124)</span>
+            </div>
+            <p class="product-price"><span class="from-label">from</span>$55</p>
+          </div>
+        </article>
+
+        <!-- Name Necklace -->
+        <article class="product-card reveal reveal-d4" data-product="Custom Name Necklace" data-price="39">
+          <div class="product-img">
+            <div class="product-img-bg prod-name"></div>
+            <div class="product-img-art" aria-hidden="true">
+              <svg width="160" height="80" viewBox="0 0 160 80" fill="none" style="width:160px;height:80px">
+                <text x="80" y="54" text-anchor="middle" font-family="Georgia,serif" font-size="38" font-style="italic" fill="#B8860B" opacity="0.8">Emma</text>
+                <line x1="14" y1="64" x2="146" y2="64" stroke="#B8860B" stroke-width="0.75" stroke-dasharray="5 5" opacity="0.5"/>
+              </svg>
+            </div>
+            <span class="product-badge product-badge--pick">Top Pick</span>
+            <button class="product-wish" aria-label="Add to wishlist">
+              <svg width="15" height="15" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+            </button>
+            <button class="product-quick-add" onclick="addToCart(this)">+ Quick Add</button>
+          </div>
+          <div class="product-info">
+            <h3 class="product-name">Custom Name Necklace</h3>
+            <p class="product-meta">Personalized · Multiple Materials</p>
+            <div class="product-stars">
+              <span>★★★★★</span><span class="review-ct">(412)</span>
+            </div>
+            <p class="product-price"><span class="from-label">from</span>$39</p>
+          </div>
+        </article>
+
+      </div>
+
+      <div class="section-cta reveal">
+        <a href="collection.html" class="btn-outline">View All Products</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== BRAND STORY ===== -->
+  <section class="brand-story section" id="story">
+    <div class="container">
+      <div class="brand-story-grid">
+
+        <!-- Visual placeholder -->
+        <div class="brand-story-visual reveal">
+          <div class="brand-visual-frame"></div>
+          <div class="brand-visual-corner brand-visual-corner--tr"></div>
+          <div class="brand-visual-corner brand-visual-corner--bl"></div>
+          <div class="brand-visual-placeholder">
+            <svg width="44" height="44" fill="none" stroke="currentColor" stroke-width="1" viewBox="0 0 24 24" opacity="0.35"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg>
+            <span>Brand Photography</span>
+          </div>
+        </div>
+
+        <!-- Content -->
+        <div class="brand-story-content reveal">
+          <span class="label-tag label-tag--light">Our Story</span>
+          <h2 class="brand-story-title">Crafted with<br><em>Intention</em></h2>
+
+          <p class="brand-story-body">
+            At Silvara, we believe jewelry is more than adornment — it's memory, identity, and emotion worn close to the skin. Every piece begins with you: your name, your story, your signature.
+          </p>
+          <p class="brand-story-body">
+            Our artisans handcraft each piece using premium materials — from lustrous 925 sterling silver to warm 14K gold plating and solid 8K–18K gold. Because you deserve jewelry that lasts as long as the moment it represents.
+          </p>
+
+          <div class="brand-features">
+            <div class="brand-feature">
+              <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+              <div><strong>Premium Materials</strong><span>925 Silver, 14K Gold, Solid 8K–18K</span></div>
+            </div>
+            <div class="brand-feature">
+              <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+              <div><strong>Made to Order</strong><span>Each piece crafted just for you</span></div>
+            </div>
+            <div class="brand-feature">
+              <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+              <div><strong>Ships in 3–5 Days</strong><span>Careful packaging, worldwide</span></div>
+            </div>
+            <div class="brand-feature">
+              <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+              <div><strong>Multilingual Support</strong><span>English · German · French</span></div>
+            </div>
+          </div>
+
+          <a href="about.html" class="btn-outline-light">Discover Our Story</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== TESTIMONIALS ===== -->
+  <section class="section section-cream" id="reviews">
+    <div class="container">
+      <header class="section-header reveal">
+        <span class="label-tag">What Our Customers Say</span>
+        <h2 class="section-title">Loved by Thousands</h2>
+        <div class="gold-rule"></div>
+      </header>
+
+      <div class="testimonials-grid">
+
+        <div class="testimonial reveal reveal-d1">
+          <div class="testimonial-quote">"</div>
+          <p>I ordered the custom name necklace for my daughter's birthday and she absolutely loved it. The quality is incredible — it looks far more expensive than it was. Will be ordering again!</p>
+          <div class="testimonial-author">
+            <div class="testimonial-avatar">S</div>
+            <div>
+              <strong>Sarah M.</strong>
+              <span>New York, USA</span>
+              <div class="testimonial-stars">★★★★★</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="testimonial reveal reveal-d2">
+          <div class="testimonial-quote">"</div>
+          <p>Wunderschöne Qualität und schnelle Lieferung! The lotus necklace is even more beautiful in person. The gold plating is flawless. Definitely my new favorite jewelry brand.</p>
+          <div class="testimonial-author">
+            <div class="testimonial-avatar">L</div>
+            <div>
+              <strong>Laura K.</strong>
+              <span>Berlin, Germany</span>
+              <div class="testimonial-stars">★★★★★</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="testimonial reveal reveal-d3">
+          <div class="testimonial-quote">"</div>
+          <p>Purchased the dove necklace in silver and it's become my everyday piece. Lightweight, elegant, and exactly as described. The personalized packaging made it feel truly special.</p>
+          <div class="testimonial-author">
+            <div class="testimonial-avatar">M</div>
+            <div>
+              <strong>Marie C.</strong>
+              <span>Paris, France</span>
+              <div class="testimonial-stars">★★★★★</div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== NEWSLETTER ===== -->
+  <section class="newsletter" id="newsletter">
+    <div class="container">
+      <div class="newsletter-inner">
+        <span class="label-tag label-tag--light">Join the Community</span>
+        <h2 class="newsletter-title">First to Know,<br><em>First to Shine</em></h2>
+        <p class="newsletter-desc">Subscribe for early access to new collections, exclusive offers,<br>and inspiration delivered to your inbox.</p>
+        <form class="newsletter-form" onsubmit="handleNewsletter(event)">
+          <input type="email" class="newsletter-input" id="nl-email" placeholder="Your email address" required>
+          <button type="submit" class="newsletter-btn">Subscribe</button>
+        </form>
+        <p class="newsletter-note">No spam, ever. Unsubscribe at any time.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== FOOTER ===== -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-grid">
+
+        <div class="footer-brand">
+          <a href="index.html" class="nav-logo footer-logo">Silvar<span>a</span></a>
+          <p>Accessible luxury jewelry, handcrafted with intention. Personalized pieces that carry your story, your signature.</p>
+          <div class="footer-socials">
+            <a href="#" class="social-btn" aria-label="Instagram">
+              <svg width="15" height="15" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><rect x="2" y="2" width="20" height="20" rx="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>
+            </a>
+            <a href="#" class="social-btn" aria-label="Pinterest">
+              <svg width="15" height="15" fill="currentColor" viewBox="0 0 24 24" opacity="0.8"><path d="M12 2C6.48 2 2 6.48 2 12c0 4.24 2.65 7.86 6.39 9.29-.09-.78-.17-1.98.04-2.83.18-.77 1.24-5.27 1.24-5.27s-.32-.63-.32-1.57c0-1.47.86-2.57 1.92-2.57.91 0 1.34.68 1.34 1.5 0 .91-.58 2.28-.88 3.55-.25 1.06.53 1.92 1.57 1.92 1.88 0 3.14-2.4 3.14-5.24 0-2.16-1.46-3.67-3.55-3.67-2.42 0-3.84 1.81-3.84 3.69 0 .73.28 1.51.63 1.94.07.08.08.16.06.24l-.23.96c-.04.15-.12.18-.28.11C7.9 13.88 7 12.49 7 10.76c0-2.98 2.17-5.72 6.25-5.72 3.28 0 5.83 2.34 5.83 5.46 0 3.26-2.05 5.88-4.9 5.88-.96 0-1.86-.5-2.17-1.08l-.59 2.21c-.21.82-.79 1.84-1.17 2.47.88.27 1.81.42 2.75.42 5.52 0 10-4.48 10-10S17.52 2 12 2z"/></svg>
+            </a>
+            <a href="#" class="social-btn" aria-label="TikTok">
+              <svg width="15" height="15" fill="currentColor" viewBox="0 0 24 24" opacity="0.8"><path d="M19.59 6.69a4.83 4.83 0 01-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 01-2.88 2.5 2.89 2.89 0 01-2.89-2.89 2.89 2.89 0 012.89-2.89c.28 0 .54.04.79.1V9.01a6.32 6.32 0 00-.79-.05 6.34 6.34 0 00-6.34 6.34 6.34 6.34 0 006.34 6.34 6.34 6.34 0 006.33-6.34V8.96a8.27 8.27 0 004.84 1.54V7.04a4.85 4.85 0 01-1.07-.35z"/></svg>
+            </a>
+          </div>
+        </div>
+
+        <div class="footer-col">
+          <h4>Collections</h4>
+          <ul>
+            <li><a href="#">Personalized &amp; Name</a></li>
+            <li><a href="#">Summer &amp; Beach</a></li>
+            <li><a href="#">Celestial &amp; Sky</a></li>
+            <li><a href="#">Animals &amp; Nature</a></li>
+            <li><a href="#">Hearts &amp; Love</a></li>
+            <li><a href="#">Birthstone</a></li>
+          </ul>
+        </div>
+
+        <div class="footer-col">
+          <h4>Customer Care</h4>
+          <ul>
+            <li><a href="#">FAQ</a></li>
+            <li><a href="#">Shipping &amp; Returns</a></li>
+            <li><a href="#">Size Guide</a></li>
+            <li><a href="#">Care Instructions</a></li>
+            <li><a href="#">Contact Us</a></li>
+            <li><a href="#">Track Your Order</a></li>
+          </ul>
+        </div>
+
+        <div class="footer-col">
+          <h4>Company</h4>
+          <ul>
+            <li><a href="about.html">About Silvara</a></li>
+            <li><a href="#">Our Craft</a></li>
+            <li><a href="#">Sustainability</a></li>
+            <li><a href="#">Press</a></li>
+            <li><a href="#">Privacy Policy</a></li>
+            <li><a href="#">Terms of Service</a></li>
+          </ul>
+        </div>
+
+      </div>
+
+      <div class="footer-bottom">
+        <span>© 2024 Silvara. All rights reserved. · Made with love for those who wear it.</span>
+        <div class="payment-icons">
+          <span>VISA</span><span>MC</span><span>AMEX</span><span>PAYPAL</span><span>KLARNA</span>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ===== CART SIDEBAR ===== -->
+  <div class="cart-overlay" id="cart-overlay" onclick="toggleCart()"></div>
+  <div class="cart-sidebar" id="cart-sidebar" aria-label="Shopping cart">
+    <div class="cart-head">
+      <h3>Your Cart</h3>
+      <button class="cart-close-btn" onclick="toggleCart()" aria-label="Close cart">
+        <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path d="M18 6L6 18M6 6l12 12"/></svg>
+      </button>
+    </div>
+    <div class="cart-body" id="cart-body">
+      <div class="cart-empty" id="cart-empty">
+        <svg width="48" height="48" fill="none" stroke="currentColor" stroke-width="1" viewBox="0 0 24 24" style="color:#C8C0B0"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
+        <p>Your cart is empty</p>
+        <a href="#collections" onclick="toggleCart()" class="btn-outline btn-outline--sm">Shop Now</a>
+      </div>
+    </div>
+    <div class="cart-foot" id="cart-foot">
+      <div class="cart-line"><span>Subtotal</span><span id="cart-sub">$0</span></div>
+      <div class="cart-line"><span>Shipping</span><span class="gold-text">At checkout</span></div>
+      <div class="cart-total-line"><strong>Total</strong><strong id="cart-total">$0</strong></div>
+      <button class="btn-checkout">Proceed to Checkout</button>
+    </div>
+  </div>
+
+  <script src="main.js"></script>
+</body>
+</html>
