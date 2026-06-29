@@ -752,6 +752,253 @@
     margin-top: 1px;
   }
 
+  /* ─── PROMPT TAB ─── */
+  .prompt-layout {
+    display: grid;
+    grid-template-columns: 320px 1fr;
+    gap: 24px;
+    align-items: start;
+  }
+
+  @media (max-width: 800px) {
+    .prompt-layout { grid-template-columns: 1fr; }
+  }
+
+  .prompt-panel {
+    background: var(--bg2);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 20px;
+    position: sticky;
+    top: 80px;
+  }
+
+  .prompt-panel-title {
+    font-family: 'Arial', sans-serif;
+    font-size: 10px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    margin-bottom: 16px;
+  }
+
+  /* Gender toggle */
+  .gender-toggle {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+    margin-bottom: 20px;
+  }
+
+  .gender-btn {
+    background: var(--bg3);
+    border: 1.5px solid var(--border);
+    border-radius: 8px;
+    padding: 16px 10px;
+    cursor: pointer;
+    text-align: center;
+    transition: all 0.2s;
+  }
+
+  .gender-btn:hover { border-color: var(--gold-dark); }
+
+  .gender-btn.active {
+    border-color: var(--gold);
+    background: rgba(212,175,55,0.08);
+  }
+
+  .gender-icon { font-size: 32px; display: block; margin-bottom: 6px; }
+
+  .gender-label {
+    font-family: 'Arial', sans-serif;
+    font-size: 11px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--text-muted);
+  }
+
+  .gender-btn.active .gender-label { color: var(--gold); }
+
+  /* Model style selector */
+  .prompt-select-label {
+    font-family: 'Arial', sans-serif;
+    font-size: 10px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    margin-bottom: 8px;
+    display: block;
+  }
+
+  .prompt-select {
+    width: 100%;
+    background: var(--bg3);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    color: var(--text);
+    font-family: 'Arial', sans-serif;
+    font-size: 13px;
+    padding: 10px 12px;
+    outline: none;
+    margin-bottom: 14px;
+    cursor: pointer;
+    appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%23888' d='M6 8L1 3h10z'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 12px center;
+  }
+
+  .prompt-select:focus { border-color: var(--gold-dark); }
+
+  /* Jewelry type chips */
+  .jewelry-chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin-bottom: 14px;
+  }
+
+  .jewelry-chip {
+    font-family: 'Arial', sans-serif;
+    font-size: 11px;
+    padding: 5px 12px;
+    border-radius: 20px;
+    border: 1px solid var(--border);
+    color: var(--text-muted);
+    cursor: pointer;
+    transition: all 0.15s;
+    background: none;
+  }
+
+  .jewelry-chip:hover { border-color: var(--gold-dark); color: var(--text); }
+  .jewelry-chip.active { border-color: var(--gold); color: var(--gold); background: rgba(212,175,55,0.1); }
+
+  /* Language toggle */
+  .lang-toggle {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 20px;
+  }
+
+  .lang-btn {
+    flex: 1;
+    background: var(--bg3);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    color: var(--text-muted);
+    font-family: 'Arial', sans-serif;
+    font-size: 11px;
+    letter-spacing: 1px;
+    padding: 8px;
+    cursor: pointer;
+    transition: all 0.15s;
+    text-align: center;
+  }
+
+  .lang-btn.active { border-color: var(--gold); color: var(--gold); background: rgba(212,175,55,0.08); }
+
+  .btn-generate {
+    width: 100%;
+    background: linear-gradient(135deg, var(--gold-dark), var(--gold));
+    border: none;
+    border-radius: 8px;
+    color: #111;
+    font-family: 'Arial', sans-serif;
+    font-size: 12px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    padding: 14px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: opacity 0.2s;
+  }
+
+  .btn-generate:hover { opacity: 0.88; }
+
+  /* Prompt output */
+  .prompt-output-area {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  .prompt-card {
+    background: var(--bg2);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    overflow: hidden;
+  }
+
+  .prompt-card-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 12px 16px;
+    border-bottom: 1px solid var(--border);
+    background: var(--bg3);
+  }
+
+  .prompt-card-title {
+    font-family: 'Arial', sans-serif;
+    font-size: 10px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--text-muted);
+  }
+
+  .prompt-card-tag {
+    font-family: 'Arial', sans-serif;
+    font-size: 10px;
+    padding: 2px 8px;
+    border-radius: 10px;
+    background: rgba(212,175,55,0.15);
+    color: var(--gold);
+  }
+
+  .prompt-text {
+    padding: 16px;
+    font-family: 'Arial', sans-serif;
+    font-size: 13px;
+    color: var(--text);
+    line-height: 1.7;
+    white-space: pre-wrap;
+  }
+
+  .prompt-card-footer {
+    display: flex;
+    gap: 8px;
+    padding: 10px 16px;
+    border-top: 1px solid var(--border);
+  }
+
+  .btn-copy {
+    background: none;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    color: var(--text-muted);
+    font-family: 'Arial', sans-serif;
+    font-size: 11px;
+    padding: 6px 14px;
+    cursor: pointer;
+    transition: all 0.15s;
+  }
+
+  .btn-copy:hover { border-color: var(--gold-dark); color: var(--gold); }
+  .btn-copy.copied { border-color: #27ae60; color: #2ecc71; }
+
+  .prompt-placeholder {
+    background: var(--bg2);
+    border: 1.5px dashed var(--border);
+    border-radius: var(--radius);
+    padding: 60px 32px;
+    text-align: center;
+    color: var(--text-muted);
+    font-family: 'Arial', sans-serif;
+    font-size: 14px;
+  }
+
+  .prompt-placeholder-icon { font-size: 36px; margin-bottom: 12px; }
+
   /* ─── RESPONSIVE ─── */
   @media (max-width: 640px) {
     .main { padding: 20px 16px; }
@@ -940,6 +1187,7 @@
   <button class="tab-btn" onclick="switchTab('todo')">Yapılacaklar</button>
   <button class="tab-btn" onclick="switchTab('roadmap')">Yol Haritası</button>
   <button class="tab-btn" onclick="switchTab('data')">Veriler</button>
+  <button class="tab-btn" onclick="switchTab('prompt')">Prompt Üretici</button>
 </nav>
 
 <main class="main">
@@ -1259,6 +1507,102 @@
       </div>
     </div>
 
+  </div>
+
+  <!-- ══════════════════════════════════════════════
+       TAB 5: PROMPT ÜRETİCİ
+  ══════════════════════════════════════════════ -->
+  <div id="tab-prompt" class="tab-panel">
+
+    <div class="prompt-layout">
+
+      <!-- LEFT: Controls -->
+      <div class="prompt-panel">
+        <div class="prompt-panel-title">Manken & Ayarlar</div>
+
+        <!-- Gender -->
+        <div class="gender-toggle">
+          <button class="gender-btn active" id="genderFemale" onclick="setGender('female')">
+            <span class="gender-icon">👩</span>
+            <span class="gender-label">Kadın</span>
+          </button>
+          <button class="gender-btn" id="genderMale" onclick="setGender('male')">
+            <span class="gender-icon">👨</span>
+            <span class="gender-label">Erkek</span>
+          </button>
+        </div>
+
+        <!-- Model Look -->
+        <label class="prompt-select-label">Manken Tipi</label>
+        <select class="prompt-select" id="modelLook">
+          <option value="elegant">Zarif & Sofistike</option>
+          <option value="natural">Doğal & Sade</option>
+          <option value="editorial">Editorial / High Fashion</option>
+          <option value="lifestyle">Lifestyle / Gündelik</option>
+          <option value="closeup">Sadece Ürün Yakın Çekim</option>
+        </select>
+
+        <!-- Jewelry Type -->
+        <label class="prompt-select-label">Takı Türü</label>
+        <div class="jewelry-chips" id="jewelryChips">
+          <button class="jewelry-chip active" data-val="necklace" onclick="toggleChip(this)">Kolye</button>
+          <button class="jewelry-chip" data-val="earrings" onclick="toggleChip(this)">Küpe</button>
+          <button class="jewelry-chip" data-val="bracelet" onclick="toggleChip(this)">Bileklik</button>
+          <button class="jewelry-chip" data-val="ring" onclick="toggleChip(this)">Yüzük</button>
+          <button class="jewelry-chip" data-val="pendant" onclick="toggleChip(this)">Pendant</button>
+          <button class="jewelry-chip" data-val="layered necklace set" onclick="toggleChip(this)">Layered Set</button>
+        </div>
+
+        <!-- Material -->
+        <label class="prompt-select-label">Malzeme</label>
+        <select class="prompt-select" id="materialSelect">
+          <option value="14k gold plated brass">14K Altın Kaplama (Pirinç)</option>
+          <option value="925 sterling silver">925 Ayar Gümüş</option>
+          <option value="solid gold">Solid Gold</option>
+          <option value="gold vermeil">Gold Vermeil</option>
+          <option value="colorful enamel">Mineli / Enamel</option>
+        </select>
+
+        <!-- Setting -->
+        <label class="prompt-select-label">Ortam / Arka Plan</label>
+        <select class="prompt-select" id="settingSelect">
+          <option value="clean white studio background, soft natural light">Beyaz Stüdyo</option>
+          <option value="warm cream linen background, golden hour light">Krem / Linen</option>
+          <option value="dark moody background, dramatic lighting, luxury atmosphere">Koyu Dramatik</option>
+          <option value="outdoor golden hour sunlight, bokeh background">Dış Mekan Altın Saat</option>
+          <option value="marble surface, natural diffused light">Mermer Yüzey</option>
+          <option value="minimalist neutral background, editorial style">Minimalist Editorial</option>
+        </select>
+
+        <!-- Skin tone -->
+        <label class="prompt-select-label">Ten Tonu</label>
+        <select class="prompt-select" id="skinSelect">
+          <option value="fair skin">Açık Ten</option>
+          <option value="medium olive skin">Orta / Buğday Ten</option>
+          <option value="warm tan skin">Bronz Ten</option>
+          <option value="deep rich skin">Koyu Ten</option>
+        </select>
+
+        <!-- Language -->
+        <label class="prompt-select-label">Prompt Dili</label>
+        <div class="lang-toggle">
+          <button class="lang-btn active" id="langEN" onclick="setLang('en')">English</button>
+          <button class="lang-btn" id="langTR" onclick="setLang('tr')">Türkçe</button>
+        </div>
+
+        <button class="btn-generate" onclick="generatePrompts()">✦ Prompt Üret</button>
+      </div>
+
+      <!-- RIGHT: Output -->
+      <div class="prompt-output-area" id="promptOutput">
+        <div class="prompt-placeholder">
+          <div class="prompt-placeholder-icon">✦</div>
+          Ayarları seç ve <strong style="color:var(--gold)">Prompt Üret</strong>'e bas.<br>
+          <span style="font-size:12px;margin-top:8px;display:block">Midjourney, DALL·E, Stable Diffusion için hazır prompt.</span>
+        </div>
+      </div>
+
+    </div>
   </div>
 
 </main>
@@ -1935,6 +2279,166 @@ renderRoadmap();
     document.getElementById('csvClearBtn').style.display = 'block';
   }
 })();
+
+// ═══════════════════════════════════════════════
+//  PROMPT GENERATOR
+// ═══════════════════════════════════════════════
+
+let promptState = {
+  gender: 'female',
+  lang: 'en',
+};
+
+function setGender(g) {
+  promptState.gender = g;
+  document.getElementById('genderFemale').classList.toggle('active', g === 'female');
+  document.getElementById('genderMale').classList.toggle('active', g === 'male');
+  // Update skin/look options for male
+  const skinSel = document.getElementById('skinSelect');
+  if (g === 'male' && !skinSel.dataset.genderSet) {
+    skinSel.dataset.genderSet = '1';
+  }
+}
+
+function setLang(l) {
+  promptState.lang = l;
+  document.getElementById('langEN').classList.toggle('active', l === 'en');
+  document.getElementById('langTR').classList.toggle('active', l === 'tr');
+}
+
+function toggleChip(el) {
+  el.classList.toggle('active');
+}
+
+function getActiveChips() {
+  return Array.from(document.querySelectorAll('#jewelryChips .jewelry-chip.active'))
+    .map(c => c.dataset.val);
+}
+
+function generatePrompts() {
+  const gender     = promptState.gender;
+  const lang       = promptState.lang;
+  const look       = document.getElementById('modelLook').value;
+  const material   = document.getElementById('materialSelect').value;
+  const setting    = document.getElementById('settingSelect').value;
+  const skin       = document.getElementById('skinSelect').value;
+  const jewelry    = getActiveChips();
+
+  if (jewelry.length === 0) {
+    document.getElementById('promptOutput').innerHTML =
+      `<div class="prompt-placeholder"><div class="prompt-placeholder-icon">⚠️</div>En az bir takı türü seç.</div>`;
+    return;
+  }
+
+  const jewelryStr = jewelry.join(', ');
+  const isFemale   = gender === 'female';
+
+  const lookMap = {
+    elegant:   isFemale ? 'elegant woman, graceful pose, sophisticated expression, polished appearance'
+                        : 'refined gentleman, confident posture, sophisticated expression',
+    natural:   isFemale ? 'natural beauty woman, relaxed pose, soft genuine smile, minimal makeup'
+                        : 'natural handsome man, relaxed pose, genuine expression',
+    editorial: isFemale ? 'high fashion model woman, editorial pose, avant-garde styling, intense gaze'
+                        : 'high fashion male model, editorial look, strong angular pose',
+    lifestyle: isFemale ? 'modern woman in casual chic outfit, candid lifestyle moment, approachable'
+                        : 'modern man in smart casual outfit, lifestyle moment',
+    closeup:   'close-up product shot, no model, jewelry on a smooth neck form / hand / velvet surface',
+  };
+
+  const personDesc = look === 'closeup' ? '' :
+    `${lookMap[look]}, ${skin}, ${isFemale ? 'woman' : 'man'}, `;
+
+  const prompts = buildPrompts({ personDesc, jewelryStr, material, setting, look, lang, isFemale });
+
+  document.getElementById('promptOutput').innerHTML = prompts.map((p, i) => `
+    <div class="prompt-card">
+      <div class="prompt-card-header">
+        <span class="prompt-card-title">${p.title}</span>
+        <span class="prompt-card-tag">${p.tag}</span>
+      </div>
+      <div class="prompt-text" id="pt${i}">${escHtml(p.text)}</div>
+      <div class="prompt-card-footer">
+        <button class="btn-copy" onclick="copyPrompt(${i}, this)">Kopyala</button>
+      </div>
+    </div>
+  `).join('');
+}
+
+function buildPrompts({ personDesc, jewelryStr, material, setting, look, lang, isFemale }) {
+  const isEN = lang === 'en';
+
+  const base = look === 'closeup'
+    ? `Close-up product photography, ${jewelryStr} made of ${material}, ${setting}, ultra-sharp details, luxury brand aesthetic, commercial jewelry photography`
+    : `${personDesc}wearing ${jewelryStr} made of ${material}, ${setting}`;
+
+  if (isEN) {
+    return [
+      {
+        title: 'Midjourney / DALL·E — Standart',
+        tag: 'MJ · DALL·E',
+        text: `${base}, professional jewelry photography, soft bokeh, ultra-high detail, luxury brand aesthetic, Vogue editorial style, 85mm lens, f/1.8, cinematic color grading --ar 4:5 --style raw --q 2`,
+      },
+      {
+        title: 'Midjourney — Lüks Ürün Odaklı',
+        tag: 'MJ Product',
+        text: `${base}, hyper-realistic jewelry photography, macro details on ${jewelryStr}, golden reflections, luxury Silvara brand campaign, minimal composition, high-end retouching, shot on Phase One camera --ar 1:1 --style raw --v 6`,
+      },
+      {
+        title: 'Stable Diffusion — Detaylı',
+        tag: 'SD / ComfyUI',
+        text: `masterpiece, best quality, ultra-detailed, ${base}, jewelry photography, studio lighting, sharp focus on jewelry, shallow depth of field, luxury aesthetic, photorealistic, 8k resolution, fashion magazine editorial`,
+      },
+      {
+        title: 'Negative Prompt (SD)',
+        tag: 'Negative',
+        text: `ugly, blurry, low quality, deformed jewelry, distorted face, extra fingers, bad anatomy, watermark, text, poorly lit, overexposed, cartoon, anime, unrealistic skin texture, plastic look`,
+      },
+    ];
+  } else {
+    return [
+      {
+        title: 'Midjourney / DALL·E — Standart',
+        tag: 'MJ · DALL·E',
+        text: `${base}, profesyonel mücevher fotoğrafçılığı, yumuşak bokeh, ultra yüksek detay, lüks marka estetiği, Vogue editöryal stili, 85mm lens, f/1.8, sinematik renk düzenleme --ar 4:5 --style raw --q 2`,
+      },
+      {
+        title: 'Midjourney — Lüks Ürün Odaklı',
+        tag: 'MJ Ürün',
+        text: `${base}, hiper gerçekçi mücevher fotoğrafçılığı, ${jewelryStr} üzerinde makro detaylar, altın yansımalar, lüks Silvara marka kampanyası, minimal kompozisyon, üst düzey rötuş --ar 1:1 --style raw --v 6`,
+      },
+      {
+        title: 'Stable Diffusion — Detaylı',
+        tag: 'SD / ComfyUI',
+        text: `şaheser, en yüksek kalite, ultra detaylı, ${base}, mücevher fotoğrafçılığı, stüdyo aydınlatması, mücevhere keskin odak, sığ alan derinliği, lüks estetik, fotorealistik, 8k çözünürlük, moda dergisi editöryeli`,
+      },
+      {
+        title: 'Negatif Prompt (SD)',
+        tag: 'Negatif',
+        text: `çirkin, bulanık, düşük kalite, deforme mücevher, bozuk yüz, ekstra parmak, kötü anatomi, filigran, metin, kötü aydınlatma, aşırı pozlama, çizgi film, anime, gerçekçi olmayan deri dokusu`,
+      },
+    ];
+  }
+}
+
+function copyPrompt(idx, btn) {
+  const text = document.getElementById('pt' + idx).textContent;
+  navigator.clipboard.writeText(text).then(() => {
+    btn.textContent = '✓ Kopyalandı';
+    btn.classList.add('copied');
+    setTimeout(() => { btn.textContent = 'Kopyala'; btn.classList.remove('copied'); }, 2000);
+  }).catch(() => {
+    // fallback
+    const ta = document.createElement('textarea');
+    ta.value = text;
+    document.body.appendChild(ta);
+    ta.select();
+    document.execCommand('copy');
+    document.body.removeChild(ta);
+    btn.textContent = '✓ Kopyalandı';
+    btn.classList.add('copied');
+    setTimeout(() => { btn.textContent = 'Kopyala'; btn.classList.remove('copied'); }, 2000);
+  });
+}
 </script>
 </body>
 </html>
